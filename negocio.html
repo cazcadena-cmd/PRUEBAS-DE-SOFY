@@ -931,52 +931,56 @@
     }
 
     // SUBIDA A SUPABASE STORAGE
-    async function handleVideoUpload(event) {
-      const file = event.target.files[0];
-      const videoStatus = document.getElementById('videoStatus');
-      if (!file) return;
+async function handleVideoUpload(event) {
+  const file = event.target.files[0];
+  const videoStatus = document.getElementById('videoStatus');
+  if (!file) return;
 
-      if (file.size > 15 * 1024 * 1024) {
-        if (videoStatus) {
-          videoStatus.style.color = '#ef4444';
-          videoStatus.textContent = '❌ El video supera los 15 MB.';
-        }
-        return;
-      }
-
-      const fileName = `video_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
-
-      if (videoStatus) {
-        videoStatus.style.color = '#2563eb';
-        videoStatus.textContent = '⏳ Subiendo video a Storage...';
-      }
-
-      // Subir el archivo al Bucket 'videos'
-      const { data, error } = await supabaseClient.storage
-        .from('videos')
-        .upload(fileName, file, { cacheControl: '3600', upsert: true });
-
-      if (error) {
-        console.error('Error al subir video:', error);
-        if (videoStatus) {
-          videoStatus.style.color = '#ef4444';
-          videoStatus.textContent = '❌ Error al subir el video a Storage: ' + (error.message || 'Verifica el Bucket.');
-        }
-        return;
-      }
-
-      // Obtener la URL pública del video
-      const { data: publicUrlData } = supabaseClient.storage
-        .from('videos')
-        .getPublicUrl(fileName);
-
-      newVideoBase64 = publicUrlData.publicUrl;
-
-      if (videoStatus) {
-        videoStatus.style.color = '#166534';
-        videoStatus.textContent = '✅ Video subido a Storage correctamente.';
-      }
+  if (file.size > 15 * 1024 * 1024) {
+    if (videoStatus) {
+      videoStatus.style.color = '#ef4444';
+      videoStatus.textContent = '❌ El video supera los 15 MB.';
     }
+    return;
+  }
+
+  // 1. Obtener la extensión del archivo (mp4, webm, etc.)
+  const fileExt = file.name.split('.').pop();
+  
+  // 2. Asignar un nombre fijo por negocio para que se reemplace
+  const fileName = `video_shop_${shopId}.${fileExt}`;
+
+  if (videoStatus) {
+    videoStatus.style.color = '#2563eb';
+    videoStatus.textContent = '⏳ Reemplazando video en Storage...';
+  }
+
+  // 3. 'upsert: true' sobrescribe el archivo existente si tiene el mismo nombre
+  const { data, error } = await supabaseClient.storage
+    .from('videos')
+    .upload(fileName, file, { cacheControl: '0', upsert: true });
+
+  if (error) {
+    console.error('Error al subir video:', error);
+    if (videoStatus) {
+      videoStatus.style.color = '#ef4444';
+      videoStatus.textContent = '❌ Error al subir el video: ' + (error.message || 'Verifica el Bucket.');
+    }
+    return;
+  }
+
+  // 4. Obtener URL pública (agregamos timestamp para limpiar la caché del navegador)
+  const { data: publicUrlData } = supabaseClient.storage
+    .from('videos')
+    .getPublicUrl(fileName);
+
+  newVideoBase64 = `${publicUrlData.publicUrl}?v=${Date.now()}`;
+
+  if (videoStatus) {
+    videoStatus.style.color = '#166534';
+    videoStatus.textContent = '✅ Video reemplazado correctamente sin duplicar espacio.';
+  }
+}
 
     function openPinModal() {
       document.getElementById('pinInput').value = '';
