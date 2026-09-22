@@ -513,9 +513,18 @@
             <span id="shopAddress">No especificada</span>
           </div>
         </div>
-
-        <a id="btnWhatsApp" href="#" target="_blank" class="btn-action">
-          &#128172; Contactar por WhatsApp
+        <a id="btnSocial" href="#" target="_blank" class="btn-action" style="background-color: #3b82f6; display: none;">
+          🌐 Visitar Red Social
+        </a>
+        <!-- BOTONES DE REDES SOCIALES -->
+        <a id="btnFacebook" href="#" target="_blank" class="btn-action" style="background-color: #1877F2; display: none;">
+          📘 Ver Facebook
+        </a>
+        <a id="btnInstagram" href="#" target="_blank" class="btn-action" style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); display: none;">
+          📸 Ver Instagram
+        </a>
+        <a id="btnTikTok" href="#" target="_blank" class="btn-action" style="background-color: #000000; display: none;">
+          🎵 Ver TikTok
         </a>
 
         <a id="btnPublicCatalog" href="#" class="btn-catalog-view">
@@ -687,6 +696,21 @@
         </div>
 
         <div class="form-group">
+          <label>Facebook (URL)</label>
+          <input type="text" id="editFacebook" class="form-control" placeholder="https://facebook.com/tu_pagina">
+        </div>
+
+        <div class="form-group">
+          <label>Instagram (URL)</label>
+          <input type="text" id="editInstagram" class="form-control" placeholder="https://instagram.com/tu_usuario">
+        </div>
+
+        <div class="form-group">
+          <label>TikTok (URL)</label>
+          <input type="text" id="editTikTok" class="form-control" placeholder="https://tiktok.com/@tu_usuario">
+        </div>
+
+        <div class="form-group">
           <label>Dirección</label>
           <input type="text" id="editAddress" class="form-control" placeholder="Calle 123 # 45 - 67">
         </div>
@@ -853,13 +877,32 @@
           document.getElementById('shopPhone').textContent = 'No disponible';
           document.getElementById('btnWhatsApp').style.display = 'none';
         }
-
+        
         if (shop.address) {
           document.getElementById('shopAddress').textContent = shop.address;
         } else {
           document.getElementById('shopAddress').textContent = 'Dirección no especificada';
         }
 
+        // Mostrar / Ocultar botones de Redes Sociales
+        const btnFb = document.getElementById('btnFacebook');
+        if (btnFb) {
+          if (shop.facebook_link) { btnFb.href = shop.facebook_link; btnFb.style.display = 'flex'; }
+          else { btnFb.style.display = 'none'; }
+        }
+
+        const btnIg = document.getElementById('btnInstagram');
+        if (btnIg) {
+          if (shop.instagram_link) { btnIg.href = shop.instagram_link; btnIg.style.display = 'flex'; }
+          else { btnIg.style.display = 'none'; }
+        }
+
+        const btnTt = document.getElementById('btnTikTok');
+        if (btnTt) {
+          if (shop.tiktok_link) { btnTt.href = shop.tiktok_link; btnTt.style.display = 'flex'; }
+          else { btnTt.style.display = 'none'; }
+        }
+        
         // Aplicar Tema y Color
         const theme = shop.theme || 'light';
         const primaryColor = shop.primary_color || '#134989';
@@ -873,6 +916,9 @@
         document.getElementById('editName').value = shop.name || '';
         document.getElementById('editDescription').value = shop.description || '';
         document.getElementById('editPhone').value = shop.whatsapp || shop.phone || '';
+        if (document.getElementById('editFacebook')) document.getElementById('editFacebook').value = shop.facebook_link || '';
+        if (document.getElementById('editInstagram')) document.getElementById('editInstagram').value = shop.instagram_link || '';
+        if (document.getElementById('editTikTok')) document.getElementById('editTikTok').value = shop.tiktok_link || '';
         document.getElementById('editAddress').value = shop.address || '';
         document.getElementById('logoPreview').src = shop.logo || 'https://via.placeholder.com/110';
         document.getElementById('editPin').value = shop.pin || '1234';
@@ -1029,6 +1075,9 @@ async function handleVideoUpload(event) {
       const updatedName = document.getElementById('editName').value.trim();
       const updatedDescription = document.getElementById('editDescription').value.trim();
       const updatedPhone = document.getElementById('editPhone').value.trim();
+      const updatedFacebook = document.getElementById('editFacebook') ? document.getElementById('editFacebook').value.trim() : '';
+      const updatedInstagram = document.getElementById('editInstagram') ? document.getElementById('editInstagram').value.trim() : '';
+      const updatedTikTok = document.getElementById('editTikTok') ? document.getElementById('editTikTok').value.trim() : '';
       const updatedAddress = document.getElementById('editAddress').value.trim();
       const updatedPin = document.getElementById('editPin').value.trim();
       
@@ -1043,6 +1092,9 @@ async function handleVideoUpload(event) {
           name: updatedName,
           description: updatedDescription,
           whatsapp: updatedPhone,
+          facebook_link: updatedFacebook,
+          instagram_link: updatedInstagram,
+          tiktok_link: updatedTikTok,
           address: updatedAddress,
           logo: logoToSave,
           video: videoToSave,
