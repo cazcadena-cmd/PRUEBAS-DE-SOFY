@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#087fd1"><title>Madelena | Comercio local</title>
+<style>
+:root{color-scheme:light;--bg:#f2f9ff;--surface:#fff;--soft:#e4f3ff;--text:#10243a;--muted:#61778c;--line:rgba(20,103,158,.14);--accent:#29b6f6;--deep:#087fd1;--shadow:0 24px 70px rgba(21,112,174,.15)}:root[data-theme=dark]{color-scheme:dark;--bg:#06111d;--surface:#0d1d2d;--soft:#132a3d;--text:#f3faff;--muted:#91aabe;--line:rgba(126,211,255,.13);--shadow:0 26px 80px rgba(0,8,18,.46)}*{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--bg)}body{margin:0;min-width:320px;background:var(--bg);color:var(--text);font-family:Arial,"Segoe UI",sans-serif;transition:.3s}button,input,select{font:inherit}button{color:inherit}a{text-decoration:none;color:inherit}svg{width:20px;height:20px}.hidden{display:none!important}.app{min-height:100vh;overflow:hidden;background:radial-gradient(circle at 75% 6%,rgba(41,182,246,.14),transparent 28%),var(--bg)}
+.topbar{width:min(1160px,calc(100% - 40px));height:92px;margin:auto;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:20}.brand,.actions{display:flex;align-items:center}.brand{gap:12px;margin-left:30px}.brand-mark{width:42px;height:42px;display:grid;place-items:center;color:#fff;border-radius:13px;background:linear-gradient(145deg,#55ceff,#087fd1);box-shadow:0 9px 22px rgba(8,127,209,.28);transform:rotate(-3deg)}.brand-copy{display:flex;flex-direction:column}.brand small{color:var(--muted);font-size:10px}.brand img{max-height:104px;width:auto;display:block}.actions{gap:12px}.theme{border:1px solid var(--line);background:var(--surface);padding:4px;display:flex;border-radius:30px;cursor:pointer}.theme span{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}.theme span.active{color:#fff;background:var(--accent)}.theme svg{width:16px}.primary{min-height:46px;border:0;padding:0 21px;border-radius:14px;background:linear-gradient(135deg,#4dccff,var(--deep));color:#fff;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;box-shadow:0 12px 26px rgba(8,127,209,.25);transition:.2s}.primary:hover{transform:translateY(-2px)}
+.hero{height:min(420px,calc(100vh - 112px));min-height:320px;position:relative;background:#06111d;overflow:hidden}.slides,.slide,.slide video,.shade{position:absolute;inset:0;width:100%;height:100%}.slide{opacity:0;pointer-events:none;transition:opacity .7s,transform 1s;transform:scale(1.025)}.slide.active{opacity:1;pointer-events:auto;transform:scale(1)}.slide video{object-fit:contain;object-position:center 0%}.shade{z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(4,17,31,.9),rgba(4,26,44,.6) 43%,rgba(4,31,53,.16) 78%),linear-gradient(0deg,rgba(2,17,31,.62),transparent 45%)}.hero-copy{
+  position:relative;
+  z-index:2;
+  width:min(1160px,calc(100% - 40px));
+  height:100%;
+  margin:auto;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  color:#fff;
+  pointer-events:none;
+  animation:up .8s;
+  transform:translateY(35px); /* Ajusta este valor en px para bajar más o menos el texto */
+}/* Quita el transform de la regla general */
+.eyebrow{
+  margin:0 0 8px;
+  color:var(--accent);
+  font-weight:800;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.16em;
+}
+
+/* Aplica el movimiento SOLO al texto del banner principal */
+.hero-copy .eyebrow{
+  position: relative;
+  top: 2px; /* Ajusta este valor: -30px sube más, -15px sube menos */
+  margin-bottom: -10px; /* Evita que deje un hueco vacío con el título de abajo */
+}
+}.hero h1{
+  max-width:680px;
+  margin:0;
+  font-size:clamp(24px,3.5vw,36px); /* Reducido de clamp(32px,5vw,52px) */
+  line-height:.98;
+  letter-spacing:-.055em;
+}.hero h1 span{color:var(--accent)} .hero-copy>p:last-child{
+ max-width:480px;
+  margin:8px 0;
+  color:rgba(255,255,255,.76);
+  font-size:clamp(12px,1.4vw,14px); /* Reducido de clamp(14px,1.8vw,16px) */
+  line-height:1.4; 
+  transform: translateY(-30px); /* Sube solo el texto sin desplazar nada más */
+}.slider-controls{position:absolute;z-index:5;width:min(1160px,calc(100% - 40px));left:50%;bottom:15px;transform:translateX(-50%);display:flex;justify-content:space-between;align-items:center}.dots,.arrows{display:flex;gap:8px;align-items:center}.dots button{width:8px;height:8px;padding:0;border:0;border-radius:10px;background:rgba(255,255,255,.42);cursor:pointer}.dots button.active{width:30px;background:var(--accent)}.arrows button{width:46px;height:46px;border:1px solid rgba(174,226,255,.4);border-radius:50%;color:#fff;background:rgba(5,38,61,.72);font-size:29px;cursor:pointer}.arrows button:hover{background:var(--accent)}
+.content{width:min(1060px,calc(100% - 40px));margin:auto;padding:15px 0 30px}.heading{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:27px}.heading h2,.modal h2{margin:0;font-size:clamp(31px,4vw,44px);line-height:1.05}.sector{border:1px solid var(--line);border-radius:13px;background:var(--surface);height:44px;padding:0 16px;display:flex;gap:8px;align-items:center;font-weight:700;cursor:pointer}.search{max-width:540px;height:52px;margin-bottom:34px;padding:0 18px;display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:15px;background:var(--surface);color:var(--muted)}.search:focus-within{border-color:var(--accent)}.search input{width:100%;border:0;outline:0;background:transparent;color:var(--text)}.empty{min-height:310px;border-block:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px}.empty-icon{width:58px;height:58px;display:grid;place-items:center;border-radius:18px;color:var(--accent);background:rgba(41,182,246,.12)}.empty h3{font-size:22px;margin:17px 0 8px}.empty p{color:var(--muted);line-height:1.6;max-width:470px;margin:0 0 22px}.shops{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}.shop{min-width:0;animation:up .5s}.shop img{width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:24px;background:var(--soft);transition:.35s}.shop:hover img{transform:translateY(-6px);box-shadow:var(--shadow)}.shop h3{margin:14px 0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.shop p{color:var(--muted);margin:0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.no-results{text-align:center;color:var(--muted);padding:70px}
+.categories{padding-top:110px;padding-bottom:100px}.count{color:var(--muted);font-size:14px}.category-empty{min-height:220px;display:grid;place-items:center;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:24px}.category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.category{height:255px;padding:0;border:0;border-radius:22px;overflow:hidden;position:relative;text-align:left;color:#fff;cursor:pointer;background:var(--soft)}.category>img,.category-shade{position:absolute;inset:0;width:100%;height:100%}.category>img{object-fit:cover;transition:.55s}.category:hover>img{transform:scale(1.07)}.category-shade{background:linear-gradient(0deg,rgba(3,20,35,.9),transparent 80%)}.category-label{position:absolute;left:20px;bottom:19px;display:flex;flex-direction:column}.category-label strong{font-size:18px}.category-label small{color:#c6eafa;margin-top:3px}.category i{position:absolute;right:17px;top:17px;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:rgba(4,34,55,.6)}footer{min-height:150px;border-top:1px solid var(--line);width:min(1160px,calc(100% - 40px));margin:auto;display:flex;align-items:center;justify-content:space-between;color:var(--muted)}footer span{font-weight:800;color:var(--text);letter-spacing:.14em}
+.backdrop{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(2,14,26,.72);backdrop-filter:blur(14px);animation:fade .22s}.modal{width:min(550px,100%);max-height:calc(100vh - 40px);overflow:auto;position:relative;border:1px solid var(--line);border-radius:28px;background:var(--surface);padding:36px;box-shadow:0 35px 100px #0007;animation:pop .35s}.modal.small{width:min(440px,100%)}.close{position:absolute;top:22px;right:22px;width:38px;height:38px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line);background:var(--soft);cursor:pointer}.intro{color:var(--muted);line-height:1.55;margin:13px 50px 26px 0}form,form label{display:flex;flex-direction:column}form{gap:17px}form label{gap:8px;font-size:13px;font-weight:700}form input,form select{width:100%;height:50px;border:1px solid var(--line);border-radius:13px;padding:0 14px;outline:0;background:var(--soft);color:var(--text)}.upload{width:100%;min-height:130px;border:1.5px dashed rgba(41,182,246,.55);border-radius:16px;color:var(--text);background:rgba(41,182,246,.07);cursor:pointer;overflow:hidden}.upload span{display:flex;flex-direction:column;align-items:center;gap:4px}.upload small,.storage{color:var(--muted);font-weight:400}.upload img{width:100%;height:145px;object-fit:contain}.file{position:absolute;width:1px;height:1px;opacity:0}.error{color:#ff5e76;font-size:12px}.submit{width:100%}.storage{text-align:center;font-size:10px}.list{border-top:1px solid var(--line);margin-top:25px}.list a{min-height:55px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);font-weight:600;cursor:pointer}.category-shops{display:flex;flex-direction:column;gap:10px;margin-top:22px}.category-shop{display:flex;align-items:center;gap:13px;border-bottom:1px solid var(--line);padding-bottom:10px}.category-shop img{width:54px;height:54px;object-fit:cover;border-radius:14px}.category-shop span{display:flex;flex-direction:column}.category-shop small{color:var(--muted)}.toast{position:fixed;z-index:200;left:50%;bottom:24px;transform:translateX(-50%);background:var(--surface);border:1px solid var(--line);padding:13px 20px;border-radius:14px;box-shadow:var(--shadow);font-weight:700}
+@keyframes up{from{opacity:0;transform:translateY(18px)}}@keyframes fade{from{opacity:0}}@keyframes pop{from{opacity:0;transform:translateY(20px) scale(.97)}}@media(max-width:760px){.topbar{width:calc(100% - 28px);height:78px}.brand small{display:none}.create-top{width:42px;padding:0;font-size:0}.hero{min-height:300px;height:360px}.hero-copy{width:calc(100% - 38px);justify-content:flex-end;padding-bottom:50px}.hero h1{font-size:clamp(28px, 8vw, 40px)}.shade{background:linear-gradient(0deg,rgba(2,16,29,.95),rgba(3,27,47,.45) 63%,transparent)}.slider-controls{width:calc(100% - 38px);bottom:10px}.content{width:calc(100% - 32px);padding-top:20px}.heading{align-items:center}.heading h2{font-size:33px}.sector{width:44px;padding:0;justify-content:center;font-size:0}.shops{grid-template-columns:repeat(2,1fr);gap:22px 14px}.category-grid{grid-template-columns:1fr}.category{height:220px}footer{width:calc(100% - 32px);flex-direction:column;justify-content:center}.modal{padding:30px 22px 24px}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head><body><main class="app">
+<header class="topbar"><a class="brand" href="#inicio"><img id="brandLogo" src="https://i.imgur.com/HuC4TzS.gif" alt="Madelena"><span class="brand-copy"><small>Tu barrio, mas cerca</small></span></a><div class="actions"><button class="theme" id="themeBtn" aria-label="Cambiar tema"><span id="sun" data-icon="sun"></span><span id="moon" data-icon="moon"></span></button><button class="primary create-top" data-open-create><span data-icon="plus"></span>Crear comercio</button></div></header>
+<section class="hero" id="inicio"><div class="slides"><a class="slide active"><video src="https://i.imgur.com/pwQfKed.mp4" muted playsinline></video></a><a class="slide"><video src="https://i.imgur.com/3qCYHGH.mp4" muted playsinline></video></a><a class="slide"><video src="https://i.imgur.com/eV60uhx.mp4" muted playsinline></video></a><a class="slide"><video src="https://i.imgur.com/njGGliA.mp4" muted playsinline></video></a><a class="slide"><video src="https://i.imgur.com/hlx82zq.mp4" muted playsinline></video></a><div class="shade"></div><div class="slider-controls"><div class="dots" id="dots"></div><div class="arrows"><button type="button" id="prev">&#8249;</button><button type="button" id="next">&#8250;</button></div></div></div><div class="hero-copy"><p class="eyebrow">Descubre lo que tienes cerca</p><h1>Lo mejor de <span>RD</span></h1><p>Comercios locales, sabores y servicios que hacen grande a nuestro país.</p></div></section>
+<section class="content"><div class="heading"><div><p class="eyebrow">Directorio local</p><h2>Comercios 1A</h2></div><button class="sector" id="sectorBtn"><span data-icon="search"></span>Otro sector</button></div><label class="search"><span data-icon="search"></span><input id="search" placeholder="Buscar por comercio o categoria"></label><div id="shopContent"></div></section>
+<section class="content categories"><div class="heading"><div><p class="eyebrow">Explora a tu manera</p><h2>Categorias</h2></div><span class="count" id="categoryCount"></span></div><div id="categoryContent"></div></section><footer><p>Hecho para impulsar el comercio local.</p></footer></main>
+<div class="backdrop hidden" id="createModal"><section class="modal"><button class="close" data-close><span data-icon="close"></span></button><p class="eyebrow">Unete al directorio</p><h2>Crea tu comercio</h2><p class="intro">Tu tienda se publicara en Comercios 1A y en su categoria.</p><form id="shopForm"><label>Nombre del comercio<input id="shopName" maxlength="60" required></label><label>Categoria<select id="shopCategory" required><option value="" disabled selected>Selecciona una categoria</option></select></label><label>Logo de tu tienda<button class="upload" type="button" id="uploadBtn"><span id="uploadPrompt"><b data-icon="upload"></b><strong>Sube una imagen</strong><small>PNG, JPG, GIF o WEBP, maximo 3 MB</small></span><img id="preview" class="hidden" alt="Vista previa"></button><input class="file" id="fileInput" type="file" accept="image/*"></label><p class="error hidden" id="formError">Revisa los campos y la imagen.</p><button class="primary submit">Publicar comercio</button><small class="storage">Guardado permanente en este navegador</small></form></section></div>
+<div class="backdrop hidden" id="sectorModal"><section class="modal small"><button class="close" data-close><span data-icon="close"></span></button><p class="eyebrow">Explora cerca</p><h2>Elige otro sector</h2><div class="list"><a>Madelena <span>&#8594;</span></a><a>Perdomo <span>&#8594;</span></a><a>Isla Del Sol <span>&#8594;</span></a><a>Coruna <span>&#8594;</span></a><a>Villa Del Rio <span>&#8594;</span></a></div></section></div>
+<div class="backdrop hidden" id="categoryModal"><section class="modal small"><button class="close" data-close><span data-icon="close"></span></button><p class="eyebrow">Categoria</p><h2 id="categoryTitle"></h2><div class="category-shops" id="categoryShops"></div></section></div><div class="toast hidden" id="toast"></div>
+<script>
+const CATEGORIES=["Alimentos y restaurantes","Belleza y cuidado personal","Hogar y decoracion","Moda y accesorios","Salud y bienestar","Tecnologia","Mascotas","Servicios profesionales","Educacion","Deportes y fitness","Ferreteria","Papeleria y regalos","Automotriz","Entretenimiento","Otro"];
+const icons={store:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10v10h16V10M3 4h18l-2 6H5L3 4Z"/><path d="M9 20v-6h6v6"/></svg>',sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>',moon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.5 14.1A8.4 8.4 0 019.9 3.5 8.5 8.5 0 1020.5 14.1Z"/></svg>',plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>',search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>',upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4M7 9l5-5 5 5M5 15v4h14v-4"/></svg>',close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 6 12 12M18 6 6 18"/></svg>'};
+document.querySelectorAll('[data-icon]').forEach(e=>e.innerHTML=icons[e.dataset.icon]||'');
+const $=id=>document.getElementById(id);
+
+// Conexión a Supabase
+const { createClient } = supabase;
+const supabaseUrl = 'https://jpukgeomsmwyxtqnpcsd.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwdWtnZW9tc213eXh0cW5wY3NkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwMDA3MzQsImV4cCI6MjEwNDU3NjczNH0.aALmQGfEkU4YCJM_9yUGJoUYfFVSLaZe0tnOlznKm54';
+const _supabase = createClient(supabaseUrl, supabaseKey);
+
+let shops=[], previewFile=null, current=0, timer;
+
+function theme(t){document.documentElement.dataset.theme=t;localStorage.setItem('madelena-theme',t);$('sun').classList.toggle('active',t==='light');$('moon').classList.toggle('active',t==='dark');$('brandLogo').src=t==='dark'?'https://i.imgur.com/HuC4TzS.gif':'https://i.imgur.com/Gn2AtJq.gif'}
+theme(localStorage.getItem('madelena-theme')||'dark');
+$('themeBtn').onclick=()=>theme(document.documentElement.dataset.theme==='dark'?'light':'dark');
+
+const slides=[...document.querySelectorAll('.slide')],videos=slides.map(s=>s.querySelector('video'));
+slides.forEach((s,i)=>{let b=document.createElement('button');b.type='button';b.onclick=()=>show(i);$('dots').appendChild(b)});
+const dots=[...$('dots').children];
+function show(i){clearTimeout(timer);current=(i+slides.length)%slides.length;slides.forEach((s,n)=>{s.classList.toggle('active',n===current);dots[n].classList.toggle('active',n===current);videos[n].pause();if(n===current){videos[n].currentTime=0;videos[n].play().catch(()=>{})}});timer=setTimeout(()=>show(current+1),10000)}
+$('prev').onclick=e=>{e.stopPropagation();show(current-1)};
+$('next').onclick=e=>{e.stopPropagation();show(current+1)};
+show(0);
+
+function esc(v){let d=document.createElement('div');d.textContent=v;return d.innerHTML}
+
+async function fetchShops(){
+  const { data, error } = await _supabase.from('shops').select('*').order('id', { ascending: false });
+  if(!error && data){ shops = data; render(); }
+}
+
+function render(){
+  let q=$('search').value.toLowerCase(),list=shops.filter(s=>(s.name+s.category).toLowerCase().includes(q));
+  $('shopContent').innerHTML=!shops.length?'<div class="empty"><span class="empty-icon">'+icons.store+'</span><h3>Tu directorio comienza aqui</h3><p>Aun no hay comercios. Crea el primero y aparecera automaticamente.</p><button class="primary" data-open-create>'+icons.plus+'Crear primer comercio</button></div>':!list.length?'<p class="no-results">No encontramos comercios.</p>':'<div class="shops">'+list.map(s=>'<a href="negocio.html?id='+s.business_id+'" target="_blank" class="shop"><img src="'+s.logo+'"><h3>'+esc(s.name)+'</h3><p>'+esc(s.category)+'</p></a>').join('')+'</div>';
+  let g={};shops.forEach(s=>(g[s.category]||(g[s.category]=[])).push(s));
+  let entries=Object.entries(g);
+  $('categoryCount').textContent=entries.length?entries.length+' disponibles':'';
+  $('categoryContent').innerHTML=!entries.length?'<div class="category-empty"><p>Las categorias apareceran aqui cuando registres comercios.</p></div>':'<div class="category-grid">'+entries.map(([c,a])=>'<button class="category" data-category="'+esc(c)+'"><img src="'+a[0].logo+'"><span class="category-shade"></span><span class="category-label"><strong>'+esc(c)+'</strong><small>'+a.length+' comercios</small></span><i>&#8599;</i></button>').join('')+'</div>';
+  bind();
+}
+
+function bind(){
+  document.querySelectorAll('[data-open-create]').forEach(b=>b.onclick=()=>open('createModal'));
+  document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>{
+    let c=b.dataset.category;
+    $('categoryTitle').textContent=c;
+    $('categoryShops').innerHTML=shops.filter(s=>s.category===c).map(s=>'<a href="negocio.html?id='+s.business_id+'" target="_blank" class="category-shop"><img src="'+s.logo+'"><span><strong>'+esc(s.name)+'</strong><small>'+esc(c)+'</small></span></a>').join('');
+    open('categoryModal')
+  });
+}
+  function open(id){$(id).classList.remove('hidden')}
+function close(){document.querySelectorAll('.backdrop').forEach(m=>m.classList.add('hidden'))}
+
+function bind(){
+  document.querySelectorAll('[data-open-create]').forEach(b=>b.onclick=()=>open('createModal'));
+  document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>{
+    let c=b.dataset.category;
+    $('categoryTitle').textContent=c;
+    $('categoryShops').innerHTML=shops.filter(s=>s.category===c).map(s=>'<div class="category-shop"><img src="'+s.logo+'"><span><strong>'+esc(s.name)+'</strong><small>'+esc(c)+'</small></span></div>').join('');
+    open('categoryModal')
+  });
+}
+
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=close);
+document.querySelectorAll('.backdrop').forEach(m=>m.onclick=e=>{if(e.target===m)close()});
+$('sectorBtn').onclick=()=>open('sectorModal');
+$('search').oninput=render;
+
+CATEGORIES.forEach(c=>$('shopCategory').add(new Option(c,c)));
+
+$('uploadBtn').onclick=()=>$('fileInput').click();
+$('fileInput').onchange=()=>{
+  let f=$('fileInput').files[0];
+  if(!f||!f.type.startsWith('image/')||f.size>3145728){$('formError').classList.remove('hidden');return}
+  previewFile=f;
+  let r=new FileReader;
+  r.onload=()=>{
+    $('preview').src=r.result;
+    $('preview').classList.remove('hidden');
+    $('uploadPrompt').classList.add('hidden');
+    $('formError').classList.add('hidden');
+  };
+  r.readAsDataURL(f);
+};
+
+$('shopForm').onsubmit=async e=>{
+  e.preventDefault();
+  let name=$('shopName').value.trim(),category=$('shopCategory').value;
+  if(!name||!category||!previewFile){$('formError').classList.remove('hidden');return}
+  
+  const fileExt = previewFile.name.split('.').pop();
+  const fileName = `${Date.now()}.${fileExt}`;
+  
+  const { error: uploadError } = await _supabase.storage.from('logos').upload(fileName, previewFile);
+  if(uploadError){ $('formError').textContent='Error al subir la imagen.'; $('formError').classList.remove('hidden'); return; }
+  
+  const { data: { publicUrl } } = _supabase.storage.from('logos').getPublicUrl(fileName);
+  
+  const { error: dbError } = await _supabase.from('shops').insert([{ name, category, logo: publicUrl }]);
+  if(dbError){ $('formError').textContent='Error al guardar el comercio.'; $('formError').classList.remove('hidden'); return; }
+  
+  $('shopForm').reset();
+  previewFile=null;
+  $('preview').classList.add('hidden');
+  $('uploadPrompt').classList.remove('hidden');
+  close();
+  await fetchShops();
+  $('toast').textContent='Comercio publicado correctamente';
+  $('toast').classList.remove('hidden');
+  setTimeout(()=>$('toast').classList.add('hidden'),2500);
+};
+
+bind();
+fetchShops();
+</script></body></html>
