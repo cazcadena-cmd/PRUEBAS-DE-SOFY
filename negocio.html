@@ -85,39 +85,71 @@
       overflow: hidden;
     }
 
+    /* --- ENCABEZADO Y VIDEO DE LA TIENDA --- */
     .shop-header {
       background: linear-gradient(135deg, var(--primary), var(--primary-hover));
-      padding: 40px 24px 24px;
+      padding: 0 0 28px 0;
       text-align: center;
       color: #ffffff;
+      position: relative;
+    }
+
+    .shop-video-wrapper {
+      width: 100%;
+      max-height: 380px;
+      background-color: #000000;
+      display: none;
+      overflow: hidden;
+      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .shop-video-wrapper video {
+      width: 100%;
+      max-height: 380px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .shop-header-info {
+      padding: 24px 24px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .shop-header-info.has-video {
+      margin-top: -45px; /* Traslape elegante sobre el video */
     }
 
     .shop-logo {
-      width: 110px;
-      height: 110px;
+      width: 105px;
+      height: 105px;
       border-radius: 50%;
       object-fit: cover;
       border: 4px solid #ffffff;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
       background-color: #ffffff;
       margin-bottom: 12px;
+      z-index: 2;
     }
 
     .shop-title {
       font-size: 1.75rem;
       font-weight: 700;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .badge-category {
       display: inline-block;
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.25);
       backdrop-filter: blur(8px);
-      padding: 4px 14px;
+      padding: 6px 16px;
       border-radius: 20px;
       font-size: 0.85rem;
-      font-weight: 500;
+      font-weight: 600;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .shop-body {
@@ -429,31 +461,6 @@
       object-fit: cover;
       border: 2px solid var(--border-color);
     }
-
-/* --- ESTILOS DEL VIDEO Y ENCABEZADO DE LA TIENDA --- */
-.shop-video-wrapper {
-  width: 100%;
-  max-height: 320px;
-  background-color: #000000;
-  display: none; /* Se mostrará automáticamente si el negocio tiene video */
-  overflow: hidden;
-}
-
-.shop-video-wrapper video {
-  width: 100%;
-  height: 100%;
-  max-height: 320px;
-  object-fit: cover;
-  display: block;
-}
-
-.shop-header-info {
-  padding: 20px 24px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-    
   </style>
 </head>
 <body>
@@ -477,14 +484,14 @@
     </div>
 
     <div id="shopDetail" class="shop-card" style="display: none;">
-      <div class="shop-header" style="padding: 0 0 24px 0;">
+      <div class="shop-header">
         <!-- REPRODUCTOR DE VIDEO REUBICADO EN LA PARTE SUPERIOR -->
         <div id="videoWrapper" class="shop-video-wrapper">
           <video id="shopVideo" controls autoplay muted loop playsinline></video>
         </div>
 
         <!-- INFORMACIÓN DEL NEGOCIO REUBICADA DEBAJO DEL VIDEO -->
-        <div class="shop-header-info">
+        <div id="shopHeaderInfo" class="shop-header-info">
           <img id="shopLogo" class="shop-logo" src="" alt="Logo">
           <h1 id="shopName" class="shop-title">...</h1>
           <span id="shopCategory" class="badge-category">...</span>
@@ -819,15 +826,21 @@
         // Cargar vista pública
         document.getElementById('shopLogo').src = shop.logo || 'https://via.placeholder.com/110';
         document.getElementById('shopName').textContent = shop.name || 'Sin nombre';
-const videoWrapper = document.getElementById('videoWrapper');
+
+        const videoWrapper = document.getElementById('videoWrapper');
         const shopVideo = document.getElementById('shopVideo');
+        const headerInfo = document.getElementById('shopHeaderInfo');
+
         if (shop.video) {
           shopVideo.src = shop.video;
           shopVideo.load();
           videoWrapper.style.display = 'block';
+          if (headerInfo) headerInfo.classList.add('has-video');
         } else {
           videoWrapper.style.display = 'none';
+          if (headerInfo) headerInfo.classList.remove('has-video');
         }
+
         document.getElementById('shopCategory').textContent = shop.category || 'Restaurantes';
         document.getElementById('shopDescription').textContent = shop.description || 'Este comercio aún no ha agregado una descripción.';
         
@@ -902,33 +915,6 @@ const videoWrapper = document.getElementById('videoWrapper');
             }
           }
 
-         function handleImageUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-     
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const img = new Image();
-        img.onload = function() {
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          const maxSize = 600;
-
-          let width = img.width;
-          let height = img.height;
-
-          if (width > height) {
-            if (width > maxSize) {
-              height *= maxSize / width;
-              width = maxSize;
-            }
-          } else {
-            if (height > maxSize) {
-              width *= maxSize / height;
-              height = maxSize;
-            }
-          }
-
           canvas.width = width;
           canvas.height = height;
 
@@ -944,32 +930,52 @@ const videoWrapper = document.getElementById('videoWrapper');
       reader.readAsDataURL(file);
     }
 
-    function handleVideoUpload(event) {
+    // SUBIDA A SUPABASE STORAGE
+    async function handleVideoUpload(event) {
       const file = event.target.files[0];
       const videoStatus = document.getElementById('videoStatus');
       if (!file) return;
 
-      const maxSizeInBytes = 15 * 1024 * 1024;
-
-      if (file.size > maxSizeInBytes) {
+      if (file.size > 15 * 1024 * 1024) {
         if (videoStatus) {
           videoStatus.style.color = '#ef4444';
-          videoStatus.textContent = '❌ El video supera el límite de 15 MB. Por favor elige uno más liviano.';
+          videoStatus.textContent = '❌ El video supera los 15 MB.';
         }
-        event.target.value = '';
-        newVideoBase64 = null;
         return;
       }
 
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        newVideoBase64 = e.target.result;
+      const fileName = `video_${Date.now()}_${file.name.replace(/\s+/g, '_')}`;
+
+      if (videoStatus) {
+        videoStatus.style.color = '#2563eb';
+        videoStatus.textContent = '⏳ Subiendo video a Storage...';
+      }
+
+      // Subir el archivo al Bucket 'videos'
+      const { data, error } = await supabaseClient.storage
+        .from('videos')
+        .upload(fileName, file, { cacheControl: '3600', upsert: true });
+
+      if (error) {
+        console.error('Error al subir video:', error);
         if (videoStatus) {
-          videoStatus.style.color = '#166534';
-          videoStatus.textContent = '✅ Video seleccionado correctamente (' + (file.size / (1024 * 1024)).toFixed(2) + ' MB).';
+          videoStatus.style.color = '#ef4444';
+          videoStatus.textContent = '❌ Error al subir el video a Storage: ' + (error.message || 'Verifica el Bucket.');
         }
-      };
-      reader.readAsDataURL(file);
+        return;
+      }
+
+      // Obtener la URL pública del video
+      const { data: publicUrlData } = supabaseClient.storage
+        .from('videos')
+        .getPublicUrl(fileName);
+
+      newVideoBase64 = publicUrlData.publicUrl;
+
+      if (videoStatus) {
+        videoStatus.style.color = '#166534';
+        videoStatus.textContent = '✅ Video subido a Storage correctamente.';
+      }
     }
 
     function openPinModal() {
@@ -1026,18 +1032,18 @@ const videoWrapper = document.getElementById('videoWrapper');
       const videoToSave = newVideoBase64 !== null ? newVideoBase64 : (currentShopData ? currentShopData.video : '');
 
       try {
-const updatePayload = {
-  category: updatedCategory,
-  primary_color: updatedPrimaryColor,
-  theme: updatedTheme,
-  name: updatedName,
-  description: updatedDescription,
-  whatsapp: updatedPhone,
-  address: updatedAddress,
-  logo: logoToSave,
-  video: videoToSave,
-  pin: updatedPin || '1234'
-};
+        const updatePayload = {
+          category: updatedCategory,
+          primary_color: updatedPrimaryColor,
+          theme: updatedTheme,
+          name: updatedName,
+          description: updatedDescription,
+          whatsapp: updatedPhone,
+          address: updatedAddress,
+          logo: logoToSave,
+          video: videoToSave,
+          pin: updatedPin || '1234'
+        };
 
         const { error } = await supabaseClient
           .from('shops')
@@ -1060,7 +1066,7 @@ const updatePayload = {
         saveStatus.style.display = 'block';
         saveStatus.style.backgroundColor = '#fee2e2';
         saveStatus.style.color = '#991b1b';
-        saveStatus.textContent = 'Error al guardar los cambios. Intenta de nuevo.';
+        saveStatus.textContent = 'Error al guardar los cambios: ' + (err.message || 'Intenta de nuevo.');
       } finally {
         btnSave.disabled = false;
         btnSave.textContent = 'Guardar Cambios Básicos';
