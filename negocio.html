@@ -819,10 +819,11 @@
         // Cargar vista pública
         document.getElementById('shopLogo').src = shop.logo || 'https://via.placeholder.com/110';
         document.getElementById('shopName').textContent = shop.name || 'Sin nombre';
-        const videoWrapper = document.getElementById('videoWrapper');
+const videoWrapper = document.getElementById('videoWrapper');
         const shopVideo = document.getElementById('shopVideo');
         if (shop.video) {
           shopVideo.src = shop.video;
+          shopVideo.load();
           videoWrapper.style.display = 'block';
         } else {
           videoWrapper.style.display = 'none';
@@ -901,34 +902,33 @@
             }
           }
 
-          function handleVideoUpload(event) {
-  const file = event.target.files[0];
-  const videoStatus = document.getElementById('videoStatus');
-  if (!file) return;
+         function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+     
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          const maxSize = 600;
 
-  // Límite de 15 MB en bytes (15 * 1024 * 1024)
-  const maxSizeInBytes = 15 * 1024 * 1024;
+          let width = img.width;
+          let height = img.height;
 
-  if (file.size > maxSizeInBytes) {
-    if (videoStatus) {
-      videoStatus.style.color = '#ef4444';
-      videoStatus.textContent = '❌ El video supera el límite de 15 MB. Por favor elige uno más liviano.';
-    }
-    event.target.value = ''; // Limpia el archivo seleccionado
-    newVideoBase64 = null;
-    return;
-  }
+          if (width > height) {
+            if (width > maxSize) {
+              height *= maxSize / width;
+              width = maxSize;
+            }
+          } else {
+            if (height > maxSize) {
+              width *= maxSize / height;
+              height = maxSize;
+            }
+          }
 
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    newVideoBase64 = e.target.result;
-    if (videoStatus) {
-      videoStatus.style.color = '#166534';
-      videoStatus.textContent = '✅ Video seleccionado correctamente (' + (file.size / (1024 * 1024)).toFixed(2) + ' MB).';
-    }
-  };
-  reader.readAsDataURL(file);
-}
           canvas.width = width;
           canvas.height = height;
 
@@ -940,6 +940,34 @@
           document.getElementById('logoPreview').src = newLogoBase64;
         };
         img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleVideoUpload(event) {
+      const file = event.target.files[0];
+      const videoStatus = document.getElementById('videoStatus');
+      if (!file) return;
+
+      const maxSizeInBytes = 15 * 1024 * 1024;
+
+      if (file.size > maxSizeInBytes) {
+        if (videoStatus) {
+          videoStatus.style.color = '#ef4444';
+          videoStatus.textContent = '❌ El video supera el límite de 15 MB. Por favor elige uno más liviano.';
+        }
+        event.target.value = '';
+        newVideoBase64 = null;
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        newVideoBase64 = e.target.result;
+        if (videoStatus) {
+          videoStatus.style.color = '#166534';
+          videoStatus.textContent = '✅ Video seleccionado correctamente (' + (file.size / (1024 * 1024)).toFixed(2) + ' MB).';
+        }
       };
       reader.readAsDataURL(file);
     }
