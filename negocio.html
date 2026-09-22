@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle del Comercio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    :root {
+      --primary: #134989;
+      --primary-hover: #275C98;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --radius: 16px;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+    }
+
+    [data-theme="dark"] .modal-card,
+    [data-theme="dark"] .admin-drawer {
+      background-color: #1e293b;
+      color: #f8fafc;
+    }
+
+    [data-theme="dark"] .form-control,
+    [data-theme="dark"] .pin-input {
+      background-color: #0f172a;
+      color: #f8fafc;
+      border-color: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      padding-bottom: 80px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 720px;
+      margin-top: 20px;
+    }
+
+    .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+
+    .shop-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+
+    .shop-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+      padding: 40px 24px 24px;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .shop-logo {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #ffffff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      background-color: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .shop-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .badge-category {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .shop-body {
+      padding: 28px 24px;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 10px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 6px;
+    }
+
+    .shop-description {
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-size: 0.98rem;
+      margin-bottom: 24px;
+    }
+
+    .info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.95rem;
+    }
+
+    .info-item span.icon {
+      width: 36px;
+      height: 36px;
+      background: #eff6ff;
+      color: var(--primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px;
+      background-color: #25D366;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 12px;
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    .btn-catalog-view {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 14px;
+      background-color: var(--primary);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 12px;
+      font-size: 1rem;
+    }
+
+    .state-container {
+      text-align: center;
+      padding: 60px 20px;
+      background: #ffffff;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--border-color);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .btn-admin-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #0f172a;
+      color: #ffffff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 100;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      padding: 32px 24px;
+      border-radius: var(--radius);
+      width: 90%;
+      max-width: 360px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      position: relative;
+    }
+
+    .pin-input {
+      width: 100%;
+      padding: 14px;
+      font-size: 1.5rem;
+      letter-spacing: 12px;
+      text-align: center;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      margin: 20px 0 12px;
+      outline: none;
+    }
+
+    .btn-modal-submit {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-close-modal {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    .pin-error {
+      color: #ef4444;
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    .drawer-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      display: none;
+      z-index: 1001;
+    }
+
+    .admin-drawer {
+      position: fixed;
+      top: 0;
+      right: -450px;
+      width: 100%;
+      max-width: 450px;
+      height: 100vh;
+      height: 100dvh;
+      background: #ffffff;
+      box-shadow: -5px 0 25px rgba(0,0,0,0.15);
+      z-index: 1002;
+      transition: right 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .admin-drawer.open {
+      right: 0;
+    }
+
+    .drawer-header {
+      padding: 20px;
+      background: #0f172a;
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .drawer-body {
+      padding: 20px;
+      padding-bottom: 120px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      flex: 1;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .btn-save {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn-manage-page {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      background-color: #059669;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-align: center;
+      text-decoration: none;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);
+    }
+
+    .btn-save:disabled {
+      background-color: var(--text-muted);
+    }
+
+    .save-status {
+      font-size: 0.85rem;
+      text-align: center;
+      margin-top: 10px;
+      padding: 8px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .logo-preview-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .logo-preview-box img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border-color);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <a href="index.html" class="btn-back" style="margin-bottom: 0;">&#8592; Volver al directorio</a>
+      <button id="btnThemeToggle" onclick="toggleTheme()" style="background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+        <span id="themeIcon">🌙</span> <span id="themeText">Modo Oscuro</span>
+      </button>
+    </div>
+
+    <div id="loadingState" class="state-container">
+      <div class="spinner"></div>
+      <p style="color: var(--text-muted);">Cargando información del comercio...</p>
+    </div>
+
+    <div id="errorState" class="state-container" style="display: none;">
+      <h3 style="color: #ef4444; margin-bottom: 8px;">Error al cargar comercio</h3>
+      <p id="errorMessage" style="color: var(--text-muted);">El negocio que buscas no existe o fue eliminado.</p>
+    </div>
+
+    <div id="shopDetail" class="shop-card" style="display: none;">
+      <div class="shop-header">
+        <img id="shopLogo" class="shop-logo" src="" alt="Logo">
+        <h1 id="shopName" class="shop-title">...</h1>
+        <span id="shopCategory" class="badge-category">...</span>
+      </div>
+
+      <div class="shop-body">
+        <h2 class="section-title">Sobre este comercio</h2>
+        <p id="shopDescription" class="shop-description">Sin descripción disponible.</p>
+
+        <h2 class="section-title">Información de Contacto</h2>
+        <div class="info-list">
+          <div class="info-item">
+            <span class="icon">&#128222;</span>
+            <span id="shopPhone">No especificado</span>
+          </div>
+          <div class="info-item">
+            <span class="icon">&#128205;</span>
+            <span id="shopAddress">No especificada</span>
+          </div>
+        </div>
+
+        <a id="btnWhatsApp" href="#" target="_blank" class="btn-action">
+          &#128172; Contactar por WhatsApp
+        </a>
+
+        <a id="btnPublicCatalog" href="#" class="btn-catalog-view">
+          📖 Ver Menú / Catálogo
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTÓN FLOTANTE ADMINISTRAR -->
+  <button id="btnAdminFloat" class="btn-admin-float" onclick="openPinModal()">
+    ⚙ Administrar negocio
+  </button>
+
+  <!-- MODAL DE ACCESO CON PIN -->
+  <div id="pinModal" class="modal-overlay">
+    <div class="modal-card">
+      <button class="btn-close-modal" onclick="closePinModal()">&times;</button>
+      <h3 style="font-size: 1.2rem; font-weight: 700;">Acceso Propietario</h3>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">Ingresa el PIN de seguridad</p>
+      
+      <input type="password" id="pinInput" class="pin-input" maxlength="6" placeholder="••••">
+      <div id="pinError" class="pin-error">PIN incorrecto. Inténtalo de nuevo.</div>
+      
+      <button class="btn-modal-submit" onclick="verifyPin()">ENTRAR</button>
+    </div>
+  </div>
+
+  <!-- FONDO OSCURO DEL PANEL -->
+  <div id="drawerOverlay" class="drawer-overlay" onclick="closeAdminDrawer()"></div>
+
+  <!-- PANEL DE ADMINISTRACIÓN LATERAL -->
+  <div id="adminDrawer" class="admin-drawer">
+    <div class="drawer-header">
+      <h3>Panel de Administración</h3>
+      <button class="btn-close-modal" style="color: #fff;" onclick="closeAdminDrawer()">&times;</button>
+    </div>
+
+    <div class="drawer-body">
+      <!-- BOTÓN PARA ADMINISTRAR LA PÁGINA DEL NEGOCIO -->
+      <a id="btnManagePage" href="#" class="btn-manage-page">
+        🛍️ ADMINISTRAR PÁGINA / CATÁLOGO
+      </a>
+
+      <form id="adminForm" onsubmit="event.preventDefault(); saveShopData();">
+        <h4 style="margin-bottom: 14px; font-size: 1rem; color: var(--primary);">Tipo & Categoría de Negocio</h4>
+
+        <div class="form-group">
+          <label>Tipo de Negocio</label>
+          <select id="editCategory" class="form-control" required>
+            <option value="Restaurantes">Restaurantes</option>
+            <option value="Cafeterías">Cafeterías</option>
+            <option value="Panaderías">Panaderías</option>
+            <option value="Pastelerías">Pastelerías</option>
+            <option value="Comidas rápidas">Comidas rápidas</option>
+            <option value="Heladerías">Heladerías</option>
+            <option value="Bares">Bares</option>
+            <option value="Discotecas">Discotecas</option>
+            <option value="Gastrobares">Gastrobares</option>
+            <option value="Barberías">Barberías</option>
+            <option value="Peluquerías">Peluquerías</option>
+            <option value="Salones de belleza">Salones de belleza</option>
+            <option value="Spas">Spas</option>
+            <option value="Tiendas de ropa">Tiendas de ropa</option>
+            <option value="Zapaterías">Zapaterías</option>
+            <option value="Joyerías">Joyerías</option>
+            <option value="Perfumerías">Perfumerías</option>
+            <option value="Cosméticos">Cosméticos</option>
+            <option value="Misceláneas">Misceláneas</option>
+            <option value="Minimercados">Minimercados</option>
+            <option value="Supermercados">Supermercados</option>
+            <option value="Papelerías">Papelerías</option>
+            <option value="Librerías">Librerías</option>
+            <option value="Jugueterías">Jugueterías</option>
+            <option value="Tiendas de regalos">Tiendas de regalos</option>
+            <option value="Tiendas de recuerdos">Tiendas de recuerdos</option>
+            <option value="Floristerías">Floristerías</option>
+            <option value="Ferreterías">Ferreterías</option>
+            <option value="Tiendas de muebles">Tiendas de muebles</option>
+            <option value="Decoración para el hogar">Decoración para el hogar</option>
+            <option value="Electrodomésticos">Electrodomésticos</option>
+            <option value="Tecnología">Tecnología</option>
+            <option value="Celulares y accesorios">Celulares y accesorios</option>
+            <option value="Computadores">Computadores</option>
+            <option value="Veterinarias">Veterinarias</option>
+            <option value="Veterinarias con clínica">Veterinarias con clínica</option>
+            <option value="Veterinarias con pet shop">Veterinarias con pet shop</option>
+            <option value="Pet shops">Pet shops</option>
+            <option value="Peluquerías para mascotas">Peluquerías para mascotas</option>
+            <option value="Gimnasios">Gimnasios</option>
+            <option value="Tiendas deportivas">Tiendas deportivas</option>
+            <option value="Farmacias">Farmacias</option>
+            <option value="Ópticas">Ópticas</option>
+            <option value="Consultorios">Consultorios</option>
+            <option value="Odontologías">Odontologías</option>
+            <option value="Laboratorios">Laboratorios</option>
+            <option value="Inmobiliarias">Inmobiliarias</option>
+            <option value="Agencias de viajes">Agencias de viajes</option>
+            <option value="Hoteles">Hoteles</option>
+            <option value="Hostales">Hostales</option>
+            <option value="Lavanderías">Lavanderías</option>
+            <option value="Servicios de mensajería">Servicios de mensajería</option>
+            <option value="Talleres automotrices">Talleres automotrices</option>
+            <option value="Talleres de motos">Talleres de motos</option>
+            <option value="Lavaderos de carros">Lavaderos de carros</option>
+            <option value="Venta de repuestos">Venta de repuestos</option>
+            <option value="Parqueaderos">Parqueaderos</option>
+            <option value="Viveros">Viveros</option>
+            <option value="Tiendas de mascotas">Tiendas de mascotas</option>
+            <option value="Tiendas de productos naturales">Tiendas de productos naturales</option>
+            <option value="Tiendas gourmet">Tiendas gourmet</option>
+            <option value="Imprentas">Imprentas</option>
+            <option value="Publicidad y diseño">Publicidad y diseño</option>
+            <option value="Fotografía">Fotografía</option>
+            <option value="Academias">Academias</option>
+            <option value="Guarderías">Guarderías</option>
+            <option value="Centros de entretenimiento">Centros de entretenimiento</option>
+            <option value="Canchas deportivas">Canchas deportivas</option>
+            <option value="Salones de eventos">Salones de eventos</option>
+            <option value="Coworking">Coworking</option>
+            <option value="Oficinas de servicios">Oficinas de servicios</option>
+            <option value="Empresas de limpieza">Empresas de limpieza</option>
+            <option value="Empresas de seguridad">Empresas de seguridad</option>
+            <option value="Constructoras">Constructoras</option>
+            <option value="Materiales de construcción">Materiales de construcción</option>
+            <option value="Inversiones inmobiliarias">Inversiones inmobiliarias</option>
+            <option value="Alquiler de vehículos">Alquiler de vehículos</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Turismo">Turismo</option>
+            <option value="Servicios para empresas">Servicios para empresas</option>
+            <option value="Comercio electrónico">Comercio electrónico</option>
+            <option value="Tiendas especializadas">Tiendas especializadas</option>
+            <option value="Franquicias">Franquicias</option>
+            <option value="Negocios de venta al por mayor">Negocios de venta al por mayor</option>
+            <option value="Negocios de venta al detal">Negocios de venta al detal</option>
+          </select>
+        </div>
+
+        <h4 style="margin-top: 24px; margin-bottom: 14px; font-size: 1rem; color: var(--primary);">Personalización Visual</h4>
+
+        <div class="form-group">
+          <label>Color Principal del Comercio</label>
+          <input type="color" id="editPrimaryColor" class="form-control" value="#134989" style="height: 42px; cursor: pointer; padding: 4px;">
+        </div>
+
+        <div class="form-group">
+          <label>Tema del Comercio</label>
+          <select id="editTheme" class="form-control">
+            <option value="light">Modo Claro</option>
+            <option value="dark">Modo Oscuro</option>
+          </select>
+        </div>
+
+        <h4 style="margin-top: 24px; margin-bottom: 14px; font-size: 1rem; color: var(--primary);">Información Básica</h4>
+
+        <div class="form-group">
+          <label>Nombre del Negocio</label>
+          <input type="text" id="editName" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea id="editDescription" class="form-control" placeholder="Describe los servicios o productos..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Teléfono / WhatsApp</label>
+          <input type="text" id="editPhone" class="form-control" placeholder="+57 300 000 0000">
+        </div>
+
+        <div class="form-group">
+          <label>Dirección</label>
+          <input type="text" id="editAddress" class="form-control" placeholder="Calle 123 # 45 - 67">
+        </div>
+
+        <div class="form-group">
+          <label>Logo del Negocio</label>
+          <input type="file" id="editLogoFile" class="form-control" accept="image/*" onchange="handleImageUpload(event)">
+          <div class="logo-preview-box">
+            <img id="logoPreview" src="https://via.placeholder.com/110" alt="Vista previa del logo">
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Vista previa del logo</span>
+          </div>
+        </div>
+
+        <h4 style="margin-top: 24px; margin-bottom: 14px; font-size: 1rem; color: var(--primary);">PIN de Seguridad</h4>
+
+        <div class="form-group">
+          <label>Nuevo PIN (4 a 6 dígitos)</label>
+          <input type="password" id="editPin" class="form-control" placeholder="1234" maxlength="6">
+        </div>
+
+        <button type="submit" id="btnSave" class="btn-save">Guardar Cambios Básicos</button>
+        <div id="saveStatus" class="save-status"></div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://jpukgeomsmwyxtqnpcsd.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwdWtnZW9tc213eXh0cW5wY3NkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwMDA3MzQsImV4cCI6MjEwNDU3NjczNH0.aALmQGfEkU4YCJM_9yUGJoUYfFVSLaZe0tnOlznKm54';
+    
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const params = new URLSearchParams(window.location.search);
+    const shopId = params.get('id');
+
+    let currentShopData = null;
+    let newLogoBase64 = null;
+
+    function applyThemeAndColor(theme, primaryColor) {
+      if (theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+        if (themeIcon && themeText) {
+          if (theme === 'dark') {
+            themeIcon.textContent = '☀️';
+            themeText.textContent = 'Modo Claro';
+          } else {
+            themeIcon.textContent = '🌙';
+            themeText.textContent = 'Modo Oscuro';
+          }
+        }
+      }
+      if (primaryColor) {
+        document.documentElement.style.setProperty('--primary', primaryColor);
+        document.documentElement.style.setProperty('--primary-hover', primaryColor);
+      }
+    }
+
+    async function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+      applyThemeAndColor(newTheme, null);
+
+      if (currentShopData && currentShopData.id) {
+        try {
+          const { error } = await supabaseClient
+            .from('shops')
+            .update({ theme: newTheme })
+            .eq('id', currentShopData.id);
+
+          if (error) {
+            console.error('Error al guardar el tema:', error.message);
+          } else {
+            currentShopData.theme = newTheme;
+          }
+        } catch (err) {
+          console.error('Error inesperado al alternar el tema:', err);
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const colorInput = document.getElementById('editPrimaryColor');
+      const themeSelect = document.getElementById('editTheme');
+
+      if (colorInput) {
+        colorInput.addEventListener('input', (e) => applyThemeAndColor(null, e.target.value));
+      }
+      if (themeSelect) {
+        themeSelect.addEventListener('change', (e) => applyThemeAndColor(e.target.value, null));
+      }
+    });
+
+    async function loadShopDetail() {
+      const loadingState = document.getElementById('loadingState');
+      const errorState = document.getElementById('errorState');
+      const shopDetail = document.getElementById('shopDetail');
+      const errorMessage = document.getElementById('errorMessage');
+
+      if (!shopId) {
+        loadingState.style.display = 'none';
+        if (errorMessage) errorMessage.textContent = 'No se proporcionó ningún ID en la URL.';
+        errorState.style.display = 'block';
+        return;
+      }
+
+      try {
+        const { data: shop, error } = await supabaseClient
+          .from('shops')
+          .select('*')
+          .eq('business_id', shopId)
+          .single();
+
+        if (error || !shop) {
+          throw new Error(error ? error.message : 'No se encontraron datos para este comercio.');
+        }
+
+        currentShopData = shop;
+
+        // Configurar enlaces al catálogo
+        const catalogUrl = `catalogo.html?id=${shopId}`;
+        document.getElementById('btnManagePage').href = catalogUrl;
+        document.getElementById('btnPublicCatalog').href = catalogUrl;
+
+        // Cargar vista pública
+        document.getElementById('shopLogo').src = shop.logo || 'https://via.placeholder.com/110';
+        document.getElementById('shopName').textContent = shop.name || 'Sin nombre';
+        document.getElementById('shopCategory').textContent = shop.category || 'Restaurantes';
+        document.getElementById('shopDescription').textContent = shop.description || 'Este comercio aún no ha agregado una descripción.';
+        
+        if (shop.phone || shop.whatsapp) {
+          const num = shop.whatsapp || shop.phone;
+          document.getElementById('shopPhone').textContent = num;
+          document.getElementById('btnWhatsApp').href = `https://wa.me/${num.replace(/[^0-9]/g, '')}`;
+          document.getElementById('btnWhatsApp').style.display = 'flex';
+        } else {
+          document.getElementById('shopPhone').textContent = 'No disponible';
+          document.getElementById('btnWhatsApp').style.display = 'none';
+        }
+
+        if (shop.address) {
+          document.getElementById('shopAddress').textContent = shop.address;
+        } else {
+          document.getElementById('shopAddress').textContent = 'Dirección no especificada';
+        }
+
+        // Aplicar Tema y Color
+        const theme = shop.theme || 'light';
+        const primaryColor = shop.primary_color || '#134989';
+        applyThemeAndColor(theme, primaryColor);
+
+        // Llenar campos del panel de edición
+        document.getElementById('editCategory').value = shop.category || 'Restaurantes';
+        document.getElementById('editPrimaryColor').value = primaryColor;
+        const themeElem = document.getElementById('editTheme');
+        if (themeElem) themeElem.value = theme;
+        document.getElementById('editName').value = shop.name || '';
+        document.getElementById('editDescription').value = shop.description || '';
+        document.getElementById('editPhone').value = shop.whatsapp || shop.phone || '';
+        document.getElementById('editAddress').value = shop.address || '';
+        document.getElementById('logoPreview').src = shop.logo || 'https://via.placeholder.com/110';
+        document.getElementById('editPin').value = shop.pin || '1234';
+
+        loadingState.style.display = 'none';
+        shopDetail.style.display = 'block';
+
+      } catch (err) {
+        console.error('Error al cargar comercio:', err);
+        loadingState.style.display = 'none';
+        if (errorMessage) errorMessage.textContent = err.message || 'Error de conexión con la base de datos.';
+        errorState.style.display = 'block';
+      }
+    }
+
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          const maxSize = 600;
+
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > maxSize) {
+              height *= maxSize / width;
+              width = maxSize;
+            }
+          } else {
+            if (height > maxSize) {
+              width *= maxSize / height;
+              height = maxSize;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(img, 0, 0, width, height);
+
+          newLogoBase64 = canvas.toDataURL('image/jpeg', 0.85);
+          document.getElementById('logoPreview').src = newLogoBase64;
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function openPinModal() {
+      document.getElementById('pinInput').value = '';
+      document.getElementById('pinError').style.display = 'none';
+      document.getElementById('pinModal').style.display = 'flex';
+    }
+
+    function closePinModal() {
+      document.getElementById('pinModal').style.display = 'none';
+    }
+
+    function verifyPin() {
+      const enteredPin = document.getElementById('pinInput').value.trim();
+      const actualPin = currentShopData ? (currentShopData.pin || '1234') : '1234';
+
+      if (enteredPin === actualPin) {
+        closePinModal();
+        openAdminDrawer();
+      } else {
+        document.getElementById('pinError').style.display = 'block';
+      }
+    }
+
+    function openAdminDrawer() {
+      document.getElementById('drawerOverlay').style.display = 'block';
+      document.getElementById('adminDrawer').classList.add('open');
+    }
+
+    function closeAdminDrawer() {
+      document.getElementById('drawerOverlay').style.display = 'none';
+      document.getElementById('adminDrawer').classList.remove('open');
+    }
+
+    async function saveShopData() {
+      const btnSave = document.getElementById('btnSave');
+      const saveStatus = document.getElementById('saveStatus');
+
+      btnSave.disabled = true;
+      btnSave.textContent = 'Guardando...';
+      saveStatus.style.display = 'none';
+
+      const updatedCategory = document.getElementById('editCategory').value;
+      const updatedPrimaryColor = document.getElementById('editPrimaryColor').value;
+      const themeElem = document.getElementById('editTheme');
+      const updatedTheme = themeElem ? themeElem.value : (document.documentElement.getAttribute('data-theme') || 'light');
+      const updatedName = document.getElementById('editName').value.trim();
+      const updatedDescription = document.getElementById('editDescription').value.trim();
+      const updatedPhone = document.getElementById('editPhone').value.trim();
+      const updatedAddress = document.getElementById('editAddress').value.trim();
+      const updatedPin = document.getElementById('editPin').value.trim();
+      
+      const logoToSave = newLogoBase64 || (currentShopData ? currentShopData.logo : '') || '';
+
+      try {
+const updatePayload = {
+  category: updatedCategory,
+  primary_color: updatedPrimaryColor,
+  theme: updatedTheme,
+  name: updatedName,
+  description: updatedDescription,
+  whatsapp: updatedPhone,
+  address: updatedAddress,
+  logo: logoToSave,
+  pin: updatedPin || '1234'
+};
+
+        const { error } = await supabaseClient
+          .from('shops')
+          .update(updatePayload)
+          .eq('business_id', shopId);
+
+        if (error) throw error;
+
+        saveStatus.style.display = 'block';
+        saveStatus.style.backgroundColor = '#dcfce7';
+        saveStatus.style.color = '#166534';
+        saveStatus.textContent = '¡Cambios guardados exitosamente!';
+
+        setTimeout(() => {
+          location.reload();
+        }, 1200);
+
+      } catch (err) {
+        console.error('Error al guardar datos:', err);
+        saveStatus.style.display = 'block';
+        saveStatus.style.backgroundColor = '#fee2e2';
+        saveStatus.style.color = '#991b1b';
+        saveStatus.textContent = 'Error al guardar los cambios. Intenta de nuevo.';
+      } finally {
+        btnSave.disabled = false;
+        btnSave.textContent = 'Guardar Cambios Básicos';
+      }
+    }
+
+    loadShopDetail();
+  </script>
+</body>
+</html>
