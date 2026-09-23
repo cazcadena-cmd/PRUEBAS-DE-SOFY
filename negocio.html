@@ -568,17 +568,107 @@
         <h4 style="margin-bottom: 14px; font-size: 1rem; color: var(--primary);">Tipo & Categoría de Negocio</h4>
 
         <div class="form-group">
-          <label>Tipo de Negocio</label>
-          <select id="editCategory" class="form-control" required>
-            <option value="Restaurantes">Restaurantes</option>
-            <option value="Cafeterías">Cafeterías</option>
-            <option value="Tiendas de ropa">Tiendas de ropa</option>
-            <!-- (Opciones resumidas por brevedad, puedes añadir las demás según necesidad) -->
-            <option value="Tecnología">Tecnología</option>
-            <option value="Comercio electrónico">Comercio electrónico</option>
-            <option value="Negocios de venta al detal">Negocios de venta al detal</option>
-          </select>
-        </div>
+  <label>Tipo de Negocio</label>
+  <select id="editCategory" class="form-control" required>
+    <option value="" disabled selected>Selecciona una categoría...</option>
+
+    <optgroup label="Alimentos, Bebidas y Proveeduría">
+        <option value="Restaurantes">Restaurantes</option>
+        <option value="Cafeterías">Cafeterías</option>
+        <option value="Panaderías y Pastelerías">Panaderías y Pastelerías</option>
+        <option value="Bares y Discotecas">Bares y Discotecas</option>
+        <option value="Supermercados y Minimercados">Supermercados y Minimercados</option>
+        <option value="Carnicerías">Carnicerías</option>
+        <option value="Salsamentarias">Salsamentarias</option>
+        <option value="Pescaderías">Pescaderías</option>
+        <option value="Dulcerías">Dulcerías</option>
+    </optgroup>
+
+    <optgroup label="Comercio y Retail">
+        <option value="Tiendas de ropa">Tiendas de ropa</option>
+        <option value="Zapaterías y Venta de Calzado">Zapaterías y Venta de Calzado</option>
+        <option value="Joyerías">Joyerías</option>
+        <option value="Tiendas de Maquillaje y Cosméticos">Tiendas de Maquillaje y Cosméticos</option>
+        <option value="Tiendas de Aseo">Tiendas de Aseo</option>
+        <option value="Librerías y Papelerías">Librerías y Papelerías</option>
+        <option value="Tecnología">Tecnología</option>
+        <option value="Comercio electrónico">Comercio electrónico</option>
+        <option value="Negocios de venta al detal">Negocios de venta al detal</option>
+    </optgroup>
+
+    <optgroup label="Salud, Estética y Bienestar">
+        <option value="Centros Médicos">Centros Médicos</option>
+        <option value="Centros Odontológicos">Centros Odontológicos</option>
+        <option value="Ópticas">Ópticas</option>
+        <option value="Farmacias">Farmacias</option>
+        <option value="Tiendas Naturistas">Tiendas Naturistas</option>
+        <option value="Salones de Belleza">Salones de Belleza</option>
+        <option value="Barberías">Barberías</option>
+        <option value="Centros de Estética">Centros de Estética</option>
+        <option value="Spas">Spas</option>
+        <option value="Spas de Uñas">Spas de Uñas</option>
+        <option value="Estudios de Tatuajes y Piercing">Estudios de Tatuajes y Piercing</option>
+        <option value="Gimnasios y Deportes">Gimnasios y Deportes</option>
+    </optgroup>
+
+    <optgroup label="Mascotas">
+        <option value="Veterinarias">Veterinarias</option>
+        <option value="Petshop">Petshop (Tiendas de Mascotas)</option>
+        <option value="Paseadores de Mascotas">Paseadores de Mascotas</option>
+    </optgroup>
+
+    <optgroup label="Educación">
+        <option value="Jardines Infantiles">Jardines Infantiles</option>
+        <option value="Colegios">Colegios</option>
+        <option value="Escuelas de Música">Escuelas de Música</option>
+        <option value="Educación y Academias">Otras Academias</option>
+    </optgroup>
+
+    <optgroup label="Servicios Técnicos y Reparaciones">
+        <option value="Servicio Técnico de Celulares">Servicio Técnico de Celulares</option>
+        <option value="Servicio Técnico de Televisores">Servicio Técnico de Televisores</option>
+        <option value="Servicio Técnico de Impresoras">Servicio Técnico de Impresoras</option>
+        <option value="Reparación de Calzado">Reparación de Calzado</option>
+        <option value="Sastrerías">Sastrerías</option>
+    </optgroup>
+
+    <optgroup label="Construcción, Oficios y Mantenimiento">
+        <option value="Ferreterías y Construcción">Ferreterías</option>
+        <option value="Contratistas para Remodelaciones y Construcción">Contratistas para Remodelaciones y Construcción</option>
+        <option value="Fabricantes de Cocinas">Fabricantes de Cocinas</option>
+        <option value="Vidrierías">Vidrierías</option>
+        <option value="Electricistas">Electricistas</option>
+        <option value="Cerrajeros">Cerrajeros</option>
+        <option value="Carpinteros">Carpinteros</option>
+        <option value="Plomeros">Plomeros</option>
+        <option value="Pintores">Pintores</option>
+        <option value="Mantenimiento y Limpieza">Mantenimiento y Limpieza</option>
+    </optgroup>
+
+    <optgroup label="Automotriz">
+        <option value="Lavaderos de Autos">Lavaderos de Autos</option>
+        <option value="Lavaderos de Motos">Lavaderos de Motos</option>
+        <option value="Automotriz y Talleres">Talleres Mecánicos y Repuestos</option>
+    </optgroup>
+
+    <optgroup label="Servicios Profesionales, Agencias y Finanzas">
+        <option value="Agencias de Marketing, Diseño y Publicidad">Agencias de Marketing, Diseño y Publicidad</option>
+        <option value="Servicios Profesionales">Servicios Profesionales (Abogados, Contadores, etc.)</option>
+        <option value="Agencias de Viajes">Agencias de Viajes</option>
+        <option value="Bienes Raíces e Inmobiliarias">Bienes Raíces e Inmobiliarias</option>
+        <option value="Corresponsales Bancarios">Corresponsales Bancarios</option>
+        <option value="Casas de Empeño">Casas de Empeño</option>
+    </optgroup>
+
+    <optgroup label="Logística y Otros Servicios">
+        <option value="Empresas de Envíos o Mensajería">Empresas de Envíos o Mensajería</option>
+        <option value="Lavanderías">Lavanderías</option>
+        <option value="Hoteles y Turismo">Hoteles y Turismo</option>
+        <option value="Logística y Transporte">Logística y Transporte</option>
+        <option value="Otro">Otro</option>
+    </optgroup>
+  </select>
+</div>
 
         <h4 style="margin-top: 24px; margin-bottom: 14px; font-size: 1rem; color: var(--primary);">Personalización Visual</h4>
 
