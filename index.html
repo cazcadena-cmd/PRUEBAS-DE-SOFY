@@ -203,7 +203,23 @@
 </div>  
 <main class="app">
 <header class="topbar"><a class="brand" href="#inicio"><img id="brandLogo" src="https://i.imgur.com/HuC4TzS.gif" alt="Madelena"><span class="brand-copy"><small>Tu barrio, mas cerca</small></span></a><div class="actions"><button class="theme" id="themeBtn" aria-label="Cambiar tema"><span id="sun" data-icon="sun"></span><span id="moon" data-icon="moon"></span></button><button class="primary create-top" data-open-create><span data-icon="plus"></span>Crear comercio</button></div></header>
-<section class="hero" id="inicio"><div class="slides"><a class="slide active"><video src="https://i.imgur.com/pwQfKed.mp4" muted playsinline></video></a><a class="slide"><video src="https://i.imgur.com/3qCYHGH.mp4" muted playsinline></video></a><a class="slide"><video src="https://i.imgur.com/eV60uhx.mp4" muted playsinline></video></a><a class="slide"><video src="https://i.imgur.com/njGGliA.mp4" muted playsinline></video></a><a class="slide"><video src="https://i.imgur.com/hlx82zq.mp4" muted playsinline></video></a><div class="shade"></div><div class="slider-controls"><div class="dots" id="dots"></div><div class="arrows"><button type="button" id="prev">&#8249;</button><button type="button" id="next">&#8250;</button></div></div></div><div class="hero-copy"><p class="eyebrow">Descubre lo que tienes cerca</p><h1>Lo mejor de <span>RD</span></h1><p>Comercios locales, sabores y servicios que hacen grande a nuestro país.</p></div></section>
+<section class="hero" id="inicio">
+  <div class="slides" id="slidesContainer">
+    <div class="shade"></div>
+    <div class="slider-controls">
+      <div class="dots" id="dots"></div>
+      <div class="arrows">
+        <button type="button" id="prev">&#8249;</button>
+        <button type="button" id="next">&#8250;</button>
+      </div>
+    </div>
+  </div>
+  <div class="hero-copy">
+    <p class="eyebrow">Descubre lo que tienes cerca</p>
+    <h1>Lo mejor de <span>RD</span></h1>
+    <p>Comercios locales, sabores y servicios que hacen grande a nuestro país.</p>
+  </div>
+</section>
 <section class="content"><div class="heading"><div><p class="eyebrow">Directorio local</p><h2>Comercios 1A</h2></div></div><label class="search"><span data-icon="search"></span><input id="search" placeholder="Buscar por comercio o categoria"></label><div id="shopContent"></div></section>
 <section class="content categories"><div class="heading"><div><p class="eyebrow">Explora a tu manera</p><h2>Categorias</h2></div><span class="count" id="categoryCount"></span></div><div id="categoryContent"></div></section><footer><p>Hecho para impulsar el comercio local.</p></footer></main>
 <div class="backdrop hidden" id="createModal"><section class="modal"><button class="close" data-close><span data-icon="close"></span></button><p class="eyebrow">Unete al directorio</p><h2>Crea tu comercio</h2><p class="intro">¡Tu tienda estará en Comercios 1A!
@@ -325,13 +341,77 @@ function theme(t){document.documentElement.dataset.theme=t;localStorage.setItem(
 theme(localStorage.getItem('madelena-theme')||'dark');
 $('themeBtn').onclick=()=>theme(document.documentElement.dataset.theme==='dark'?'light':'dark');
 
-const slides=[...document.querySelectorAll('.slide')],videos=slides.map(s=>s.querySelector('video'));
-slides.forEach((s,i)=>{let b=document.createElement('button');b.type='button';b.onclick=()=>show(i);$('dots').appendChild(b)});
-const dots=[...$('dots').children];
-function show(i){clearTimeout(timer);current=(i+slides.length)%slides.length;slides.forEach((s,n)=>{s.classList.toggle('active',n===current);dots[n].classList.toggle('active',n===current);videos[n].pause();if(n===current){videos[n].currentTime=0;videos[n].play().catch(()=>{})}});timer=setTimeout(()=>show(current+1),10000)}
-$('prev').onclick=e=>{e.stopPropagation();show(current-1)};
-$('next').onclick=e=>{e.stopPropagation();show(current+1)};
-show(0);
+async function fetchBannerVideos() {
+  // Añadimos .is('business_id', null) para traer SOLO los banners globales/generales
+  const { data, error } = await _supabase
+    .from('shop_banners')
+    .select('*')
+    .is('business_id', null) 
+    .order('order_index', { ascending: true });
+
+  if (error || !data || !data.length) return;
+
+  const slidesContainer = $('slidesContainer');
+  const shade = slidesContainer.querySelector('.shade');
+
+  // Limpiamos los slides actuales
+  document.querySelectorAll('.slide').forEach(s => s.remove());
+
+  data.forEach((item, index) => {
+    const slide = document.createElement('a');
+    slide.className = 'slide' + (index === 0 ? ' active' : '');
+    
+    // Si tiene video muestra el reproductor, si tiene imagen muestra la foto
+    if (item.video_url) {
+      slide.innerHTML = `<video src="${item.video_url}" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>`;
+    } else if (item.image_url) {
+      slide.innerHTML = `<img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">`;
+    }
+
+    slidesContainer.insertBefore(slide, shade);
+  });
+
+  initSlider();
+}
+
+function initSlider() {
+  const slides = [...document.querySelectorAll('.slide')];
+  const videos = slides.map(s => s.querySelector('video'));
+  $('dots').innerHTML = '';
+
+  slides.forEach((s, i) => {
+    let b = document.createElement('button');
+    b.type = 'button';
+    b.onclick = () => show(i);
+    $('dots').appendChild(b);
+  });
+
+  const dots = [...$('dots').children];
+
+  window.show = function(i) {
+    clearTimeout(timer);
+    if (!slides.length) return;
+    current = (i + slides.length) % slides.length;
+    slides.forEach((s, n) => {
+      s.classList.toggle('active', n === current);
+      if (dots[n]) dots[n].classList.toggle('active', n === current);
+      if (videos[n]) {
+        videos[n].pause();
+        if (n === current) {
+          videos[n].currentTime = 0;
+          videos[n].play().catch(() => {});
+        }
+      }
+    });
+    timer = setTimeout(() => show(current + 1), 10000);
+  };
+
+  $('prev').onclick = e => { e.stopPropagation(); show(current - 1); };$('next').onclick = e => { e.stopPropagation(); show(current + 1); };
+
+  if (slides.length > 0) show(0);
+}
+
+fetchBannerVideos();
 
 function esc(v){let d=document.createElement('div');d.textContent=v;return d.innerHTML}
 
