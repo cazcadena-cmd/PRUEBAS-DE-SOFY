@@ -163,8 +163,13 @@
     .empty-state { grid-column: 1/-1; text-align: center; color: var(--muted); padding: 48px 16px; font-size: .9rem; }
     .empty-state .emoji { display: block; font-size: 2.4rem; margin-bottom: 10px; }
     /* Flotantes */
-    .float-cart { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; width: calc(100% - 32px); max-width: 480px; background: linear-gradient(135deg, #1faa54, var(--whatsapp)); color: #fff; padding: 6px 6px 6px 10px; border-radius: 999px; display: none; align-items: center; gap: 6px; box-shadow: 0 12px 30px rgba(37,211,102,.4); }
+    .float-cart { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; width: calc(100% - 32px); max-width: 480px; background: linear-gradient(135deg, #1faa54, var(--whatsapp)); color: #fff; padding: 6px 6px 6px 10px; border-radius: 999px; display: none; align-items: center; gap: 6px; box-shadow: 0 12px 30px rgba(37,211,102,.4); animation: fadeIn .2s; }
     .float-cart-main { flex: 1; min-width: 0; background: none; border: 0; color: #fff; font-weight: 700; font-size: .95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 9px; padding: 10px 8px; font-family: inherit; white-space: nowrap; }
+    .float-cart .cart-ico { width: 22px; height: 22px; flex: 0 0 auto; color: #fff; stroke: #fff; display: block; }
+    .float-cart .fc-text { display: inline-flex; align-items: center; gap: 9px; }
+    .float-cart.minimized { width: auto; max-width: none; padding: 6px; }
+    .float-cart.minimized .fc-text { display: none; }
+    .float-cart.minimized .float-cart-main { flex: 0 0 auto; width: 42px; height: 42px; padding: 0; border-radius: 50%; background: rgba(0,0,0,.14); }
     .float-cart .count { background: rgba(255,255,255,.25); border-radius: 999px; padding: 2px 9px; font-size: .82rem; font-weight: 800; }
     .float-cart-close { width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(0,0,0,.2); color: #fff; font-size: 1.15rem; font-weight: 700; cursor: pointer; display: grid; place-items: center; flex: 0 0 auto; padding: 0; line-height: 1; }
     .float-cart-close:hover { background: rgba(0,0,0,.32); }
@@ -317,10 +322,14 @@
       <div id="productsContainer"></div>
     </main>
     <div class="float-cart" id="cartFloatBtn">
-      <button class="float-cart-main" onclick="openCartModal()">
-        🛒 Ver pedido <span class="count" id="cartCount">0</span> · <span id="cartTotal">$0</span>
+      <button class="float-cart-main" id="cartFloatMain" onclick="openCartModal()" aria-label="Ver pedido">
+        <svg class="cart-ico" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="9" cy="20" r="1.4" fill="#ffffff"/><circle cx="18" cy="20" r="1.4" fill="#ffffff"/>
+          <path d="M2.5 3h2.6l2.4 11.6a1.6 1.6 0 0 0 1.6 1.3h8.4a1.6 1.6 0 0 0 1.6-1.2L21 7H6"/>
+        </svg>
+        <span class="fc-text">Ver pedido <span class="count" id="cartCount">0</span> · <span id="cartTotal">$0</span></span>
       </button>
-      <button class="float-cart-close" title="Cerrar" aria-label="Cerrar" onclick="dismissCartButton(event)">×</button>
+      <button class="float-cart-close" id="cartFloatToggle" title="Minimizar" aria-label="Minimizar" onclick="toggleCartButton(event)">×</button>
     </div>
   </div>
   <!-- MODAL PIN -->
@@ -652,7 +661,7 @@ alter table shop_banners add column if not exists media_type text default 'image
   let heroSignature = null;
   /* Carrito y checkout */
   let cart = [];
-  let cartBtnDismissed = false;
+  let cartBtnMinimized = false;
   const order = { mode: 'domicilio', customerName: '', address: '', tableNumber: '', pay: 'efectivo', walletName: '' };
   /* Modal de producto del cliente */
   let custProduct = null;
@@ -1061,7 +1070,6 @@ alter table shop_banners add column if not exists media_type text default 'image
       }
       toast(custProduct.name + ' agregado al pedido', '✅');
     }
-    cartBtnDismissed = false;
     persistCart();
     closeModal('customerProductModal');
     updateCartUI();
@@ -1072,16 +1080,22 @@ alter table shop_banners add column if not exists media_type text default 'image
   function persistCart() {
     try { localStorage.setItem('cart_' + shopId, JSON.stringify(cart)); } catch (e) {}
   }
-  function dismissCartButton(e) {
+  /* Minimiza (solo icono del carrito + botón "+") o expande el botón de Ver pedido */
+  function toggleCartButton(e) {
     if (e) e.stopPropagation();
-    cartBtnDismissed = true;
+    cartBtnMinimized = !cartBtnMinimized;
     updateCartUI();
   }
   function updateCartUI() {
     const count = cart.reduce((a, c) => a + c.qty, 0);
     const total = cart.reduce((a, c) => a + c.price * c.qty, 0);
     const btn = $('cartFloatBtn');
-    btn.style.display = count > 0 && !cartBtnDismissed ? 'flex' : 'none';
+    btn.style.display = count > 0 ? 'flex' : 'none';
+    btn.classList.toggle('minimized', cartBtnMinimized);
+    const tgl = $('cartFloatToggle');
+    tgl.textContent = cartBtnMinimized ? '+' : '×';
+    tgl.title = cartBtnMinimized ? 'Mostrar pedido' : 'Minimizar';
+    tgl.setAttribute('aria-label', tgl.title);
     $('cartCount').textContent = count;
     $('cartTotal').textContent = money(total);
     if ($('cartModal').style.display === 'flex') renderCartLines();
