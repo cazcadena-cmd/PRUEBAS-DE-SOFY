@@ -713,7 +713,7 @@ $('search').oninput=render;
 $('uploadBtn').onclick=()=>$('fileInput').click();
 $('fileInput').onchange=()=>{
   let f=$('fileInput').files[0];
-  if(!f||!f.type.startsWith('image/')||f.size>3145728){$('formError').classList.remove('hidden');return}
+  if(!f||!f.type.startsWith('image/')||f.size>10485760){$('formError').classList.remove('hidden');return}
   previewFile=f;
   let r=new FileReader;
   r.onload=()=>{
