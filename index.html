@@ -36,9 +36,9 @@
   top: 2px; /* Ajusta este valor: -30px sube más, -15px sube menos */
   margin-bottom: -10px; /* Evita que deje un hueco vacío con el título de abajo */
 }
-}.hero h1{
+.hero h1{
   max-width:680px;
-  margin:0;
+  margin:14px 0 34px; /* Separa el título: queda debajo de "Descubre lo que tienes cerca" sin taparlo y deja espacio al texto de abajo */
   font-size:clamp(24px,3.5vw,36px); /* Reducido de clamp(32px,5vw,52px) */
   line-height:.98;
   letter-spacing:-.055em;
@@ -50,10 +50,120 @@
   line-height:1.4; 
   transform: translateY(-30px); /* Sube solo el texto sin desplazar nada más */
 }.slider-controls{position:absolute;z-index:5;width:min(1160px,calc(100% - 40px));left:50%;bottom:15px;transform:translateX(-50%);display:flex;justify-content:space-between;align-items:center}.dots,.arrows{display:flex;gap:8px;align-items:center}.dots button{width:8px;height:8px;padding:0;border:0;border-radius:10px;background:rgba(255,255,255,.42);cursor:pointer}.dots button.active{width:30px;background:var(--accent)}.arrows button{width:46px;height:46px;border:1px solid rgba(174,226,255,.4);border-radius:50%;color:#fff;background:rgba(5,38,61,.72);font-size:29px;cursor:pointer}.arrows button:hover{background:var(--accent)}
-.content{width:min(1060px,calc(100% - 40px));margin:auto;padding:15px 0 30px}.heading{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:27px}.heading h2,.modal h2{margin:0;font-size:clamp(31px,4vw,44px);line-height:1.05}.search{max-width:540px;height:52px;margin-bottom:34px;padding:0 18px;display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:15px;background:var(--surface);color:var(--muted)}.search:focus-within{border-color:var(--accent)}.search input{width:100%;border:0;outline:0;background:transparent;color:var(--text)}.empty{min-height:310px;border-block:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px}.empty-icon{width:58px;height:58px;display:grid;place-items:center;border-radius:18px;color:var(--accent);background:rgba(41,182,246,.12)}.empty h3{font-size:22px;margin:17px 0 8px}.empty p{color:var(--muted);line-height:1.6;max-width:470px;margin:0 0 22px}.shops{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}.shop{min-width:0;animation:up .5s}.shop img{width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:24px;background:var(--soft);transition:.35s}.shop:hover img{transform:translateY(-6px);box-shadow:var(--shadow)}.shop h3{margin:14px 0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.shop p{color:var(--muted);margin:0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.no-results{text-align:center;color:var(--muted);padding:70px}
-.categories{padding-top:110px;padding-bottom:100px}.count{color:var(--muted);font-size:14px}.category-empty{min-height:220px;display:grid;place-items:center;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:24px}.category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.category{height:255px;padding:0;border:0;border-radius:22px;overflow:hidden;position:relative;text-align:left;color:#fff;cursor:pointer;background:var(--soft)}.category>img,.category-shade{position:absolute;inset:0;width:100%;height:100%}.category>img{object-fit:cover;transition:.55s}.category:hover>img{transform:scale(1.07)}.category-shade{background:linear-gradient(0deg,rgba(3,20,35,.9),transparent 80%)}.category-label{position:absolute;left:20px;bottom:19px;display:flex;flex-direction:column}.category-label strong{font-size:18px}.category-label small{color:#c6eafa;margin-top:3px}.category i{position:absolute;right:17px;top:17px;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:rgba(4,34,55,.6)}footer{min-height:150px;border-top:1px solid var(--line);width:min(1160px,calc(100% - 40px));margin:auto;display:flex;align-items:center;justify-content:space-between;color:var(--muted)}footer span{font-weight:800;color:var(--text);letter-spacing:.14em}
+.content{width:min(1060px,calc(100% - 40px));margin:auto;padding:15px 0 30px}.heading{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:27px}.heading h2,.modal h2{margin:0;font-size:clamp(31px,4vw,44px);line-height:1.05}.search{max-width:540px;height:52px;margin-bottom:34px;padding:0 18px;display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:15px;background:var(--surface);color:var(--muted)}.search:focus-within{border-color:var(--accent)}.search input{width:100%;border:0;outline:0;background:transparent;color:var(--text)}.empty{min-height:310px;border-block:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px}.empty-icon{width:58px;height:58px;display:grid;place-items:center;border-radius:18px;color:var(--accent);background:rgba(41,182,246,.12)}.empty h3{font-size:22px;margin:17px 0 8px}.empty p{color:var(--muted);line-height:1.6;max-width:470px;margin:0 0 22px}.shop{min-width:0;animation:up .5s}.shop img{width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:24px;background:var(--soft);transition:.35s}.shop:hover img{transform:translateY(-6px);box-shadow:var(--shadow)}.shop h3{margin:14px 0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.shop p{color:var(--muted);margin:0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.no-results{text-align:center;color:var(--muted);padding:70px}
+.categories{padding-top:110px;padding-bottom:100px}.count{color:var(--muted);font-size:14px}.category-empty{min-height:220px;display:grid;place-items:center;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:24px}.category{height:255px;padding:0;border:0;border-radius:22px;overflow:hidden;position:relative;text-align:left;color:#fff;cursor:pointer;background:var(--soft)}.category>img,.category-shade{position:absolute;inset:0;width:100%;height:100%}.category>img{object-fit:cover;transition:.55s}.category:hover>img{transform:scale(1.07)}.category-shade{background:linear-gradient(0deg,rgba(3,20,35,.9),transparent 80%)}.category-label{position:absolute;left:20px;bottom:19px;display:flex;flex-direction:column}.category-label strong{font-size:18px}.category-label small{color:#c6eafa;margin-top:3px}.category i{position:absolute;right:17px;top:17px;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:rgba(4,34,55,.6)}footer{min-height:150px;border-top:1px solid var(--line);width:min(1160px,calc(100% - 40px));margin:auto;display:flex;align-items:center;justify-content:space-between;color:var(--muted)}footer span{font-weight:800;color:var(--text);letter-spacing:.14em}
 .backdrop{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(2,14,26,.72);backdrop-filter:blur(14px);animation:fade .22s}.modal{width:min(550px,100%);max-height:calc(100vh - 40px);overflow:auto;position:relative;border:1px solid var(--line);border-radius:28px;background:var(--surface);padding:36px;box-shadow:0 35px 100px #0007;animation:pop .35s}.modal.small{width:min(440px,100%)}.close{position:absolute;top:22px;right:22px;width:38px;height:38px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line);background:var(--soft);cursor:pointer}.intro{color:var(--muted);line-height:1.55;margin:13px 50px 26px 0}form,form label{display:flex;flex-direction:column}form{gap:17px}form label{gap:8px;font-size:13px;font-weight:700}form input,form select{width:100%;height:50px;border:1px solid var(--line);border-radius:13px;padding:0 14px;outline:0;background:var(--soft);color:var(--text)}.upload{width:100%;min-height:130px;border:1.5px dashed rgba(41,182,246,.55);border-radius:16px;color:var(--text);background:rgba(41,182,246,.07);cursor:pointer;overflow:hidden}.upload span{display:flex;flex-direction:column;align-items:center;gap:4px}.upload small,.storage{color:var(--muted);font-weight:400}.upload img{width:100%;height:145px;object-fit:contain}.file{position:absolute;width:1px;height:1px;opacity:0}.error{color:#ff5e76;font-size:12px}.submit{width:100%}.storage{text-align:center;font-size:10px}.list{border-top:1px solid var(--line);margin-top:25px}.list a{min-height:55px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);font-weight:600;cursor:pointer}.category-shops{display:flex;flex-direction:column;gap:10px;margin-top:22px}.category-shop{display:flex;align-items:center;gap:13px;border-bottom:1px solid var(--line);padding-bottom:10px}.category-shop img{width:54px;height:54px;object-fit:cover;border-radius:14px}.category-shop span{display:flex;flex-direction:column}.category-shop small{color:var(--muted)}.toast{position:fixed;z-index:200;left:50%;bottom:24px;transform:translateX(-50%);background:var(--surface);border:1px solid var(--line);padding:13px 20px;border-radius:14px;box-shadow:var(--shadow);font-weight:700}
-@keyframes up{from{opacity:0;transform:translateY(18px)}}@keyframes fade{from{opacity:0}}@keyframes pop{from{opacity:0;transform:translateY(20px) scale(.97)}}@media(max-width:760px){.topbar{width:calc(100% - 28px);height:78px}.brand small{display:none}.create-top{width:42px;padding:0;font-size:0}.hero{min-height:300px;height:360px}.hero-copy{width:calc(100% - 38px);justify-content:flex-end;padding-bottom:50px}.hero h1{font-size:clamp(28px, 8vw, 40px)}.shade{background:linear-gradient(0deg,rgba(2,16,29,.95),rgba(3,27,47,.45) 63%,transparent)}.slider-controls{width:calc(100% - 38px);bottom:10px}.content{width:calc(100% - 32px);padding-top:20px}.heading{align-items:center}.heading h2{font-size:33px}.shops{grid-template-columns:repeat(2,1fr);gap:22px 14px}.category-grid{grid-template-columns:1fr}.category{height:220px}footer{width:calc(100% - 32px);flex-direction:column;justify-content:center}.modal{padding:30px 22px 24px}}
+@keyframes up{from{opacity:0;transform:translateY(18px)}}@keyframes fade{from{opacity:0}}@keyframes pop{from{opacity:0;transform:translateY(20px) scale(.97)}}@media(max-width:760px){.topbar{width:calc(100% - 28px);height:78px}.brand small{display:none}.create-top{width:42px;padding:0;font-size:0}.hero{min-height:300px;height:360px}.hero-copy{width:calc(100% - 38px);justify-content:flex-end;padding-bottom:50px}.hero h1{font-size:clamp(28px, 8vw, 40px)}.shade{background:linear-gradient(0deg,rgba(2,16,29,.95),rgba(3,27,47,.45) 63%,transparent)}.slider-controls{width:calc(100% - 38px);bottom:10px}.content{width:calc(100% - 32px);padding-top:20px}.heading{align-items:center}.heading h2{font-size:33px}.category{height:220px}footer{width:calc(100% - 32px);flex-direction:column;justify-content:center}.modal{padding:30px 22px 24px}}
+
+/* ==========================================
+   1. BOTÓN ENGRANE + MODAL DE SOPORTE
+   ========================================== */
+.settings-top{width:46px;padding:0}
+.settings-top svg{width:21px;height:21px;color:#fff;transition:transform .6s ease}
+.settings-top:hover svg{transform:rotate(120deg)}
+#supportModal{padding:24px}
+.modal.support{width:min(1100px,100%);height:min(860px,calc(100vh - 48px));height:min(860px,calc(100dvh - 48px));max-height:none;padding:0;display:flex;flex-direction:column;overflow:hidden}
+.support-head{position:relative;flex-shrink:0;display:flex;align-items:center;gap:12px;padding:16px 80px 14px 24px;border-bottom:1px solid var(--line)}
+.support-head .support-icon{width:40px;height:40px;flex-shrink:0;display:grid;place-items:center;border-radius:12px;color:#fff;background:linear-gradient(135deg,#4dccff,var(--deep))}
+.support-head .eyebrow{margin:0 0 3px}
+.support-head h3{margin:0;font-size:19px}
+.support-head .close{top:50%;transform:translateY(-50%)}
+.support-body{position:relative;flex:1;min-height:0;background:var(--soft)}
+.support-body iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:transparent}
+.support-loader{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--muted);font-size:13px;font-weight:700}
+.support-loader span{width:38px;height:38px;border-radius:50%;border:3px solid rgba(41,182,246,.2);border-top-color:var(--accent);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ==========================================
+   2 y 3. MODAL "CREA TU COMERCIO" MÁS ANCHO
+   ========================================== */
+#createModal{padding:32px}
+.modal.wide{width:min(880px,100%);max-height:calc(100vh - 64px);max-height:calc(100dvh - 64px);padding:34px 40px 28px}
+.modal.wide .intro{margin:10px 50px 22px 0;max-width:640px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.form-col{display:flex;flex-direction:column;gap:17px;min-width:0}
+form label.logo-field{height:100%}
+.logo-field .upload{flex:1;display:flex;align-items:center;justify-content:center}
+.form-actions{display:flex;flex-direction:column;gap:12px}
+
+/* ==========================================
+   4 y 5. SLIDER DE COMERCIOS 1A
+   ========================================== */
+.shops-panel{position:relative;max-width:760px;padding:18px 22px 22px;border:1px solid var(--line);border-radius:26px;background:linear-gradient(145deg,rgba(41,182,246,.11),rgba(41,182,246,.03));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 50px rgba(8,60,110,.12),inset 0 1px 0 rgba(255,255,255,.06)}
+:root[data-theme=light] .shops-panel{background:linear-gradient(145deg,rgba(255,255,255,.75),rgba(228,243,255,.5))}
+.shops-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.shops-total{font-size:13px;color:var(--muted);display:inline-flex;align-items:center;gap:8px}
+.shops-total b{color:var(--text)}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#2ee59d;box-shadow:0 0 0 0 rgba(46,229,157,.6);animation:live 1.8s infinite}
+@keyframes live{70%{box-shadow:0 0 0 8px rgba(46,229,157,0)}100%{box-shadow:0 0 0 0 rgba(46,229,157,0)}}
+.shops-tools{display:flex;align-items:center;gap:10px}
+.swipe-hint{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--accent);padding:6px 12px;border-radius:30px;background:rgba(41,182,246,.12);border:1px solid rgba(41,182,246,.22);white-space:nowrap}
+.swipe-track{position:relative;width:24px;height:6px;border-radius:6px;background:rgba(41,182,246,.25);overflow:hidden}
+.swipe-track::after{content:"";position:absolute;top:0;left:0;width:8px;height:6px;border-radius:6px;background:var(--accent);animation:swipe 1.6s ease-in-out infinite}
+@keyframes swipe{0%{transform:translateX(0)}60%,100%{transform:translateX(16px)}}
+.swipe-arrows{display:inline-flex}
+.swipe-arrows i{font-style:normal;font-size:15px;line-height:1;margin-left:-2px;opacity:.25;animation:arrowBlink 1.2s infinite}
+.swipe-arrows i:nth-child(2){animation-delay:.2s}
+.swipe-arrows i:nth-child(3){animation-delay:.4s}
+@keyframes arrowBlink{0%,100%{opacity:.25}50%{opacity:1}}
+.shops-nav{display:flex;gap:6px}
+.shops-nav button{width:32px;height:32px;display:grid;place-items:center;padding:0 0 2px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--text);cursor:pointer;font-size:20px;line-height:1;transition:.2s}
+.shops-nav button:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.shops-panel.grid-panel{max-width:580px}
+.shops{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;padding:8px 2px 4px;touch-action:pan-y}
+.shops .shop:nth-child(n+5){display:none}
+.shops.ready .shop{animation:none}
+.shops.ready .shop.enter{animation:up .6s ease}
+.shops .shop img{border-radius:20px}
+.shops .shop h3{margin:12px 0 3px;font-size:16px}
+.shops .shop p{font-size:12px}
+.shops-progress{position:absolute;left:22px;right:22px;bottom:10px;height:2px;border-radius:2px;background:rgba(41,182,246,.12);overflow:hidden}
+.shops-progress i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#4dccff,var(--deep));transform-origin:left;animation:progress 4s linear infinite}
+@keyframes progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+/* ==========================================
+   6. CATEGORÍAS EN 2 COLUMNAS CON ROTACIÓN
+   ========================================== */
+.category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:760px}
+.category-grid .category{height:165px;border-radius:20px}
+.category>img.swap{opacity:0;transform:scale(1.08)}
+.category-grid .category-label{left:16px;bottom:14px;right:16px}
+.category-grid .category-label strong{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.category-grid .category-label small{font-size:12px}
+.category-grid .category i{right:13px;top:13px;width:30px;height:30px;font-style:normal}
+.cat-dots{position:absolute;left:16px;top:15px;display:flex;gap:4px}
+.cat-dots b{width:6px;height:6px;border-radius:6px;background:rgba(255,255,255,.45);transition:.35s}
+.cat-dots b.on{width:16px;background:var(--accent)}
+a.category-shop{transition:.2s;border-radius:12px}
+a.category-shop:hover{background:var(--soft);padding-left:8px}
+
+@media(max-width:760px){
+  .settings-top{width:42px}
+  #supportModal{padding:10px}
+  .modal.support{height:calc(100vh - 20px);height:calc(100dvh - 20px);border-radius:22px}
+  .support-head{padding:12px 64px 12px 16px}
+  .support-head .support-icon{display:none}
+  .support-head .close{right:14px}
+  #createModal{padding:16px}
+  .modal.wide{max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);padding:28px 20px 22px}
+  .form-grid{grid-template-columns:1fr;gap:17px}
+  .shops-panel{padding:14px 12px 20px;border-radius:22px}
+  .shops-progress{left:12px;right:12px;bottom:8px}
+  .shops-nav{display:none}
+  .swipe-hint{font-size:11px;padding:5px 10px}
+  .shops{gap:12px}
+  .shops .shop img{border-radius:15px}
+  .shops .shop h3{font-size:13px;margin-top:9px}
+  .shops .shop p{font-size:11px}
+  .category-grid{gap:10px}
+  .category-grid .category{height:135px;border-radius:17px}
+  .category-grid .category-label{left:12px;bottom:11px;right:12px}
+  .category-grid .category-label strong{font-size:13px}
+  .category-grid .category-label small{font-size:11px}
+  .category-grid .category i{width:26px;height:26px;right:10px;top:10px}
+  .cat-dots{left:12px;top:12px}
+}
+
 /* ==========================================
    ESTILOS Y ANIMACIONES PARA EL BANNER PWA
    ========================================== */
@@ -202,7 +312,7 @@
   </div>
 </div>  
 <main class="app">
-<header class="topbar"><a class="brand" href="#inicio"><img id="brandLogo" src="https://i.imgur.com/HuC4TzS.gif" alt="Madelena"><span class="brand-copy"><small>Tu barrio, mas cerca</small></span></a><div class="actions"><button class="theme" id="themeBtn" aria-label="Cambiar tema"><span id="sun" data-icon="sun"></span><span id="moon" data-icon="moon"></span></button><button class="primary create-top" data-open-create><span data-icon="plus"></span>Crear comercio</button></div></header>
+<header class="topbar"><a class="brand" href="#inicio"><img id="brandLogo" src="https://i.imgur.com/HuC4TzS.gif" alt="Madelena"><span class="brand-copy"><small>Tu barrio, mas cerca</small></span></a><div class="actions"><button class="theme" id="themeBtn" aria-label="Cambiar tema"><span id="sun" data-icon="sun"></span><span id="moon" data-icon="moon"></span></button><button class="primary create-top" data-open-create><span data-icon="plus"></span>Crear comercio</button><button class="primary settings-top" id="settingsBtn" type="button" aria-label="Soporte y configuración" title="Soporte y configuración"><span data-icon="gear"></span></button></div></header>
 <section class="hero" id="inicio">
   <div class="slides" id="slidesContainer">
     <div class="shade"></div>
@@ -222,8 +332,8 @@
 </section>
 <section class="content"><div class="heading"><div><p class="eyebrow">Directorio local</p><h2>Comercios 1A</h2></div></div><label class="search"><span data-icon="search"></span><input id="search" placeholder="Buscar por comercio o categoria"></label><div id="shopContent"></div></section>
 <section class="content categories"><div class="heading"><div><p class="eyebrow">Explora a tu manera</p><h2>Categorias</h2></div><span class="count" id="categoryCount"></span></div><div id="categoryContent"></div></section><footer><p>Hecho para impulsar el comercio local.</p></footer></main>
-<div class="backdrop hidden" id="createModal"><section class="modal"><button class="close" data-close><span data-icon="close"></span></button><p class="eyebrow">Unete al directorio</p><h2>Crea tu comercio</h2><p class="intro">¡Tu tienda estará en Comercios 1A!
-Solicita tu PIN para gestionar tu página, subir tus productos y servicios, y conectar con millones de clientes.</p><form id="shopForm"><label>Nombre del comercio<input id="shopName" maxlength="60" required></label><label>Categoría
+<div class="backdrop hidden" id="createModal"><section class="modal wide"><button class="close" data-close><span data-icon="close"></span></button><p class="eyebrow">Unete al directorio</p><h2>Crea tu comercio</h2><p class="intro">¡Tu tienda estará en Comercios 1A!
+Solicita tu PIN para gestionar tu página, subir tus productos y servicios, y conectar con millones de clientes.</p><form id="shopForm"><div class="form-grid"><div class="form-col"><label>Nombre del comercio<input id="shopName" maxlength="60" required></label><label>Categoría
   <select id="shopCategory" class="form-control" required>
     <option value="" disabled selected>Selecciona una categoría...</option>
 
@@ -322,10 +432,12 @@ Solicita tu PIN para gestionar tu página, subir tus productos y servicios, y co
         <option value="Logística y Transporte">Logística y Transporte</option>
     </optgroup>
   </select>
-</label><label>Logo de tu tienda<button class="upload" type="button" id="uploadBtn"><span id="uploadPrompt"><b data-icon="upload"></b><strong>Sube una imagen</strong><small>PNG, JPG, GIF o WEBP, maximo 3 MB</small></span><img id="preview" class="hidden" alt="Vista previa"></button><input class="file" id="fileInput" type="file" accept="image/*"></label><p class="error hidden" id="formError">Revisa los campos y la imagen.</p><button class="primary submit">Publicar comercio</button><small class="storage">Guardado permanente en este navegador</small></form></section></div>
-<div class="backdrop hidden" id="categoryModal"><section class="modal small"><button class="close" data-close><span data-icon="close"></span></button><p class="eyebrow">Categoria</p><h2 id="categoryTitle"></h2><div class="category-shops" id="categoryShops"></div></section></div><div class="toast hidden" id="toast"></div>
+</label></div><div class="form-col"><label class="logo-field">Logo de tu tienda<button class="upload" type="button" id="uploadBtn"><span id="uploadPrompt"><b data-icon="upload"></b><strong>Sube una imagen</strong><small>PNG, JPG, GIF o WEBP, maximo 3 MB</small></span><img id="preview" class="hidden" alt="Vista previa"></button><input class="file" id="fileInput" type="file" accept="image/*"></label></div></div><p class="error hidden" id="formError">Revisa los campos y la imagen.</p><p class="error hidden" id="pinError">Escribe el nombre del comercio y selecciona una categoría para solicitar tu PIN.</p><div class="form-actions"><button class="primary submit" type="button" id="pinBtn">Solicitar PIN</button><button class="primary submit">Publicar comercio</button></div><small class="storage">Guardado permanente en este navegador</small></form></section></div>
+<div class="backdrop hidden" id="categoryModal"><section class="modal small"><button class="close" data-close><span data-icon="close"></span></button><p class="eyebrow">Categoria</p><h2 id="categoryTitle"></h2><div class="category-shops" id="categoryShops"></div></section></div>
+<div class="backdrop hidden" id="supportModal"><section class="modal support"><div class="support-head"><span class="support-icon" data-icon="gear"></span><div><p class="eyebrow">Centro de ayuda</p><h3>Soporte Sofy</h3></div><button class="close" data-close><span data-icon="close"></span></button></div><div class="support-body"><div class="support-loader" id="supportLoader"><span></span>Cargando soporte...</div><iframe id="supportFrame" title="Soporte Sofy" allow="clipboard-write; fullscreen"></iframe></div></section></div>
+<div class="toast hidden" id="toast"></div>
 <script>
-const icons={store:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10v10h16V10M3 4h18l-2 6H5L3 4Z"/><path d="M9 20v-6h6v6"/></svg>',sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>',moon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.5 14.1A8.4 8.4 0 019.9 3.5 8.5 8.5 0 1020.5 14.1Z"/></svg>',plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>',search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>',upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4M7 9l5-5 5 5M5 15v4h14v-4"/></svg>',close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 6 12 12M18 6 6 18"/></svg>'};
+const icons={store:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10v10h16V10M3 4h18l-2 6H5L3 4Z"/><path d="M9 20v-6h6v6"/></svg>',sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>',moon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.5 14.1A8.4 8.4 0 019.9 3.5 8.5 8.5 0 1020.5 14.1Z"/></svg>',plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>',search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>',upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4M7 9l5-5 5 5M5 15v4h14v-4"/></svg>',close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 6 12 12M18 6 6 18"/></svg>',gear:'<svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>'};
 document.querySelectorAll('[data-icon]').forEach(e=>e.innerHTML=icons[e.dataset.icon]||'');
 const $=id=>document.getElementById(id);
 
@@ -422,12 +534,19 @@ async function fetchShops(){
 
 function render(){
   let q=$('search').value.toLowerCase(),list=shops.filter(s=>(s.name+s.category).toLowerCase().includes(q));
-  $('shopContent').innerHTML=!shops.length?'<div class="empty"><span class="empty-icon">'+icons.store+'</span><h3>Tu directorio comienza aqui</h3><p>Aun no hay comercios. Crea el primero y aparecera automaticamente.</p><button class="primary" data-open-create>'+icons.plus+'Crear primer comercio</button></div>':!list.length?'<p class="no-results">No encontramos comercios.</p>':'<div class="shops">'+list.map(s=>'<a href="negocio.html?id='+s.business_id+'" target="_blank" class="shop"><img src="'+s.logo+'"><h3>'+esc(s.name)+'</h3><p>'+esc(s.category)+'</p></a>').join('')+'</div>';
+  let more=list.length>4;
+  $('shopContent').innerHTML=!shops.length?'<div class="empty"><span class="empty-icon">'+icons.store+'</span><h3>Tu directorio comienza aqui</h3><p>Aun no hay comercios. Crea el primero y aparecera automaticamente.</p><button class="primary" data-open-create>'+icons.plus+'Crear primer comercio</button></div>':!list.length?'<p class="no-results">No encontramos comercios.</p>':
+    '<div class="shops-panel grid-panel"><div class="shops-head"><span class="shops-total"><span class="live-dot"></span><b>'+list.length+'</b> '+(list.length===1?'comercio':'comercios')+'</span>'+
+    (more?'<div class="shops-tools"><span class="swipe-hint"><span class="swipe-track"></span>Desliza para ver más<span class="swipe-arrows"><i>&#8250;</i><i>&#8250;</i><i>&#8250;</i></span></span><div class="shops-nav"><button type="button" data-shops-prev aria-label="Anterior">&#8249;</button><button type="button" data-shops-next aria-label="Siguiente">&#8250;</button></div></div>':'')+
+    '</div><div class="shops" id="shopsTrack">'+list.map(s=>'<a href="negocio.html?id='+s.business_id+'" target="_blank" class="shop"><img src="'+s.logo+'"><h3>'+esc(s.name)+'</h3><p>'+esc(s.category)+'</p></a>').join('')+'</div>'+
+    (list.length>1?'<div class="shops-progress"><i></i></div>':'')+'</div>';
   let g={};shops.forEach(s=>(g[s.category]||(g[s.category]=[])).push(s));
   let entries=Object.entries(g);
   $('categoryCount').textContent=entries.length?entries.length+' disponibles':'';
-  $('categoryContent').innerHTML=!entries.length?'<div class="category-empty"><p>Las categorias apareceran aqui cuando registres comercios.</p></div>':'<div class="category-grid">'+entries.map(([c,a])=>'<button class="category" data-category="'+esc(c)+'"><img src="'+a[0].logo+'"><span class="category-shade"></span><span class="category-label"><strong>'+esc(c)+'</strong><small>'+a.length+' comercios</small></span><i>&#8599;</i></button>').join('')+'</div>';
+  $('categoryContent').innerHTML=!entries.length?'<div class="category-empty"><p>Las categorias apareceran aqui cuando registres comercios.</p></div>':'<div class="category-grid" id="categoryGrid">'+entries.map(([c,a])=>'<button class="category" data-category="'+esc(c)+'" data-idx="0"><img src="'+a[0].logo+'"><span class="category-shade"></span>'+(a.length>1?'<span class="cat-dots">'+a.map((x,n)=>'<b'+(n===0?' class="on"':'')+'></b>').join('')+'</span>':'')+'<span class="category-label"><strong>'+esc(c)+'</strong><small>'+a.length+' comercios</small></span><i>&#8599;</i></button>').join('')+'</div>';
   bind();
+  bindShopsSlider();
+  restartShopsProgress();
 }
 
 function bind(){
@@ -442,15 +561,150 @@ function bind(){
   function open(id){$(id).classList.remove('hidden')}
 function close(){document.querySelectorAll('.backdrop').forEach(m=>m.classList.add('hidden'))}
 
-function bind(){
-  document.querySelectorAll('[data-open-create]').forEach(b=>b.onclick=()=>open('createModal'));
-  document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>{
-    let c=b.dataset.category;
-    $('categoryTitle').textContent=c;
-    $('categoryShops').innerHTML=shops.filter(s=>s.category===c).map(s=>'<div class="category-shop"><img src="'+s.logo+'"><span><strong>'+esc(s.name)+'</strong><small>'+esc(c)+'</small></span></div>').join('');
-    open('categoryModal')
+/* ====== Slider de Comercios 1A: navegación, pausa y rotación animada ====== */
+let shopsPausedUntil=0;
+function bindShopsSlider(){
+  const t=$('shopsTrack');
+  if(!t)return;
+  setTimeout(()=>t.classList.add('ready'),650);
+  const pause=()=>{shopsPausedUntil=Date.now()+6000};
+  const prev=document.querySelector('[data-shops-prev]'),next=document.querySelector('[data-shops-next]');
+  if(prev)prev.onclick=()=>{pause();rotateShops(t,-1);restartShopsProgress()};
+  if(next)next.onclick=()=>{pause();rotateShops(t,1);restartShopsProgress()};
+  // Deslizar con el dedo para ver más comercios
+  let sx=null,sy=null;
+  t.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+  t.addEventListener('touchend',e=>{
+    if(sx===null)return;
+    const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+    sx=sy=null;
+    if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){pause();rotateShops(t,dx<0?1:-1);restartShopsProgress()}
+  },{passive:true});
+}
+
+// Cuadrícula 2x2: rota las posiciones entre TODOS los comercios (visibles y ocultos)
+function rotateShops(t,dir){
+  const items=[...t.children];
+  if(items.length<2)return;
+  const first=items.map(el=>el.getBoundingClientRect());
+  if(dir<0)t.insertBefore(items[items.length-1],items[0]);else t.appendChild(items[0]);
+  items.forEach((el,i)=>{
+    const last=el.getBoundingClientRect();
+    el.classList.remove('enter');
+    el.style.transition='none';
+    el.style.transform='';
+    if(!last.width)return;
+    if(!first[i].width){el.offsetWidth;el.classList.add('enter');return}
+    el.style.transform='translate('+(first[i].left-last.left)+'px,'+(first[i].top-last.top)+'px)';
+  });
+  t.offsetWidth;
+  items.forEach(el=>{
+    el.style.transition='transform .75s cubic-bezier(.2,.8,.2,1)';
+    el.style.transform='';
+  });
+  setTimeout(()=>items.forEach(el=>{el.style.transition=''}),800);
+}
+function restartShopsProgress(){
+  const bar=document.querySelector('.shops-progress i');
+  if(!bar)return;
+  bar.style.animation='none';bar.offsetWidth;bar.style.animation='';
+}
+
+// Rota la primera tarjeta al final con animación FLIP (las demás se deslizan a su nueva posición)
+function flipRotate(container){
+  const items=[...container.children];
+  if(items.length<2)return;
+  const first=items.map(el=>el.getBoundingClientRect());
+  const moved=items[0];
+  container.appendChild(moved);
+  items.forEach((el,i)=>{
+    const last=el.getBoundingClientRect();
+    el.style.transition='none';
+    if(el===moved){
+      el.style.opacity='0';
+      el.style.transform='scale(.85)';
+    }else{
+      el.style.transform='translate('+(first[i].left-last.left)+'px,'+(first[i].top-last.top)+'px)';
+    }
+  });
+  container.offsetWidth;
+  items.forEach(el=>{
+    el.style.transition='transform .75s cubic-bezier(.2,.8,.2,1), opacity .75s ease';
+    el.style.transform='';
+    el.style.opacity='';
+  });
+  setTimeout(()=>items.forEach(el=>{el.style.transition=''}),800);
+}
+
+setInterval(()=>{
+  if(document.hidden)return;
+  const t=$('shopsTrack');
+  if(!t)return;
+  if(Date.now()<shopsPausedUntil){restartShopsProgress();return}
+  rotateShops(t,1);
+  restartShopsProgress();
+},4000);
+
+/* ====== Categorías: rotación de posición e imagen cada 4 segundos ====== */
+function rotateCategoryImages(){
+  document.querySelectorAll('[data-category]').forEach(b=>{
+    const list=shops.filter(s=>s.category===b.dataset.category);
+    if(list.length<2)return;
+    const img=b.querySelector('img');
+    const i=((+b.dataset.idx||0)+1)%list.length;
+    b.dataset.idx=i;
+    const pre=new Image();
+    pre.onload=pre.onerror=()=>{
+      img.classList.add('swap');
+      setTimeout(()=>{
+        img.src=list[i].logo;
+        img.classList.remove('swap');
+        b.querySelectorAll('.cat-dots b').forEach((d,n)=>d.classList.toggle('on',n===i));
+      },450);
+    };
+    pre.src=list[i].logo;
   });
 }
+setTimeout(()=>{
+  setInterval(()=>{
+    if(document.hidden)return;
+    const g=$('categoryGrid');
+    if(!g)return;
+    flipRotate(g);
+    rotateCategoryImages();
+  },4000);
+},2000);
+
+/* ====== Botón engrane: modal de soporte embebido ====== */
+$('settingsBtn').onclick=()=>{
+  const f=$('supportFrame');
+  if(!f.getAttribute('src')){
+    f.onload=()=>$('supportLoader').classList.add('hidden');
+    f.src='https://cazcadena-cmd.github.io/soporte-sofy/';
+  }
+  open('supportModal');
+};
+
+/* ====== Botón Solicitar PIN por WhatsApp ====== */
+$('pinBtn').onclick=()=>{
+  let name=$('shopName').value.trim(),category=$('shopCategory').value;
+  if(!name||!category){$('pinError').classList.remove('hidden');return}
+  $('pinError').classList.add('hidden');
+  const msg='*SOLICITUD DE PIN - APP SOFY*\n\n'+
+    '*1. Nombre del comercio:* '+name+'\n'+
+    '*2. Categoría:* '+category+'\n\n'+
+    '*Mensaje:*\n'+
+    'Publiqué mi comercio en la *App Sofy* y quiero solicitar mi *PIN* para administrar mi negocio.';
+  const link=document.createElement('a');
+  link.href='https://wa.me/573123127181?text='+encodeURIComponent(msg);
+  link.target='_blank';
+  link.rel='noopener';
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+};
+$('shopName').addEventListener('input',()=>$('pinError').classList.add('hidden'));
+$('shopCategory').addEventListener('change',()=>$('pinError').classList.add('hidden'));
 
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=close);
 document.querySelectorAll('.backdrop').forEach(m=>m.onclick=e=>{if(e.target===m)close()});
