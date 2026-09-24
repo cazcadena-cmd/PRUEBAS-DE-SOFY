@@ -2,6 +2,7 @@
 <html lang="es" data-theme="dark">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#087fd1"><title>Madelena | Comercio local</title>
+<link rel="manifest" href="./manifest.json">
 <style>
 :root{color-scheme:light;--bg:#f2f9ff;--surface:#fff;--soft:#e4f3ff;--text:#10243a;--muted:#61778c;--line:rgba(20,103,158,.14);--accent:#29b6f6;--deep:#087fd1;--shadow:0 24px 70px rgba(21,112,174,.15)}:root[data-theme=dark]{color-scheme:dark;--bg:#06111d;--surface:#0d1d2d;--soft:#132a3d;--text:#f3faff;--muted:#91aabe;--line:rgba(126,211,255,.13);--shadow:0 26px 80px rgba(0,8,18,.46)}*{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--bg)}body{margin:0;min-width:320px;background:var(--bg);color:var(--text);font-family:Arial,"Segoe UI",sans-serif;transition:.3s}button,input,select{font:inherit}button{color:inherit}a{text-decoration:none;color:inherit}svg{width:20px;height:20px}.hidden{display:none!important}.app{min-height:100vh;overflow:hidden;background:radial-gradient(circle at 75% 6%,rgba(41,182,246,.14),transparent 28%),var(--bg)}
 .topbar{width:min(1160px,calc(100% - 40px));height:92px;margin:auto;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:20}.brand,.actions{display:flex;align-items:center}.brand{gap:12px;margin-left:30px}.brand-mark{width:42px;height:42px;display:grid;place-items:center;color:#fff;border-radius:13px;background:linear-gradient(145deg,#55ceff,#087fd1);box-shadow:0 9px 22px rgba(8,127,209,.28);transform:rotate(-3deg)}.brand-copy{display:flex;flex-direction:column}.brand small{color:var(--muted);font-size:10px}.brand img{max-height:104px;width:auto;display:block}.actions{gap:12px}.theme{border:1px solid var(--line);background:var(--surface);padding:4px;display:flex;border-radius:30px;cursor:pointer}.theme span{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}.theme span.active{color:#fff;background:var(--accent)}.theme svg{width:16px}.primary{min-height:46px;border:0;padding:0 21px;border-radius:14px;background:linear-gradient(135deg,#4dccff,var(--deep));color:#fff;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;box-shadow:0 12px 26px rgba(8,127,209,.25);transition:.2s}.primary:hover{transform:translateY(-2px)}
@@ -273,4 +274,19 @@ $('shopForm').onsubmit=async e=>{
 
 bind();
 fetchShops();
-</script></body></html>
+</script>
+<!-- Registro del Service Worker para PWA -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then((registration) => {
+          console.log('Service Worker registrado con éxito:', registration.scope);
+        })
+        .catch((error) => {
+          console.error('Error al registrar el Service Worker:', error);
+        });
+    });
+  }
+</script>
+</body></html>
