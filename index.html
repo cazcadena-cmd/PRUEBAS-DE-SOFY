@@ -54,9 +54,154 @@
 .categories{padding-top:110px;padding-bottom:100px}.count{color:var(--muted);font-size:14px}.category-empty{min-height:220px;display:grid;place-items:center;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:24px}.category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}.category{height:255px;padding:0;border:0;border-radius:22px;overflow:hidden;position:relative;text-align:left;color:#fff;cursor:pointer;background:var(--soft)}.category>img,.category-shade{position:absolute;inset:0;width:100%;height:100%}.category>img{object-fit:cover;transition:.55s}.category:hover>img{transform:scale(1.07)}.category-shade{background:linear-gradient(0deg,rgba(3,20,35,.9),transparent 80%)}.category-label{position:absolute;left:20px;bottom:19px;display:flex;flex-direction:column}.category-label strong{font-size:18px}.category-label small{color:#c6eafa;margin-top:3px}.category i{position:absolute;right:17px;top:17px;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:rgba(4,34,55,.6)}footer{min-height:150px;border-top:1px solid var(--line);width:min(1160px,calc(100% - 40px));margin:auto;display:flex;align-items:center;justify-content:space-between;color:var(--muted)}footer span{font-weight:800;color:var(--text);letter-spacing:.14em}
 .backdrop{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(2,14,26,.72);backdrop-filter:blur(14px);animation:fade .22s}.modal{width:min(550px,100%);max-height:calc(100vh - 40px);overflow:auto;position:relative;border:1px solid var(--line);border-radius:28px;background:var(--surface);padding:36px;box-shadow:0 35px 100px #0007;animation:pop .35s}.modal.small{width:min(440px,100%)}.close{position:absolute;top:22px;right:22px;width:38px;height:38px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line);background:var(--soft);cursor:pointer}.intro{color:var(--muted);line-height:1.55;margin:13px 50px 26px 0}form,form label{display:flex;flex-direction:column}form{gap:17px}form label{gap:8px;font-size:13px;font-weight:700}form input,form select{width:100%;height:50px;border:1px solid var(--line);border-radius:13px;padding:0 14px;outline:0;background:var(--soft);color:var(--text)}.upload{width:100%;min-height:130px;border:1.5px dashed rgba(41,182,246,.55);border-radius:16px;color:var(--text);background:rgba(41,182,246,.07);cursor:pointer;overflow:hidden}.upload span{display:flex;flex-direction:column;align-items:center;gap:4px}.upload small,.storage{color:var(--muted);font-weight:400}.upload img{width:100%;height:145px;object-fit:contain}.file{position:absolute;width:1px;height:1px;opacity:0}.error{color:#ff5e76;font-size:12px}.submit{width:100%}.storage{text-align:center;font-size:10px}.list{border-top:1px solid var(--line);margin-top:25px}.list a{min-height:55px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);font-weight:600;cursor:pointer}.category-shops{display:flex;flex-direction:column;gap:10px;margin-top:22px}.category-shop{display:flex;align-items:center;gap:13px;border-bottom:1px solid var(--line);padding-bottom:10px}.category-shop img{width:54px;height:54px;object-fit:cover;border-radius:14px}.category-shop span{display:flex;flex-direction:column}.category-shop small{color:var(--muted)}.toast{position:fixed;z-index:200;left:50%;bottom:24px;transform:translateX(-50%);background:var(--surface);border:1px solid var(--line);padding:13px 20px;border-radius:14px;box-shadow:var(--shadow);font-weight:700}
 @keyframes up{from{opacity:0;transform:translateY(18px)}}@keyframes fade{from{opacity:0}}@keyframes pop{from{opacity:0;transform:translateY(20px) scale(.97)}}@media(max-width:760px){.topbar{width:calc(100% - 28px);height:78px}.brand small{display:none}.create-top{width:42px;padding:0;font-size:0}.hero{min-height:300px;height:360px}.hero-copy{width:calc(100% - 38px);justify-content:flex-end;padding-bottom:50px}.hero h1{font-size:clamp(28px, 8vw, 40px)}.shade{background:linear-gradient(0deg,rgba(2,16,29,.95),rgba(3,27,47,.45) 63%,transparent)}.slider-controls{width:calc(100% - 38px);bottom:10px}.content{width:calc(100% - 32px);padding-top:20px}.heading{align-items:center}.heading h2{font-size:33px}.shops{grid-template-columns:repeat(2,1fr);gap:22px 14px}.category-grid{grid-template-columns:1fr}.category{height:220px}footer{width:calc(100% - 32px);flex-direction:column;justify-content:center}.modal{padding:30px 22px 24px}}
+/* ==========================================
+   ESTILOS Y ANIMACIONES PARA EL BANNER PWA
+   ========================================== */
+.pwa-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  background: var(--surface, #0d1d2d);
+  border-bottom: 2px solid var(--accent, #29b6f6);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  animation: slideDown 0.5s ease-out forwards;
+}
+
+.pwa-banner.hidden {
+  display: none !important;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.pwa-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.pwa-icon img {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+}
+
+.pwa-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.pwa-info strong {
+  font-size: 14px;
+  color: var(--text, #f3faff);
+  line-height: 1.2;
+}
+
+.pwa-info span {
+  font-size: 11px;
+  color: var(--muted, #91aabe);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pwa-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Botón con animación Ring-Ring */
+.pwa-btn-ring {
+  background: linear-gradient(135deg, #134989, #087fd1);
+  color: #ffffff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(8, 127, 209, 0.4);
+  animation: ringRing 2s infinite ease-in-out;
+}
+
+.pwa-btn-ring svg {
+  width: 16px;
+  height: 16px;
+}
+
+@keyframes ringRing {
+  0% { transform: scale(1) rotate(0deg); }
+  10% { transform: scale(1.08) rotate(12deg); }
+  15% { transform: scale(1.08) rotate(-12deg); }
+  20% { transform: scale(1.08) rotate(12deg); }
+  25% { transform: scale(1.08) rotate(-12deg); }
+  30% { transform: scale(1) rotate(0deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+.pwa-close {
+  background: transparent;
+  border: none;
+  color: var(--muted, #91aabe);
+  font-size: 22px;
+  cursor: pointer;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+.pwa-close:hover {
+  color: var(--text, #ffffff);
+}  
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-</head><body><main class="app">
+</head><body>
+<!-- Alerta personalizada de instalación PWA -->
+<div id="pwaInstallBanner" class="pwa-banner hidden">
+  <div class="pwa-content">
+    <div class="pwa-icon">
+      <img src="https://i.imgur.com/HuC4TzS.gif" alt="App Logo">
+    </div>
+    <div class="pwa-info">
+      <strong>Instala nuestra App</strong>
+      <span id="pwaText">Disfruta de una mejor experiencia en tu dispositivo.</span>
+    </div>
+  </div>
+  <div class="pwa-actions">
+    <button id="pwaInstallBtn" class="pwa-btn-ring">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Instalar
+    </button>
+    <button id="pwaCloseBtn" class="pwa-close" aria-label="Cerrar">&times;</button>
+  </div>
+</div>  
+<main class="app">
 <header class="topbar"><a class="brand" href="#inicio"><img id="brandLogo" src="https://i.imgur.com/HuC4TzS.gif" alt="Madelena"><span class="brand-copy"><small>Tu barrio, mas cerca</small></span></a><div class="actions"><button class="theme" id="themeBtn" aria-label="Cambiar tema"><span id="sun" data-icon="sun"></span><span id="moon" data-icon="moon"></span></button><button class="primary create-top" data-open-create><span data-icon="plus"></span>Crear comercio</button></div></header>
 <section class="hero" id="inicio"><div class="slides"><a class="slide active"><video src="https://i.imgur.com/pwQfKed.mp4" muted playsinline></video></a><a class="slide"><video src="https://i.imgur.com/3qCYHGH.mp4" muted playsinline></video></a><a class="slide"><video src="https://i.imgur.com/eV60uhx.mp4" muted playsinline></video></a><a class="slide"><video src="https://i.imgur.com/njGGliA.mp4" muted playsinline></video></a><a class="slide"><video src="https://i.imgur.com/hlx82zq.mp4" muted playsinline></video></a><div class="shade"></div><div class="slider-controls"><div class="dots" id="dots"></div><div class="arrows"><button type="button" id="prev">&#8249;</button><button type="button" id="next">&#8250;</button></div></div></div><div class="hero-copy"><p class="eyebrow">Descubre lo que tienes cerca</p><h1>Lo mejor de <span>RD</span></h1><p>Comercios locales, sabores y servicios que hacen grande a nuestro país.</p></div></section>
 <section class="content"><div class="heading"><div><p class="eyebrow">Directorio local</p><h2>Comercios 1A</h2></div></div><label class="search"><span data-icon="search"></span><input id="search" placeholder="Buscar por comercio o categoria"></label><div id="shopContent"></div></section>
@@ -289,4 +434,63 @@ fetchShops();
     });
   }
 </script>
+<!-- Lógica de instalación PWA (Android e iPhone) -->
+<script>
+  let deferredPrompt = null;
+
+  const pwaBanner = document.getElementById('pwaInstallBanner');
+  const pwaInstallBtn = document.getElementById('pwaInstallBtn');
+  const pwaCloseBtn = document.getElementById('pwaCloseBtn');
+  const pwaText = document.getElementById('pwaText');
+
+  // Detectar si la App ya está instalada en el dispositivo
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+  // Detectar si el usuario está en un iPhone / iPad
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  if (!isStandalone) {
+    // 1. CAPTURA EN ANDROID / CHROME (Permite instalar con un clic)
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (pwaText) pwaText.textContent = "Acceso rápido y funciona sin internet";
+      if (pwaBanner) pwaBanner.classList.remove('hidden');
+    });
+
+    // 2. DETECCIÓN EN IPHONE / SAFARI
+    if (isIOS) {
+      if (pwaText) pwaText.textContent = "Toca instalar para ver cómo agregar a tu inicio";
+      if (pwaBanner) pwaBanner.classList.remove('hidden');
+    }
+  }
+
+  // ACCIÓN DEL BOTÓN INSTALAR
+  if (pwaInstallBtn) {
+    pwaInstallBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        // Ejecución en Android: Abre el diálogo nativo de instalación
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          if (pwaBanner) pwaBanner.classList.add('hidden');
+        }
+        deferredPrompt = null;
+      } else if (isIOS) {
+        // Ejecución en iPhone: Muestra las instrucciones integradas
+        alert("Para instalar en tu iPhone:\n1. Toca el botón 'Compartir' (el ícono del cuadrado con la flecha hacia arriba) en Safari.\n2. Desplázate y selecciona 'Agregar al inicio' ➕.");
+      } else {
+        // Navegador de escritorio u otros dispositivos
+        alert("Para instalar la aplicación, busca la opción 'Instalar' o 'Agregar a la pantalla de inicio' en el menú de tu navegador.");
+      }
+    });
+  }
+
+  // CERRAR EL BANNER SI EL USUARIO LO DESCARTA
+  if (pwaCloseBtn) {
+    pwaCloseBtn.addEventListener('click', () => {
+      if (pwaBanner) pwaBanner.classList.add('hidden');
+    });
+  }
+</script>  
 </body></html>
