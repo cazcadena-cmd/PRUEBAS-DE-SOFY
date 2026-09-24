@@ -127,6 +127,7 @@
       width: 100%; padding: 14px; background-color: var(--primary); color: #ffffff;
       text-decoration: none; font-weight: 600; border-radius: 12px; font-size: 1rem;
       margin-bottom: 14px;
+      animation: ringRing 2s infinite ease-in-out;
     }
     /* MOD 4: sociales pequeños solo icono en fila */
     .social-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 2px 0 22px 0; }
@@ -135,6 +136,16 @@
       display: none; align-items: center; justify-content: center;
       text-decoration: none; flex-shrink: 0;
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    @keyframes ringRing {
+      0% { transform: rotate(0deg) scale(1); }
+      10% { transform: rotate(10deg) scale(1.05); }
+      20% { transform: rotate(-10deg) scale(1.05); }
+      30% { transform: rotate(8deg) scale(1.05); }
+      40% { transform: rotate(-8deg) scale(1.05); }
+      50% { transform: rotate(4deg) scale(1.02); }
+      60% { transform: rotate(-4deg) scale(1.02); }
+      70%, 100% { transform: rotate(0deg) scale(1); }
     }
     .btn-social:hover { transform: translateY(-2px) scale(1.05); }
     .btn-social svg { display: block; }
@@ -241,7 +252,7 @@
       <div class="shop-body">
         <!-- MOD 3: Ver Menú / Catálogo ENCIMA de Sobre este comercio -->
         <a id="btnPublicCatalog" href="#" class="btn-catalog-view">
-          &#128214; Ver Menú / Catálogo
+          &#128214; Ver Productos Y Servicios...
         </a>
 
         <!-- MOD 4: Sociales pequeños, sin textos, solo iconos reales blancos, en fila debajo del catálogo -->
