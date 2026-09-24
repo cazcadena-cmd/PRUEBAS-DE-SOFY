@@ -60,10 +60,108 @@
 <section class="hero" id="inicio"><div class="slides"><a class="slide active"><video src="https://i.imgur.com/pwQfKed.mp4" muted playsinline></video></a><a class="slide"><video src="https://i.imgur.com/3qCYHGH.mp4" muted playsinline></video></a><a class="slide"><video src="https://i.imgur.com/eV60uhx.mp4" muted playsinline></video></a><a class="slide"><video src="https://i.imgur.com/njGGliA.mp4" muted playsinline></video></a><a class="slide"><video src="https://i.imgur.com/hlx82zq.mp4" muted playsinline></video></a><div class="shade"></div><div class="slider-controls"><div class="dots" id="dots"></div><div class="arrows"><button type="button" id="prev">&#8249;</button><button type="button" id="next">&#8250;</button></div></div></div><div class="hero-copy"><p class="eyebrow">Descubre lo que tienes cerca</p><h1>Lo mejor de <span>RD</span></h1><p>Comercios locales, sabores y servicios que hacen grande a nuestro país.</p></div></section>
 <section class="content"><div class="heading"><div><p class="eyebrow">Directorio local</p><h2>Comercios 1A</h2></div></div><label class="search"><span data-icon="search"></span><input id="search" placeholder="Buscar por comercio o categoria"></label><div id="shopContent"></div></section>
 <section class="content categories"><div class="heading"><div><p class="eyebrow">Explora a tu manera</p><h2>Categorias</h2></div><span class="count" id="categoryCount"></span></div><div id="categoryContent"></div></section><footer><p>Hecho para impulsar el comercio local.</p></footer></main>
-<div class="backdrop hidden" id="createModal"><section class="modal"><button class="close" data-close><span data-icon="close"></span></button><p class="eyebrow">Unete al directorio</p><h2>Crea tu comercio</h2><p class="intro">Tu tienda se publicara en Comercios 1A y en su categoria.</p><form id="shopForm"><label>Nombre del comercio<input id="shopName" maxlength="60" required></label><label>Categoria<select id="shopCategory" required><option value="" disabled selected>Selecciona una categoria</option></select></label><label>Logo de tu tienda<button class="upload" type="button" id="uploadBtn"><span id="uploadPrompt"><b data-icon="upload"></b><strong>Sube una imagen</strong><small>PNG, JPG, GIF o WEBP, maximo 3 MB</small></span><img id="preview" class="hidden" alt="Vista previa"></button><input class="file" id="fileInput" type="file" accept="image/*"></label><p class="error hidden" id="formError">Revisa los campos y la imagen.</p><button class="primary submit">Publicar comercio</button><small class="storage">Guardado permanente en este navegador</small></form></section></div>
+<div class="backdrop hidden" id="createModal"><section class="modal"><button class="close" data-close><span data-icon="close"></span></button><p class="eyebrow">Unete al directorio</p><h2>Crea tu comercio</h2><p class="intro">Tu tienda se publicara en Comercios 1A y en su categoria.</p><form id="shopForm"><label>Nombre del comercio<input id="shopName" maxlength="60" required></label><label>Categoría
+  <select id="shopCategory" class="form-control" required>
+    <option value="" disabled selected>Selecciona una categoría...</option>
+
+    <optgroup label="Alimentos, Bebidas y Proveeduría">
+        <option value="Restaurantes">Restaurantes</option>
+        <option value="Cafeterías">Cafeterías</option>
+        <option value="Panaderías y Pastelerías">Panaderías y Pastelerías</option>
+        <option value="Bares y Discotecas">Bares y Discotecas</option>
+        <option value="Supermercados y Minimercados">Supermercados y Minimercados</option>
+        <option value="Carnicerías">Carnicerías</option>
+        <option value="Salsamentarias">Salsamentarias</option>
+        <option value="Pescaderías">Pescaderías</option>
+        <option value="Dulcerías">Dulcerías</option>
+    </optgroup>
+
+    <optgroup label="Comercio y Retail">
+        <option value="Tiendas de ropa">Tiendas de ropa</option>
+        <option value="Zapaterías y Venta de Calzado">Zapaterías y Venta de Calzado</option>
+        <option value="Joyerías">Joyerías</option>
+        <option value="Tiendas de Maquillaje y Cosméticos">Tiendas de Maquillaje y Cosméticos</option>
+        <option value="Tiendas de Aseo">Tiendas de Aseo</option>
+        <option value="Librerías y Papelerías">Librerías y Papelerías</option>
+        <option value="Tecnología">Tecnología</option>
+        <option value="Comercio electrónico">Comercio electrónico</option>
+        <option value="Negocios de venta al detal">Negocios de venta al detal</option>
+    </optgroup>
+
+    <optgroup label="Salud, Estética y Bienestar">
+        <option value="Centros Médicos">Centros Médicos</option>
+        <option value="Centros Odontológicos">Centros Odontológicos</option>
+        <option value="Ópticas">Ópticas</option>
+        <option value="Farmacias">Farmacias</option>
+        <option value="Tiendas Naturistas">Tiendas Naturistas</option>
+        <option value="Salones de Belleza">Salones de Belleza</option>
+        <option value="Barberías">Barberías</option>
+        <option value="Centros de Estética">Centros de Estética</option>
+        <option value="Spas">Spas</option>
+        <option value="Spas de Uñas">Spas de Uñas</option>
+        <option value="Estudios de Tatuajes y Piercing">Estudios de Tatuajes y Piercing</option>
+        <option value="Gimnasios y Deportes">Gimnasios y Deportes</option>
+    </optgroup>
+
+    <optgroup label="Mascotas">
+        <option value="Veterinarias">Veterinarias</option>
+        <option value="Petshop">Petshop (Tiendas de Mascotas)</option>
+        <option value="Paseadores de Mascotas">Paseadores de Mascotas</option>
+    </optgroup>
+
+    <optgroup label="Educación">
+        <option value="Jardines Infantiles">Jardines Infantiles</option>
+        <option value="Colegios">Colegios</option>
+        <option value="Escuelas de Música">Escuelas de Música</option>
+        <option value="Educación y Academias">Otras Academias</option>
+    </optgroup>
+
+    <optgroup label="Servicios Técnicos y Reparaciones">
+        <option value="Servicio Técnico de Celulares">Servicio Técnico de Celulares</option>
+        <option value="Servicio Técnico de Televisores">Servicio Técnico de Televisores</option>
+        <option value="Servicio Técnico de Impresoras">Servicio Técnico de Impresoras</option>
+        <option value="Reparación de Calzado">Reparación de Calzado</option>
+        <option value="Sastrerías">Sastrerías</option>
+    </optgroup>
+
+    <optgroup label="Construcción, Oficios y Mantenimiento">
+        <option value="Ferreterías y Construcción">Ferreterías</option>
+        <option value="Contratistas para Remodelaciones y Construcción">Contratistas para Remodelaciones y Construcción</option>
+        <option value="Fabricantes de Cocinas">Fabricantes de Cocinas</option>
+        <option value="Vidrierías">Vidrierías</option>
+        <option value="Electricistas">Electricistas</option>
+        <option value="Cerrajeros">Cerrajeros</option>
+        <option value="Carpinteros">Carpinteros</option>
+        <option value="Plomeros">Plomeros</option>
+        <option value="Pintores">Pintores</option>
+        <option value="Mantenimiento y Limpieza">Mantenimiento y Limpieza</option>
+    </optgroup>
+
+    <optgroup label="Automotriz">
+        <option value="Lavaderos de Autos">Lavaderos de Autos</option>
+        <option value="Lavaderos de Motos">Lavaderos de Motos</option>
+        <option value="Automotriz y Talleres">Talleres Mecánicos y Repuestos</option>
+    </optgroup>
+
+    <optgroup label="Servicios Profesionales, Agencias y Finanzas">
+        <option value="Agencias de Marketing, Diseño y Publicidad">Agencias de Marketing, Diseño y Publicidad</option>
+        <option value="Servicios Profesionales">Servicios Profesionales (Abogados, Contadores, etc.)</option>
+        <option value="Agencias de Viajes">Agencias de Viajes</option>
+        <option value="Bienes Raíces e Inmobiliarias">Bienes Raíces e Inmobiliarias</option>
+        <option value="Corresponsales Bancarios">Corresponsales Bancarios</option>
+        <option value="Casas de Empeño">Casas de Empeño</option>
+    </optgroup>
+
+    <optgroup label="Logística y Otros Servicios">
+        <option value="Empresas de Envíos o Mensajería">Empresas de Envíos o Mensajería</option>
+        <option value="Lavanderías">Lavanderías</option>
+        <option value="Hoteles y Turismo">Hoteles y Turismo</option>
+        <option value="Logística y Transporte">Logística y Transporte</option>
+    </optgroup>
+  </select>
+</label><label>Logo de tu tienda<button class="upload" type="button" id="uploadBtn"><span id="uploadPrompt"><b data-icon="upload"></b><strong>Sube una imagen</strong><small>PNG, JPG, GIF o WEBP, maximo 3 MB</small></span><img id="preview" class="hidden" alt="Vista previa"></button><input class="file" id="fileInput" type="file" accept="image/*"></label><p class="error hidden" id="formError">Revisa los campos y la imagen.</p><button class="primary submit">Publicar comercio</button><small class="storage">Guardado permanente en este navegador</small></form></section></div>
 <div class="backdrop hidden" id="categoryModal"><section class="modal small"><button class="close" data-close><span data-icon="close"></span></button><p class="eyebrow">Categoria</p><h2 id="categoryTitle"></h2><div class="category-shops" id="categoryShops"></div></section></div><div class="toast hidden" id="toast"></div>
 <script>
-const CATEGORIES=["Alimentos y restaurantes","Belleza y cuidado personal","Hogar y decoracion","Moda y accesorios","Salud y bienestar","Tecnologia","Mascotas","Servicios profesionales","Educacion","Deportes y fitness","Ferreteria","Papeleria y regalos","Automotriz","Entretenimiento","Otro"];
 const icons={store:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10v10h16V10M3 4h18l-2 6H5L3 4Z"/><path d="M9 20v-6h6v6"/></svg>',sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>',moon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.5 14.1A8.4 8.4 0 019.9 3.5 8.5 8.5 0 1020.5 14.1Z"/></svg>',plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>',search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>',upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4M7 9l5-5 5 5M5 15v4h14v-4"/></svg>',close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 6 12 12M18 6 6 18"/></svg>'};
 document.querySelectorAll('[data-icon]').forEach(e=>e.innerHTML=icons[e.dataset.icon]||'');
 const $=id=>document.getElementById(id);
@@ -130,8 +228,6 @@ function bind(){
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=close);
 document.querySelectorAll('.backdrop').forEach(m=>m.onclick=e=>{if(e.target===m)close()});
 $('search').oninput=render;
-
-CATEGORIES.forEach(c=>$('shopCategory').add(new Option(c,c)));
 
 $('uploadBtn').onclick=()=>$('fileInput').click();
 $('fileInput').onchange=()=>{
