@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  
   <style>
     :root {
       --primary: #134989;
@@ -20,7 +19,6 @@
       --border-color: #e2e8f0;
       --radius: 16px;
     }
-
     [data-theme="dark"] {
       --bg-color: #0f172a;
       --card-bg: #1e293b;
@@ -28,27 +26,18 @@
       --text-muted: #94a3b8;
       --border-color: #334155;
     }
-
     [data-theme="dark"] .modal-card,
     [data-theme="dark"] .admin-drawer {
       background-color: #1e293b;
       color: #f8fafc;
     }
-
     [data-theme="dark"] .form-control,
     [data-theme="dark"] .pin-input {
       background-color: #0f172a;
       color: #f8fafc;
       border-color: #334155;
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
     body {
       background-color: var(--bg-color);
       color: var(--text-main);
@@ -59,23 +48,34 @@
       padding: 20px;
       padding-bottom: 80px;
     }
+    .container { width: 100%; max-width: 720px; margin-top: 20px; }
 
-    .container {
-      width: 100%;
-      max-width: 720px;
-      margin-top: 20px;
-    }
-
+    /* TOP BAR */
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 12px; }
+    .top-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
     .btn-back {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      color: var(--primary);
-      font-weight: 600;
-      font-size: 0.95rem;
-      margin-bottom: 20px;
+      display: inline-flex; align-items: center; gap: 8px;
+      text-decoration: none; color: var(--primary);
+      font-weight: 600; font-size: 0.95rem; white-space: nowrap;
     }
+    /* MOD 1: solo icono engrane junto a Volver */
+    .btn-gear {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main);
+      font-size: 1.15rem; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0; line-height: 1;
+    }
+    .btn-gear:hover { transform: scale(1.05); }
+    /* MOD 2: tema solo icono */
+    .btn-theme-icon {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main);
+      font-size: 1.15rem; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0; line-height: 1;
+    }
+    .btn-theme-icon:hover { transform: scale(1.05); }
 
     .shop-card {
       background: var(--card-bg);
@@ -84,7 +84,6 @@
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
       overflow: hidden;
     }
-
     .shop-header {
       background: linear-gradient(135deg, var(--primary), var(--primary-hover));
       padding: 0 0 28px 0;
@@ -92,383 +91,128 @@
       color: #ffffff;
       position: relative;
     }
-
     .shop-video-wrapper {
-      width: 100%;
-      max-height: 380px;
-      background-color: #000000;
-      display: none;
-      overflow: hidden;
+      width: 100%; max-height: 380px; background-color: #000000;
+      display: none; overflow: hidden;
       border-bottom: 2px solid rgba(255, 255, 255, 0.1);
     }
-
-    .shop-video-wrapper video {
-      width: 100%;
-      max-height: 380px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .shop-header-info {
-      padding: 24px 24px 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
-
-    .shop-header-info.has-video {
-      margin-top: -45px;
-    }
-
+    .shop-video-wrapper video { width: 100%; max-height: 380px; object-fit: cover; display: block; }
+    .shop-header-info { padding: 24px 24px 0; display: flex; flex-direction: column; align-items: center; position: relative; }
+    .shop-header-info.has-video { margin-top: -45px; }
     .shop-logo {
-      width: 105px;
-      height: 105px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 4px solid #ffffff;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
-      background-color: #ffffff;
-      margin-bottom: 12px;
-      z-index: 2;
+      width: 105px; height: 105px; border-radius: 50%; object-fit: cover;
+      border: 4px solid #ffffff; box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+      background-color: #ffffff; margin-bottom: 12px; z-index: 2;
     }
-
-    .shop-title {
-      font-size: 1.75rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
+    .shop-title { font-size: 1.75rem; font-weight: 700; margin-bottom: 8px; }
     .badge-category {
-      display: inline-block;
-      background: rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(8px);
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      display: inline-block; background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(8px);
+      padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.5px;
     }
-
-    .shop-body {
-      padding: 28px 24px;
-    }
-
+    .shop-body { padding: 28px 24px; }
     .section-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 10px;
-      border-bottom: 2px solid var(--border-color);
-      padding-bottom: 6px;
+      font-size: 1.1rem; font-weight: 600; color: var(--text-main);
+      margin-bottom: 10px; border-bottom: 2px solid var(--border-color); padding-bottom: 6px;
     }
-
-    .shop-description {
-      color: var(--text-muted);
-      line-height: 1.6;
-      font-size: 0.98rem;
-      margin-bottom: 24px;
-    }
-
-    .info-list {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 28px;
-    }
-
-    .info-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 0.95rem;
-    }
-
+    .shop-description { color: var(--text-muted); line-height: 1.6; font-size: 0.98rem; margin-bottom: 24px; }
+    .info-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 8px; }
+    .info-item { display: flex; align-items: center; gap: 12px; font-size: 0.95rem; }
     .info-item span.icon {
-      width: 36px;
-      height: 36px;
-      background: #eff6ff;
-      color: var(--primary);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 36px; height: 36px; background: #eff6ff; color: var(--primary);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-
-    .btn-action {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: 14px;
-      background-color: #25D366;
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: 600;
-      border-radius: 12px;
-      font-size: 1rem;
-      margin-bottom: 10px;
-    }
-
     .btn-catalog-view {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: 14px;
-      background-color: var(--primary);
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: 600;
-      border-radius: 12px;
-      font-size: 1rem;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 14px; background-color: var(--primary); color: #ffffff;
+      text-decoration: none; font-weight: 600; border-radius: 12px; font-size: 1rem;
+      margin-bottom: 14px;
     }
+    /* MOD 4: sociales pequeños solo icono en fila */
+    .social-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 2px 0 22px 0; }
+    .btn-social {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: none; align-items: center; justify-content: center;
+      text-decoration: none; flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    .btn-social:hover { transform: translateY(-2px) scale(1.05); }
+    .btn-social svg { display: block; }
 
     .state-container {
-      text-align: center;
-      padding: 60px 20px;
-      background: #ffffff;
-      border-radius: var(--radius);
-      border: 1px solid var(--border-color);
+      text-align: center; padding: 60px 20px; background: var(--card-bg);
+      border-radius: var(--radius); border: 1px solid var(--border-color);
     }
-
     .spinner {
-      width: 40px;
-      height: 40px;
-      border: 4px solid var(--border-color);
-      border-top-color: var(--primary);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 16px;
+      width: 40px; height: 40px; border: 4px solid var(--border-color);
+      border-top-color: var(--primary); border-radius: 50%;
+      animation: spin 0.8s linear infinite; margin: 0 auto 16px;
     }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .btn-admin-float {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #0f172a;
-      color: #ffffff;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 30px;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      z-index: 100;
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(4px);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
+      display: none; justify-content: center; align-items: center; z-index: 1000; padding: 16px;
     }
-
     .modal-card {
-      background: #ffffff;
-      padding: 32px 24px;
-      border-radius: var(--radius);
-      width: 90%;
-      max-width: 360px;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      position: relative;
+      background: #ffffff; padding: 32px 24px; border-radius: var(--radius);
+      width: 90%; max-width: 360px; text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15); position: relative;
     }
-
     .pin-input {
-      width: 100%;
-      padding: 14px;
-      font-size: 1.5rem;
-      letter-spacing: 12px;
-      text-align: center;
-      border: 2px solid var(--border-color);
-      border-radius: 12px;
-      margin: 20px 0 12px;
-      outline: none;
+      width: 100%; padding: 14px; font-size: 1.5rem; letter-spacing: 12px; text-align: center;
+      border: 2px solid var(--border-color); border-radius: 12px; margin: 20px 0 12px; outline: none;
     }
-
     .btn-modal-submit {
-      width: 100%;
-      padding: 12px;
-      background-color: var(--primary);
-      color: #ffffff;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      cursor: pointer;
+      width: 100%; padding: 12px; background-color: var(--primary); color: #ffffff;
+      border: none; border-radius: 10px; font-weight: 600; cursor: pointer;
     }
-
     .btn-close-modal {
-      position: absolute;
-      top: 12px;
-      right: 16px;
-      background: none;
-      border: none;
-      font-size: 1.4rem;
-      cursor: pointer;
-      color: var(--text-muted);
+      position: absolute; top: 12px; right: 16px; background: none; border: none;
+      font-size: 1.4rem; cursor: pointer; color: var(--text-muted);
     }
+    .pin-error { color: #ef4444; font-size: 0.85rem; margin-bottom: 12px; display: none; }
 
-    .pin-error {
-      color: #ef4444;
-      font-size: 0.85rem;
-      margin-bottom: 12px;
-      display: none;
-    }
-
-    .drawer-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4);
-      display: none;
-      z-index: 1001;
-    }
-
+    .drawer-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); display: none; z-index: 1001; }
     .admin-drawer {
-      position: fixed;
-      top: 0;
-      right: -450px;
-      width: 100%;
-      max-width: 450px;
-      height: 100vh;
-      height: 100dvh;
-      background: #ffffff;
-      box-shadow: -5px 0 25px rgba(0,0,0,0.15);
-      z-index: 1002;
-      transition: right 0.3s ease;
-      display: flex;
-      flex-direction: column;
+      position: fixed; top: 0; right: -450px; width: 100%; max-width: 450px;
+      height: 100vh; height: 100dvh; background: #ffffff;
+      box-shadow: -5px 0 25px rgba(0,0,0,0.15); z-index: 1002;
+      transition: right 0.3s ease; display: flex; flex-direction: column;
     }
-
-    .admin-drawer.open {
-      right: 0;
-    }
-
-    .drawer-header {
-      padding: 20px;
-      background: #0f172a;
-      color: #ffffff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .drawer-body {
-      padding: 20px;
-      padding-bottom: 120px;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior: contain;
-      flex: 1;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 6px;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      font-size: 0.95rem;
-      outline: none;
-    }
-
+    .admin-drawer.open { right: 0; }
+    .drawer-header { padding: 20px; background: #0f172a; color: #ffffff; display: flex; justify-content: space-between; align-items: center; }
+    .drawer-body { padding: 20px; padding-bottom: 120px; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; flex: 1; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-main); margin-bottom: 6px; }
+    .form-control { width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.95rem; outline: none; }
     .btn-save {
-      width: 100%;
-      padding: 12px;
-      background-color: var(--primary);
-      color: #ffffff;
-      border: none;
-      border-radius: 10px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      margin-top: 10px;
+      width: 100%; padding: 12px; background-color: var(--primary); color: #ffffff;
+      border: none; border-radius: 10px; font-weight: 600; font-size: 0.95rem; cursor: pointer; margin-top: 10px;
     }
-
     .btn-manage-page {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      background-color: #059669;
-      color: #ffffff;
-      border: none;
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 0.95rem;
-      text-align: center;
-      text-decoration: none;
-      margin-bottom: 20px;
+      display: block; width: 100%; padding: 14px; background-color: #059669; color: #ffffff;
+      border: none; border-radius: 10px; font-weight: 700; font-size: 0.95rem;
+      text-align: center; text-decoration: none; margin-top: 16px; margin-bottom: 0;
       box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);
     }
-
-    .btn-save:disabled {
-      background-color: var(--text-muted);
-    }
-
-    .save-status {
-      font-size: 0.85rem;
-      text-align: center;
-      margin-top: 10px;
-      padding: 8px;
-      border-radius: 6px;
-      display: none;
-    }
-
-    .logo-preview-box {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: 8px;
-    }
-
-    .logo-preview-box img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--border-color);
-    }
+    .btn-save:disabled { background-color: var(--text-muted); }
+    .save-status { font-size: 0.85rem; text-align: center; margin-top: 10px; padding: 8px; border-radius: 6px; display: none; }
+    .logo-preview-box { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+    .logo-preview-box img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border-color); }
   </style>
 </head>
 <body>
-
   <div class="container">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <a href="index.html" class="btn-back" style="margin-bottom: 0;">&#8592; Volver al directorio</a>
-      <button id="btnThemeToggle" onclick="toggleTheme()" style="background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); padding: 8px 14px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 6px;">
-        <span id="themeIcon">🌙</span> <span id="themeText">Modo Oscuro</span>
+    <!-- MOD 1 + MOD 2: Volver + engrane juntos a la izquierda / tema solo icono a la derecha -->
+    <div class="top-bar">
+      <div class="top-left">
+        <a href="index.html" class="btn-back">&#8592; Volver al directorio</a>
+        <button class="btn-gear" onclick="openPinModal()" title="Administrar negocio" aria-label="Administrar negocio">&#9881;</button>
+      </div>
+      <button id="btnThemeToggle" class="btn-theme-icon" onclick="toggleTheme()" title="Cambiar tema" aria-label="Cambiar tema">
+        <span id="themeIcon">&#127769;</span>
       </button>
     </div>
 
@@ -487,7 +231,6 @@
         <div id="videoWrapper" class="shop-video-wrapper">
           <video id="shopVideo" controls autoplay muted loop playsinline></video>
         </div>
-
         <div id="shopHeaderInfo" class="shop-header-info">
           <img id="shopLogo" class="shop-logo" src="" alt="Logo">
           <h1 id="shopName" class="shop-title">...</h1>
@@ -496,6 +239,27 @@
       </div>
 
       <div class="shop-body">
+        <!-- MOD 3: Ver Menú / Catálogo ENCIMA de Sobre este comercio -->
+        <a id="btnPublicCatalog" href="#" class="btn-catalog-view">
+          &#128214; Ver Menú / Catálogo
+        </a>
+
+        <!-- MOD 4: Sociales pequeños, sin textos, solo iconos reales blancos, en fila debajo del catálogo -->
+        <div class="social-row">
+          <a id="btnWhatsApp" href="#" target="_blank" class="btn-social" title="WhatsApp" aria-label="WhatsApp" style="background-color: #25D366;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+          <a id="btnFacebook" href="#" target="_blank" class="btn-social" title="Facebook" aria-label="Facebook" style="background-color: #1877F2;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a id="btnInstagram" href="#" target="_blank" class="btn-social" title="Instagram" aria-label="Instagram" style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zm0 10.162a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a id="btnTikTok" href="#" target="_blank" class="btn-social" title="TikTok" aria-label="TikTok" style="background-color: #000000;">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+          </a>
+        </div>
+
         <h2 class="section-title">Sobre este comercio</h2>
         <p id="shopDescription" class="shop-description">Sin descripción disponible.</p>
 
@@ -510,43 +274,17 @@
             <span id="shopAddress">No especificada</span>
           </div>
         </div>
-
-        <!-- BOTÓN DE WHATSAPP AÑADIDO PARA EVITAR EL ERROR -->
-        <a id="btnWhatsApp" href="#" target="_blank" class="btn-action" style="background-color: #25D366; display: none;">
-          💬 Contactar por WhatsApp
-        </a>
-
-        <!-- BOTONES DE REDES SOCIALES -->
-        <a id="btnFacebook" href="#" target="_blank" class="btn-action" style="background-color: #1877F2; display: none;">
-          📘 Ver Facebook
-        </a>
-        <a id="btnInstagram" href="#" target="_blank" class="btn-action" style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); display: none;">
-          📸 Ver Instagram
-        </a>
-        <a id="btnTikTok" href="#" target="_blank" class="btn-action" style="background-color: #000000; display: none;">
-          🎵 Ver TikTok
-        </a>
-
-        <a id="btnPublicCatalog" href="#" class="btn-catalog-view">
-          📖 Ver Menú / Catálogo
-        </a>
       </div>
     </div>
   </div>
-
-  <button id="btnAdminFloat" class="btn-admin-float" onclick="openPinModal()">
-    ⚙ Administrar negocio
-  </button>
 
   <div id="pinModal" class="modal-overlay">
     <div class="modal-card">
       <button class="btn-close-modal" onclick="closePinModal()">&times;</button>
       <h3 style="font-size: 1.2rem; font-weight: 700;">Acceso Propietario</h3>
       <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">Ingresa el PIN de seguridad</p>
-      
       <input type="password" id="pinInput" class="pin-input" maxlength="6" placeholder="••••">
       <div id="pinError" class="pin-error">PIN incorrecto. Inténtalo de nuevo.</div>
-      
       <button class="btn-modal-submit" onclick="verifyPin()">ENTRAR</button>
     </div>
   </div>
@@ -556,127 +294,109 @@
   <div id="adminDrawer" class="admin-drawer">
     <div class="drawer-header">
       <h3>Panel de Administración</h3>
-      <button class="btn-close-modal" style="color: #fff;" onclick="closeAdminDrawer()">&times;</button>
+      <button class="btn-close-modal" style="color: #fff; position: static;" onclick="closeAdminDrawer()">&times;</button>
     </div>
-
     <div class="drawer-body">
-      <a id="btnManagePage" href="#" class="btn-manage-page">
-        🛍️ ADMINISTRAR PÁGINA / CATÁLOGO
-      </a>
-
       <form id="adminForm" onsubmit="event.preventDefault(); saveShopData();">
-        <h4 style="margin-bottom: 14px; font-size: 1rem; color: var(--primary);">Tipo & Categoría de Negocio</h4>
-
+        <h4 style="margin-bottom: 14px; font-size: 1rem; color: var(--primary);">Tipo &amp; Categoría de Negocio</h4>
         <div class="form-group">
-  <label>Tipo de Negocio</label>
-  <select id="editCategory" class="form-control" required>
-    <option value="" disabled selected>Selecciona una categoría...</option>
-
-    <optgroup label="Alimentos, Bebidas y Proveeduría">
-        <option value="Restaurantes">Restaurantes</option>
-        <option value="Cafeterías">Cafeterías</option>
-        <option value="Panaderías y Pastelerías">Panaderías y Pastelerías</option>
-        <option value="Bares y Discotecas">Bares y Discotecas</option>
-        <option value="Supermercados y Minimercados">Supermercados y Minimercados</option>
-        <option value="Carnicerías">Carnicerías</option>
-        <option value="Salsamentarias">Salsamentarias</option>
-        <option value="Pescaderías">Pescaderías</option>
-        <option value="Dulcerías">Dulcerías</option>
-    </optgroup>
-
-    <optgroup label="Comercio y Retail">
-        <option value="Tiendas de ropa">Tiendas de ropa</option>
-        <option value="Zapaterías y Venta de Calzado">Zapaterías y Venta de Calzado</option>
-        <option value="Joyerías">Joyerías</option>
-        <option value="Tiendas de Maquillaje y Cosméticos">Tiendas de Maquillaje y Cosméticos</option>
-        <option value="Tiendas de Aseo">Tiendas de Aseo</option>
-        <option value="Librerías y Papelerías">Librerías y Papelerías</option>
-        <option value="Tecnología">Tecnología</option>
-        <option value="Comercio electrónico">Comercio electrónico</option>
-        <option value="Negocios de venta al detal">Negocios de venta al detal</option>
-    </optgroup>
-
-    <optgroup label="Salud, Estética y Bienestar">
-        <option value="Centros Médicos">Centros Médicos</option>
-        <option value="Centros Odontológicos">Centros Odontológicos</option>
-        <option value="Ópticas">Ópticas</option>
-        <option value="Farmacias">Farmacias</option>
-        <option value="Tiendas Naturistas">Tiendas Naturistas</option>
-        <option value="Salones de Belleza">Salones de Belleza</option>
-        <option value="Barberías">Barberías</option>
-        <option value="Centros de Estética">Centros de Estética</option>
-        <option value="Spas">Spas</option>
-        <option value="Spas de Uñas">Spas de Uñas</option>
-        <option value="Estudios de Tatuajes y Piercing">Estudios de Tatuajes y Piercing</option>
-        <option value="Gimnasios y Deportes">Gimnasios y Deportes</option>
-    </optgroup>
-
-    <optgroup label="Mascotas">
-        <option value="Veterinarias">Veterinarias</option>
-        <option value="Petshop">Petshop (Tiendas de Mascotas)</option>
-        <option value="Paseadores de Mascotas">Paseadores de Mascotas</option>
-    </optgroup>
-
-    <optgroup label="Educación">
-        <option value="Jardines Infantiles">Jardines Infantiles</option>
-        <option value="Colegios">Colegios</option>
-        <option value="Escuelas de Música">Escuelas de Música</option>
-        <option value="Educación y Academias">Otras Academias</option>
-    </optgroup>
-
-    <optgroup label="Servicios Técnicos y Reparaciones">
-        <option value="Servicio Técnico de Celulares">Servicio Técnico de Celulares</option>
-        <option value="Servicio Técnico de Televisores">Servicio Técnico de Televisores</option>
-        <option value="Servicio Técnico de Impresoras">Servicio Técnico de Impresoras</option>
-        <option value="Reparación de Calzado">Reparación de Calzado</option>
-        <option value="Sastrerías">Sastrerías</option>
-    </optgroup>
-
-    <optgroup label="Construcción, Oficios y Mantenimiento">
-        <option value="Ferreterías y Construcción">Ferreterías</option>
-        <option value="Contratistas para Remodelaciones y Construcción">Contratistas para Remodelaciones y Construcción</option>
-        <option value="Fabricantes de Cocinas">Fabricantes de Cocinas</option>
-        <option value="Vidrierías">Vidrierías</option>
-        <option value="Electricistas">Electricistas</option>
-        <option value="Cerrajeros">Cerrajeros</option>
-        <option value="Carpinteros">Carpinteros</option>
-        <option value="Plomeros">Plomeros</option>
-        <option value="Pintores">Pintores</option>
-        <option value="Mantenimiento y Limpieza">Mantenimiento y Limpieza</option>
-    </optgroup>
-
-    <optgroup label="Automotriz">
-        <option value="Lavaderos de Autos">Lavaderos de Autos</option>
-        <option value="Lavaderos de Motos">Lavaderos de Motos</option>
-        <option value="Automotriz y Talleres">Talleres Mecánicos y Repuestos</option>
-    </optgroup>
-
-    <optgroup label="Servicios Profesionales, Agencias y Finanzas">
-        <option value="Agencias de Marketing, Diseño y Publicidad">Agencias de Marketing, Diseño y Publicidad</option>
-        <option value="Servicios Profesionales">Servicios Profesionales (Abogados, Contadores, etc.)</option>
-        <option value="Agencias de Viajes">Agencias de Viajes</option>
-        <option value="Bienes Raíces e Inmobiliarias">Bienes Raíces e Inmobiliarias</option>
-        <option value="Corresponsales Bancarios">Corresponsales Bancarios</option>
-        <option value="Casas de Empeño">Casas de Empeño</option>
-    </optgroup>
-
-    <optgroup label="Logística y Otros Servicios">
-        <option value="Empresas de Envíos o Mensajería">Empresas de Envíos o Mensajería</option>
-        <option value="Lavanderías">Lavanderías</option>
-        <option value="Hoteles y Turismo">Hoteles y Turismo</option>
-        <option value="Logística y Transporte">Logística y Transporte</option>
-        <option value="Otro">Otro</option>
-    </optgroup>
-  </select>
-</div>
+          <label>Tipo de Negocio</label>
+          <select id="editCategory" class="form-control" required>
+            <option value="" disabled selected>Selecciona una categoría...</option>
+            <optgroup label="Alimentos, Bebidas y Proveeduría">
+              <option value="Restaurantes">Restaurantes</option>
+              <option value="Cafeterías">Cafeterías</option>
+              <option value="Panaderías y Pastelerías">Panaderías y Pastelerías</option>
+              <option value="Bares y Discotecas">Bares y Discotecas</option>
+              <option value="Supermercados y Minimercados">Supermercados y Minimercados</option>
+              <option value="Carnicerías">Carnicerías</option>
+              <option value="Salsamentarias">Salsamentarias</option>
+              <option value="Pescaderías">Pescaderías</option>
+              <option value="Dulcerías">Dulcerías</option>
+            </optgroup>
+            <optgroup label="Comercio y Retail">
+              <option value="Tiendas de ropa">Tiendas de ropa</option>
+              <option value="Zapaterías y Venta de Calzado">Zapaterías y Venta de Calzado</option>
+              <option value="Joyerías">Joyerías</option>
+              <option value="Tiendas de Maquillaje y Cosméticos">Tiendas de Maquillaje y Cosméticos</option>
+              <option value="Tiendas de Aseo">Tiendas de Aseo</option>
+              <option value="Librerías y Papelerías">Librerías y Papelerías</option>
+              <option value="Tecnología">Tecnología</option>
+              <option value="Comercio electrónico">Comercio electrónico</option>
+              <option value="Negocios de venta al detal">Negocios de venta al detal</option>
+            </optgroup>
+            <optgroup label="Salud, Estética y Bienestar">
+              <option value="Centros Médicos">Centros Médicos</option>
+              <option value="Centros Odontológicos">Centros Odontológicos</option>
+              <option value="Ópticas">Ópticas</option>
+              <option value="Farmacias">Farmacias</option>
+              <option value="Tiendas Naturistas">Tiendas Naturistas</option>
+              <option value="Salones de Belleza">Salones de Belleza</option>
+              <option value="Barberías">Barberías</option>
+              <option value="Centros de Estética">Centros de Estética</option>
+              <option value="Spas">Spas</option>
+              <option value="Spas de Uñas">Spas de Uñas</option>
+              <option value="Estudios de Tatuajes y Piercing">Estudios de Tatuajes y Piercing</option>
+              <option value="Gimnasios y Deportes">Gimnasios y Deportes</option>
+            </optgroup>
+            <optgroup label="Mascotas">
+              <option value="Veterinarias">Veterinarias</option>
+              <option value="Petshop">Petshop (Tiendas de Mascotas)</option>
+              <option value="Paseadores de Mascotas">Paseadores de Mascotas</option>
+            </optgroup>
+            <optgroup label="Educación">
+              <option value="Jardines Infantiles">Jardines Infantiles</option>
+              <option value="Colegios">Colegios</option>
+              <option value="Escuelas de Música">Escuelas de Música</option>
+              <option value="Educación y Academias">Otras Academias</option>
+            </optgroup>
+            <optgroup label="Servicios Técnicos y Reparaciones">
+              <option value="Servicio Técnico de Celulares">Servicio Técnico de Celulares</option>
+              <option value="Servicio Técnico de Televisores">Servicio Técnico de Televisores</option>
+              <option value="Servicio Técnico de Impresoras">Servicio Técnico de Impresoras</option>
+              <option value="Reparación de Calzado">Reparación de Calzado</option>
+              <option value="Sastrerías">Sastrerías</option>
+            </optgroup>
+            <optgroup label="Construcción, Oficios y Mantenimiento">
+              <option value="Ferreterías y Construcción">Ferreterías</option>
+              <option value="Contratistas para Remodelaciones y Construcción">Contratistas para Remodelaciones y Construcción</option>
+              <option value="Fabricantes de Cocinas">Fabricantes de Cocinas</option>
+              <option value="Vidrierías">Vidrierías</option>
+              <option value="Electricistas">Electricistas</option>
+              <option value="Cerrajeros">Cerrajeros</option>
+              <option value="Carpinteros">Carpinteros</option>
+              <option value="Plomeros">Plomeros</option>
+              <option value="Pintores">Pintores</option>
+              <option value="Mantenimiento y Limpieza">Mantenimiento y Limpieza</option>
+            </optgroup>
+            <optgroup label="Automotriz">
+              <option value="Lavaderos de Autos">Lavaderos de Autos</option>
+              <option value="Lavaderos de Motos">Lavaderos de Motos</option>
+              <option value="Automotriz y Talleres">Talleres Mecánicos y Repuestos</option>
+            </optgroup>
+            <optgroup label="Servicios Profesionales, Agencias y Finanzas">
+              <option value="Agencias de Marketing, Diseño y Publicidad">Agencias de Marketing, Diseño y Publicidad</option>
+              <option value="Servicios Profesionales">Servicios Profesionales (Abogados, Contadores, etc.)</option>
+              <option value="Agencias de Viajes">Agencias de Viajes</option>
+              <option value="Bienes Raíces e Inmobiliarias">Bienes Raíces e Inmobiliarias</option>
+              <option value="Corresponsales Bancarios">Corresponsales Bancarios</option>
+              <option value="Casas de Empeño">Casas de Empeño</option>
+            </optgroup>
+            <optgroup label="Logística y Otros Servicios">
+              <option value="Empresas de Envíos o Mensajería">Empresas de Envíos o Mensajería</option>
+              <option value="Lavanderías">Lavanderías</option>
+              <option value="Hoteles y Turismo">Hoteles y Turismo</option>
+              <option value="Logística y Transporte">Logística y Transporte</option>
+              <option value="Otro">Otro</option>
+            </optgroup>
+          </select>
+        </div>
 
         <h4 style="margin-top: 24px; margin-bottom: 14px; font-size: 1rem; color: var(--primary);">Personalización Visual</h4>
-
         <div class="form-group">
           <label>Color Principal del Comercio</label>
           <input type="color" id="editPrimaryColor" class="form-control" value="#134989" style="height: 42px; cursor: pointer; padding: 4px;">
         </div>
-
         <div class="form-group">
           <label>Tema del Comercio</label>
           <select id="editTheme" class="form-control">
@@ -686,42 +406,34 @@
         </div>
 
         <h4 style="margin-top: 24px; margin-bottom: 14px; font-size: 1rem; color: var(--primary);">Información Básica</h4>
-
         <div class="form-group">
           <label>Nombre del Negocio</label>
           <input type="text" id="editName" class="form-control" required>
         </div>
-
         <div class="form-group">
           <label>Descripción</label>
           <textarea id="editDescription" class="form-control" placeholder="Describe los servicios o productos..."></textarea>
         </div>
-
         <div class="form-group">
           <label>Teléfono / WhatsApp</label>
           <input type="text" id="editPhone" class="form-control" placeholder="+57 300 000 0000">
         </div>
-
         <div class="form-group">
           <label>Facebook (URL)</label>
           <input type="text" id="editFacebook" class="form-control" placeholder="https://facebook.com/tu_pagina">
         </div>
-
         <div class="form-group">
           <label>Instagram (URL)</label>
           <input type="text" id="editInstagram" class="form-control" placeholder="https://instagram.com/tu_usuario">
         </div>
-
         <div class="form-group">
           <label>TikTok (URL)</label>
           <input type="text" id="editTikTok" class="form-control" placeholder="https://tiktok.com/@tu_usuario">
         </div>
-
         <div class="form-group">
           <label>Dirección</label>
           <input type="text" id="editAddress" class="form-control" placeholder="Calle 123 # 45 - 67">
         </div>
-
         <div class="form-group">
           <label>Logo del Negocio</label>
           <input type="file" id="editLogoFile" class="form-control" accept="image/*" onchange="handleImageUpload(event)">
@@ -730,7 +442,6 @@
             <span style="font-size: 0.8rem; color: var(--text-muted);">Vista previa del logo</span>
           </div>
         </div>
-
         <div class="form-group">
           <label>Video del Negocio (Máx. 15 MB)</label>
           <input type="file" id="editVideoFile" class="form-control" accept="video/*" onchange="handleVideoUpload(event)">
@@ -739,46 +450,35 @@
           </small>
         </div>
 
-        <h4 style="margin-top: 24px; margin-bottom: 14px; font-size: 1rem; color: var(--primary);">PIN de Seguridad</h4>
-
-        <div class="form-group">
-          <label>Nuevo PIN (4 a 6 dígitos)</label>
-          <input type="password" id="editPin" class="form-control" placeholder="1234" maxlength="6">
-        </div>
-
         <button type="submit" id="btnSave" class="btn-save">Guardar Cambios Básicos</button>
         <div id="saveStatus" class="save-status"></div>
       </form>
+
+      <!-- MOD 6: ADMINISTRAR PÁGINA / CATÁLOGO ABAJO después de Guardar -->
+      <a id="btnManagePage" href="#" class="btn-manage-page">
+        &#128717;&#65039; ADMINISTRAR PÁGINA / CATÁLOGO
+      </a>
     </div>
   </div>
 
   <script>
     const SUPABASE_URL = 'https://jpukgeomsmwyxtqnpcsd.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwdWtnZW9tc213eXh0cW5wY3NkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwMDA3MzQsImV4cCI6MjEwNDU3NjczNH0.aALmQGfEkU4YCJM_9yUGJoUYfFVSLaZe0tnOlznKm54';
-    
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
     const params = new URLSearchParams(window.location.search);
     const shopId = params.get('id');
-
     let currentShopData = null;
     let newLogoBase64 = null;
-    let newVideoUrl = null; // Cambiado para reflejar que es una URL y no Base64
+    let newVideoUrl = null;
 
     function applyThemeAndColor(theme, primaryColor) {
       if (theme) {
         document.documentElement.setAttribute('data-theme', theme);
-        
         const themeIcon = document.getElementById('themeIcon');
         const themeText = document.getElementById('themeText');
-        if (themeIcon && themeText) {
-          if (theme === 'dark') {
-            themeIcon.textContent = '☀️';
-            themeText.textContent = 'Modo Claro';
-          } else {
-            themeIcon.textContent = '🌙';
-            themeText.textContent = 'Modo Oscuro';
-          }
+        if (themeIcon) {
+          if (theme === 'dark') { themeIcon.textContent = '☀️'; if (themeText) themeText.textContent = 'Modo Claro'; }
+          else { themeIcon.textContent = '🌙'; if (themeText) themeText.textContent = 'Modo Oscuro'; }
         }
       }
       if (primaryColor) {
@@ -790,37 +490,21 @@
     async function toggleTheme() {
       const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
       const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
       applyThemeAndColor(newTheme, null);
-
       if (currentShopData && shopId) {
         try {
-          const { error } = await supabaseClient
-            .from('shops')
-            .update({ theme: newTheme })
-            .eq('business_id', shopId); // Corregido: usa business_id para evitar fallos de guardado
-
-          if (error) {
-            console.error('Error al guardar el tema:', error.message);
-          } else {
-            currentShopData.theme = newTheme;
-          }
-        } catch (err) {
-          console.error('Error inesperado al alternar el tema:', err);
-        }
+          const { error } = await supabaseClient.from('shops').update({ theme: newTheme }).eq('business_id', shopId);
+          if (error) { console.error('Error al guardar el tema:', error.message); }
+          else { currentShopData.theme = newTheme; }
+        } catch (err) { console.error('Error inesperado al alternar el tema:', err); }
       }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
       const colorInput = document.getElementById('editPrimaryColor');
       const themeSelect = document.getElementById('editTheme');
-
-      if (colorInput) {
-        colorInput.addEventListener('input', (e) => applyThemeAndColor(null, e.target.value));
-      }
-      if (themeSelect) {
-        themeSelect.addEventListener('change', (e) => applyThemeAndColor(e.target.value, null));
-      }
+      if (colorInput) { colorInput.addEventListener('input', (e) => applyThemeAndColor(null, e.target.value)); }
+      if (themeSelect) { themeSelect.addEventListener('change', (e) => applyThemeAndColor(e.target.value, null)); }
     });
 
     async function loadShopDetail() {
@@ -828,42 +512,28 @@
       const errorState = document.getElementById('errorState');
       const shopDetail = document.getElementById('shopDetail');
       const errorMessage = document.getElementById('errorMessage');
-
       if (!shopId) {
         loadingState.style.display = 'none';
         if (errorMessage) errorMessage.textContent = 'No se proporcionó ningún ID en la URL.';
         errorState.style.display = 'block';
         return;
       }
-
       try {
-        const { data: shop, error } = await supabaseClient
-          .from('shops')
-          .select('*')
-          .eq('business_id', shopId)
-          .single();
-
-        if (error || !shop) {
-          throw new Error(error ? error.message : 'No se encontraron datos para este comercio.');
-        }
-
+        const { data: shop, error } = await supabaseClient.from('shops').select('*').eq('business_id', shopId).single();
+        if (error || !shop) { throw new Error(error ? error.message : 'No se encontraron datos para este comercio.'); }
         currentShopData = shop;
-
         const catalogUrl = `catalogo.html?id=${shopId}`;
         const btnManagePage = document.getElementById('btnManagePage');
         const btnPublicCatalog = document.getElementById('btnPublicCatalog');
         if (btnManagePage) btnManagePage.href = catalogUrl;
         if (btnPublicCatalog) btnPublicCatalog.href = catalogUrl;
-
         const shopLogo = document.getElementById('shopLogo');
         const shopName = document.getElementById('shopName');
         if (shopLogo) shopLogo.src = shop.logo || 'https://via.placeholder.com/110';
         if (shopName) shopName.textContent = shop.name || 'Sin nombre';
-
         const videoWrapper = document.getElementById('videoWrapper');
         const shopVideo = document.getElementById('shopVideo');
         const headerInfo = document.getElementById('shopHeaderInfo');
-
         if (shop.video && videoWrapper && shopVideo) {
           shopVideo.src = shop.video;
           shopVideo.load();
@@ -873,95 +543,55 @@
           videoWrapper.style.display = 'none';
           if (headerInfo) headerInfo.classList.remove('has-video');
         }
-
         const shopCategory = document.getElementById('shopCategory');
         const shopDescription = document.getElementById('shopDescription');
         if (shopCategory) shopCategory.textContent = shop.category || 'Restaurantes';
         if (shopDescription) shopDescription.textContent = shop.description || 'Este comercio aún no ha agregado una descripción.';
-        
-        // Validación de seguridad añadida para el renderizado del contacto
         const shopPhoneEl = document.getElementById('shopPhone');
         const btnWa = document.getElementById('btnWhatsApp');
-        
         if (shop.phone || shop.whatsapp) {
           const num = shop.whatsapp || shop.phone;
           if (shopPhoneEl) shopPhoneEl.textContent = num;
-          
-          if (btnWa) {
-            btnWa.href = `https://wa.me/${num.replace(/[^0-9]/g, '')}`;
-            btnWa.style.display = 'flex';
-          }
+          if (btnWa) { btnWa.href = `https://wa.me/${num.replace(/[^0-9]/g, '')}`; btnWa.style.display = 'flex'; }
         } else {
           if (shopPhoneEl) shopPhoneEl.textContent = 'No disponible';
           if (btnWa) btnWa.style.display = 'none';
         }
-        
         const shopAddressEl = document.getElementById('shopAddress');
-        if (shopAddressEl) {
-          shopAddressEl.textContent = shop.address || 'Dirección no especificada';
-        }
-
+        if (shopAddressEl) { shopAddressEl.textContent = shop.address || 'Dirección no especificada'; }
         const btnFb = document.getElementById('btnFacebook');
-        if (btnFb) {
-          if (shop.facebook_link) { btnFb.href = shop.facebook_link; btnFb.style.display = 'flex'; }
-          else { btnFb.style.display = 'none'; }
-        }
-
+        if (btnFb) { if (shop.facebook_link) { btnFb.href = shop.facebook_link; btnFb.style.display = 'flex'; } else { btnFb.style.display = 'none'; } }
         const btnIg = document.getElementById('btnInstagram');
-        if (btnIg) {
-          if (shop.instagram_link) { btnIg.href = shop.instagram_link; btnIg.style.display = 'flex'; }
-          else { btnIg.style.display = 'none'; }
-        }
-
+        if (btnIg) { if (shop.instagram_link) { btnIg.href = shop.instagram_link; btnIg.style.display = 'flex'; } else { btnIg.style.display = 'none'; } }
         const btnTt = document.getElementById('btnTikTok');
-        if (btnTt) {
-          if (shop.tiktok_link) { btnTt.href = shop.tiktok_link; btnTt.style.display = 'flex'; }
-          else { btnTt.style.display = 'none'; }
-        }
-        
+        if (btnTt) { if (shop.tiktok_link) { btnTt.href = shop.tiktok_link; btnTt.style.display = 'flex'; } else { btnTt.style.display = 'none'; } }
         const theme = shop.theme || 'light';
         const primaryColor = shop.primary_color || '#134989';
         applyThemeAndColor(theme, primaryColor);
-
         const editCategory = document.getElementById('editCategory');
         if (editCategory) editCategory.value = shop.category || 'Restaurantes';
-        
         const editPrimaryColor = document.getElementById('editPrimaryColor');
         if (editPrimaryColor) editPrimaryColor.value = primaryColor;
-        
         const themeElem = document.getElementById('editTheme');
         if (themeElem) themeElem.value = theme;
-        
         const editName = document.getElementById('editName');
         if (editName) editName.value = shop.name || '';
-        
         const editDesc = document.getElementById('editDescription');
         if (editDesc) editDesc.value = shop.description || '';
-        
         const editPhone = document.getElementById('editPhone');
         if (editPhone) editPhone.value = shop.whatsapp || shop.phone || '';
-        
         const editFb = document.getElementById('editFacebook');
         if (editFb) editFb.value = shop.facebook_link || '';
-        
         const editIg = document.getElementById('editInstagram');
         if (editIg) editIg.value = shop.instagram_link || '';
-        
         const editTt = document.getElementById('editTikTok');
         if (editTt) editTt.value = shop.tiktok_link || '';
-        
         const editAddress = document.getElementById('editAddress');
         if (editAddress) editAddress.value = shop.address || '';
-        
         const logoPreview = document.getElementById('logoPreview');
         if (logoPreview) logoPreview.src = shop.logo || 'https://via.placeholder.com/110';
-        
-        const editPin = document.getElementById('editPin');
-        if (editPin) editPin.value = shop.pin || '1234';
-
         if (loadingState) loadingState.style.display = 'none';
         if (shopDetail) shopDetail.style.display = 'block';
-
       } catch (err) {
         console.error('Error al cargar comercio:', err);
         if (loadingState) loadingState.style.display = 'none';
@@ -973,7 +603,6 @@
     function handleImageUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
-     
       const reader = new FileReader();
       reader.onload = function(e) {
         const img = new Image();
@@ -981,29 +610,13 @@
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
           const maxSize = 600;
-
           let width = img.width;
           let height = img.height;
-
-          if (width > height) {
-            if (width > maxSize) {
-              height *= maxSize / width;
-              width = maxSize;
-            }
-          } else {
-            if (height > maxSize) {
-              width *= maxSize / height;
-              height = maxSize;
-            }
-          }
-
-          canvas.width = width;
-          canvas.height = height;
-
-          ctx.imageSmoothingEnabled = true;
-          ctx.imageSmoothingQuality = 'high';
+          if (width > height) { if (width > maxSize) { height *= maxSize / width; width = maxSize; } }
+          else { if (height > maxSize) { width *= maxSize / height; height = maxSize; } }
+          canvas.width = width; canvas.height = height;
+          ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
           ctx.drawImage(img, 0, 0, width, height);
-
           newLogoBase64 = canvas.toDataURL('image/jpeg', 0.85);
           const logoPreview = document.getElementById('logoPreview');
           if (logoPreview) logoPreview.src = newLogoBase64;
@@ -1017,87 +630,48 @@
       const file = event.target.files[0];
       const videoStatus = document.getElementById('videoStatus');
       if (!file) return;
-
       if (file.size > 15 * 1024 * 1024) {
-        if (videoStatus) {
-          videoStatus.style.color = '#ef4444';
-          videoStatus.textContent = '❌ El video supera los 15 MB.';
-        }
+        if (videoStatus) { videoStatus.style.color = '#ef4444'; videoStatus.textContent = '❌ El video supera los 15 MB.'; }
         return;
       }
-
       const fileExt = file.name.split('.').pop();
-      const safeId = shopId || 'temp'; 
+      const safeId = shopId || 'temp';
       const fileName = `video_shop_${safeId}.${fileExt}`;
-
-      if (videoStatus) {
-        videoStatus.style.color = '#2563eb';
-        videoStatus.textContent = '⏳ Reemplazando video en Storage...';
-      }
-
-      const { data, error } = await supabaseClient.storage
-        .from('videos')
-        .upload(fileName, file, { cacheControl: '0', upsert: true });
-
+      if (videoStatus) { videoStatus.style.color = '#2563eb'; videoStatus.textContent = '⏳ Reemplazando video en Storage...'; }
+      const { data, error } = await supabaseClient.storage.from('videos').upload(fileName, file, { cacheControl: '0', upsert: true });
       if (error) {
         console.error('Error al subir video:', error);
-        if (videoStatus) {
-          videoStatus.style.color = '#ef4444';
-          videoStatus.textContent = '❌ Error al subir el video: ' + (error.message || 'Verifica el Bucket.');
-        }
+        if (videoStatus) { videoStatus.style.color = '#ef4444'; videoStatus.textContent = '❌ Error al subir el video: ' + (error.message || 'Verifica el Bucket.'); }
         return;
       }
-
-      const { data: publicUrlData } = supabaseClient.storage
-        .from('videos')
-        .getPublicUrl(fileName);
-
+      const { data: publicUrlData } = supabaseClient.storage.from('videos').getPublicUrl(fileName);
       newVideoUrl = `${publicUrlData.publicUrl}?v=${Date.now()}`;
-
-      if (videoStatus) {
-        videoStatus.style.color = '#166534';
-        videoStatus.textContent = '✅ Video reemplazado correctamente sin duplicar espacio.';
-      }
+      if (videoStatus) { videoStatus.style.color = '#166534'; videoStatus.textContent = '✅ Video reemplazado correctamente sin duplicar espacio.'; }
     }
 
     function openPinModal() {
       const pinInput = document.getElementById('pinInput');
       const pinError = document.getElementById('pinError');
       const pinModal = document.getElementById('pinModal');
-      
       if (pinInput) pinInput.value = '';
       if (pinError) pinError.style.display = 'none';
       if (pinModal) pinModal.style.display = 'flex';
     }
-
-    function closePinModal() {
-      const pinModal = document.getElementById('pinModal');
-      if (pinModal) pinModal.style.display = 'none';
-    }
-
+    function closePinModal() { const pinModal = document.getElementById('pinModal'); if (pinModal) pinModal.style.display = 'none'; }
     function verifyPin() {
       const pinInput = document.getElementById('pinInput');
       if (!pinInput) return;
-      
       const enteredPin = pinInput.value.trim();
       const actualPin = currentShopData ? (currentShopData.pin || '1234') : '1234';
-
-      if (enteredPin === actualPin) {
-        closePinModal();
-        openAdminDrawer();
-      } else {
-        const pinError = document.getElementById('pinError');
-        if (pinError) pinError.style.display = 'block';
-      }
+      if (enteredPin === actualPin) { closePinModal(); openAdminDrawer(); }
+      else { const pinError = document.getElementById('pinError'); if (pinError) pinError.style.display = 'block'; }
     }
-
     function openAdminDrawer() {
       const drawerOverlay = document.getElementById('drawerOverlay');
       const adminDrawer = document.getElementById('adminDrawer');
       if (drawerOverlay) drawerOverlay.style.display = 'block';
       if (adminDrawer) adminDrawer.classList.add('open');
     }
-
     function closeAdminDrawer() {
       const drawerOverlay = document.getElementById('drawerOverlay');
       const adminDrawer = document.getElementById('adminDrawer');
@@ -1108,13 +682,8 @@
     async function saveShopData() {
       const btnSave = document.getElementById('btnSave');
       const saveStatus = document.getElementById('saveStatus');
-
-      if (btnSave) {
-        btnSave.disabled = true;
-        btnSave.textContent = 'Guardando...';
-      }
+      if (btnSave) { btnSave.disabled = true; btnSave.textContent = 'Guardando...'; }
       if (saveStatus) saveStatus.style.display = 'none';
-
       const updatedCategory = document.getElementById('editCategory') ? document.getElementById('editCategory').value : '';
       const updatedPrimaryColor = document.getElementById('editPrimaryColor') ? document.getElementById('editPrimaryColor').value : '';
       const themeElem = document.getElementById('editTheme');
@@ -1126,11 +695,8 @@
       const updatedInstagram = document.getElementById('editInstagram') ? document.getElementById('editInstagram').value.trim() : '';
       const updatedTikTok = document.getElementById('editTikTok') ? document.getElementById('editTikTok').value.trim() : '';
       const updatedAddress = document.getElementById('editAddress') ? document.getElementById('editAddress').value.trim() : '';
-      const updatedPin = document.getElementById('editPin') ? document.getElementById('editPin').value.trim() : '1234';
-      
       const logoToSave = newLogoBase64 || (currentShopData ? currentShopData.logo : '') || '';
       const videoToSave = newVideoUrl !== null ? newVideoUrl : (currentShopData ? currentShopData.video : '');
-
       try {
         const updatePayload = {
           category: updatedCategory,
@@ -1144,28 +710,17 @@
           tiktok_link: updatedTikTok,
           address: updatedAddress,
           logo: logoToSave,
-          video: videoToSave,
-          pin: updatedPin || '1234'
+          video: videoToSave
         };
-
-        const { error } = await supabaseClient
-          .from('shops')
-          .update(updatePayload)
-          .eq('business_id', shopId);
-
+        const { error } = await supabaseClient.from('shops').update(updatePayload).eq('business_id', shopId);
         if (error) throw error;
-
         if (saveStatus) {
           saveStatus.style.display = 'block';
           saveStatus.style.backgroundColor = '#dcfce7';
           saveStatus.style.color = '#166534';
           saveStatus.textContent = '¡Cambios guardados exitosamente!';
         }
-
-        setTimeout(() => {
-          location.reload();
-        }, 1200);
-
+        setTimeout(() => { location.reload(); }, 1200);
       } catch (err) {
         console.error('Error al guardar datos:', err);
         if (saveStatus) {
@@ -1175,13 +730,9 @@
           saveStatus.textContent = 'Error al guardar los cambios: ' + (err.message || 'Intenta de nuevo.');
         }
       } finally {
-        if (btnSave) {
-          btnSave.disabled = false;
-          btnSave.textContent = 'Guardar Cambios Básicos';
-        }
+        if (btnSave) { btnSave.disabled = false; btnSave.textContent = 'Guardar Cambios Básicos'; }
       }
     }
-
     loadShopDetail();
   </script>
 </body>
