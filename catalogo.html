@@ -6,8 +6,9 @@
   Pega este archivo donde quieras (hosting, cPanel, Netlify…).
   Solo necesitas el ?id=TU_BUSINESS_ID en la URL.
   TABLAS DE SUPABASE (el catálogo funciona con las tablas
-  originales; para categorías con imagen, banners en video y
-  valor del domicilio, ejecuta esto en el SQL Editor de Supabase):
+  originales; para categorías con imagen, banners en video,
+  valor del domicilio y títulos personalizados, ejecuta esto
+  en el SQL Editor de Supabase):
   create extension if not exists pgcrypto;
   create table if not exists shop_categories (
     id uuid primary key default gen_random_uuid(),
@@ -22,6 +23,8 @@
   create policy "cat_all" on shop_categories for all
     using (true) with check (true);
   alter table shops add column if not exists delivery_fee numeric default 0;
+  alter table shops add column if not exists products_title text;
+  alter table shops add column if not exists services_title text;
   alter table shop_banners add column if not exists media_url text;
   alter table shop_banners add column if not exists media_type text default 'image';
   ============================================================
@@ -82,11 +85,14 @@
     .brand-cat { font-size: .72rem; color: var(--muted); }
     .icon-btn { width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer; display: grid; place-items: center; font-size: 1.05rem; }
     .icon-btn:hover { border-color: var(--primary-line); }
+    .top-actions { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 0 0 auto; }
+    .top-actions .icon-btn { width: 36px; height: 36px; border-radius: 11px; font-size: 1rem; }
     /* Hero */
-    .hero { position: relative; margin: 18px 0 22px; aspect-ratio: 16/8; border-radius: 24px; overflow: hidden; background: var(--card); border: 1px solid var(--border); box-shadow: var(--shadow); }
+    .hero { position: relative; margin: 18px 0 22px; aspect-ratio: 16/9; border-radius: 24px; overflow: hidden; background: var(--card); border: 1px solid var(--border); box-shadow: var(--shadow); touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+    @media (max-width: 600px) { .hero { aspect-ratio: 16/10; } }
     .hero-slide { position: absolute; inset: 0; opacity: 0; transition: opacity .7s ease; }
     .hero-slide.active { opacity: 1; }
-    .hero-slide img, .hero-slide video { width: 100%; height: 100%; object-fit: cover; }
+    .hero-slide img, .hero-slide video { width: 100%; height: 100%; object-fit: cover; -webkit-user-drag: none; pointer-events: none; }
     .hero-slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(5,8,14,.82) 0%, rgba(5,8,14,.35) 45%, transparent 75%); }
     [data-theme="light"] .hero-slide::after { background: linear-gradient(90deg, rgba(15,23,42,.65), rgba(15,23,42,.18) 50%, transparent 80%); }
     .hero-caption { position: absolute; left: 22px; right: 22px; bottom: 20px; z-index: 2; color: #fff; }
@@ -95,6 +101,14 @@
     .hero-dots { position: absolute; z-index: 3; bottom: 12px; right: 16px; display: flex; gap: 6px; }
     .hero-dot { width: 7px; height: 7px; border-radius: 99px; border: 0; background: rgba(255,255,255,.45); cursor: pointer; transition: all .25s; padding: 0; }
     .hero-dot.active { width: 22px; background: #fff; }
+    .hero-arrow { position: absolute; top: 50%; z-index: 4; width: 34px; height: 34px; margin-top: -17px; border-radius: 50%; border: 1px solid rgba(255,255,255,.35); background: rgba(10,14,22,.45); backdrop-filter: blur(6px); color: #fff; font-size: 1.3rem; line-height: 1; cursor: pointer; display: grid; place-items: center; padding: 0 0 3px; }
+    .hero-arrow:hover { background: rgba(10,14,22,.7); }
+    .hero-arrow.prev { left: 10px; animation: nudgeL 1.6s ease-in-out infinite; }
+    .hero-arrow.next { right: 10px; animation: nudgeR 1.6s ease-in-out infinite; }
+    .hero-swipe-hint { position: absolute; top: 12px; right: 14px; z-index: 4; font-size: .66rem; font-weight: 700; letter-spacing: .04em; color: #fff; background: rgba(10,14,22,.5); backdrop-filter: blur(6px); padding: 4px 10px; border-radius: 999px; display: flex; gap: 5px; align-items: center; pointer-events: none; }
+    .hero-swipe-hint .arr { display: inline-block; animation: nudgeR 1.1s ease-in-out infinite; }
+    @keyframes nudgeR { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+    @keyframes nudgeL { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-4px); } }
     /* Saludo y buscador */
     .greet { margin: 6px 2px 16px; }
     .kicker { display: inline-flex; align-items: center; gap: 8px; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--primary-bright); margin-bottom: 4px; }
@@ -124,7 +138,7 @@
     .hero-slide .media-ph { font-size: 3rem; }
     .cat-tile .media-ph { font-size: 1.5rem; }
     /* Secciones y productos */
-    .cat-section { margin: 22px 0 6px; scroll-margin-top: 90px; }
+    .cat-section { margin: 22px 0 6px; scroll-margin-top: 118px; }
     .cat-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 0 2px 12px; }
     .cat-head h3 { font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; gap: 10px; margin: 0; }
     .cat-head h3::before { content: ""; width: 5px; height: 20px; border-radius: 4px; background: linear-gradient(var(--primary), var(--primary-bright)); }
@@ -149,13 +163,19 @@
     .empty-state { grid-column: 1/-1; text-align: center; color: var(--muted); padding: 48px 16px; font-size: .9rem; }
     .empty-state .emoji { display: block; font-size: 2.4rem; margin-bottom: 10px; }
     /* Flotantes */
-    .float-cart { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; background: linear-gradient(135deg, #1faa54, var(--whatsapp)); color: #fff; padding: 14px 26px; border-radius: 999px; border: 0; font-weight: 700; font-size: .95rem; cursor: pointer; display: none; align-items: center; gap: 9px; box-shadow: 0 12px 30px rgba(37,211,102,.4); }
+    .float-cart { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100; width: calc(100% - 32px); max-width: 480px; background: linear-gradient(135deg, #1faa54, var(--whatsapp)); color: #fff; padding: 6px 6px 6px 10px; border-radius: 999px; display: none; align-items: center; gap: 6px; box-shadow: 0 12px 30px rgba(37,211,102,.4); }
+    .float-cart-main { flex: 1; min-width: 0; background: none; border: 0; color: #fff; font-weight: 700; font-size: .95rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 9px; padding: 10px 8px; font-family: inherit; white-space: nowrap; }
     .float-cart .count { background: rgba(255,255,255,.25); border-radius: 999px; padding: 2px 9px; font-size: .82rem; font-weight: 800; }
+    .float-cart-close { width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(0,0,0,.2); color: #fff; font-size: 1.15rem; font-weight: 700; cursor: pointer; display: grid; place-items: center; flex: 0 0 auto; padding: 0; line-height: 1; }
+    .float-cart-close:hover { background: rgba(0,0,0,.32); }
     .float-admin { position: fixed; bottom: 22px; right: 18px; z-index: 99; background: var(--card-2); color: var(--text); border: 1px solid var(--border-strong); padding: 12px 17px; border-radius: 999px; font-weight: 600; font-size: .82rem; cursor: pointer; display: flex; align-items: center; gap: 7px; box-shadow: var(--shadow); }
     /* Modales */
     .modal-overlay { position: fixed; inset: 0; z-index: 1000; background: rgba(5,8,14,.62); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; padding: 16px; animation: fadeIn .18s; }
     .modal { background: var(--card); border: 1px solid var(--border); border-radius: 22px; width: 100%; max-width: 460px; max-height: 92vh; overflow-y: auto; position: relative; box-shadow: var(--shadow); animation: modalPop .22s; }
     .modal.wide { max-width: 640px; }
+    #cartModal { padding: 32px 20px; }
+    .modal.cart-modal { max-width: 500px; max-height: calc(100vh - 64px); max-height: calc(100dvh - 64px); }
+    @media (max-width: 480px) { #cartModal { padding: 26px 14px; } .modal.cart-modal { max-height: calc(100vh - 52px); max-height: calc(100dvh - 52px); } }
     .modal-close { position: absolute; top: 12px; right: 14px; z-index: 5; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-soft); color: var(--text); font-size: 1.2rem; cursor: pointer; display: grid; place-items: center; }
     .modal-title { font-size: 1.25rem; font-weight: 700; padding: 22px 22px 4px; margin: 0; }
     .modal-sub { padding: 0 22px; color: var(--muted); font-size: .83rem; }
@@ -207,6 +227,7 @@
     .totals .t-row.grand { color: var(--text); font-weight: 800; font-size: 1.08rem; padding-top: 6px; border-top: 1px dashed var(--border-strong); }
     .totals .free { color: var(--whatsapp); font-weight: 700; }
     .option-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .option-cards.single { grid-template-columns: 1fr; }
     .option-card { padding: 13px 10px; border-radius: 14px; border: 1.5px solid var(--border); background: var(--bg-soft); color: var(--text); cursor: pointer; text-align: center; font-size: .82rem; font-weight: 600; transition: all .15s; line-height: 1.25; font-family: inherit; }
     .option-card .ico { display: block; font-size: 1.35rem; margin-bottom: 4px; }
     .option-card.active { border-color: var(--primary-bright); background: var(--primary-soft); box-shadow: 0 0 0 3px var(--primary-soft); }
@@ -268,14 +289,17 @@
             <div class="brand-cat" id="shopHeaderCategory">Menú &amp; Catálogo</div>
           </div>
         </div>
-        <button class="icon-btn" id="themeToggleBtn" title="Cambiar tema" onclick="toggleTheme()">🌙</button>
+        <div class="top-actions">
+          <button class="icon-btn" id="themeToggleBtn" title="Cambiar tema" onclick="toggleTheme()">🌙</button>
+          <button class="icon-btn" id="adminGearBtn" title="Editar catálogo" aria-label="Editar catálogo" onclick="openPinModal()">⚙️</button>
+        </div>
       </div>
     </header>
     <main class="container">
       <div id="sliderContainer"></div>
       <div class="greet">
         <span class="kicker">Menú &amp; Catálogo digital</span>
-        <h1 class="serif" id="greetTitle">¿Qué se te antoja hoy?</h1>
+        <h1 class="serif" id="greetTitle">Pon aquí un título para tus productos</h1>
         <p id="greetSub">Productos y servicios frescos para ti</p>
       </div>
       <div class="search">
@@ -292,10 +316,12 @@
       <div class="cat-rail" id="categoriesRail"></div>
       <div id="productsContainer"></div>
     </main>
-    <button class="float-cart" id="cartFloatBtn" onclick="openCartModal()">
-      🛒 Ver pedido <span class="count" id="cartCount">0</span> · <span id="cartTotal">$0</span>
-    </button>
-    <button class="float-admin" onclick="openPinModal()">⚙️ Editar Catálogo</button>
+    <div class="float-cart" id="cartFloatBtn">
+      <button class="float-cart-main" onclick="openCartModal()">
+        🛒 Ver pedido <span class="count" id="cartCount">0</span> · <span id="cartTotal">$0</span>
+      </button>
+      <button class="float-cart-close" title="Cerrar" aria-label="Cerrar" onclick="dismissCartButton(event)">×</button>
+    </div>
   </div>
   <!-- MODAL PIN -->
   <div class="modal-overlay" id="pinModal">
@@ -341,20 +367,12 @@
         <!-- AJUSTES -->
         <div id="tab-ajustes" style="display:none">
           <div class="field">
-            <label>Nombre del negocio</label>
-            <input type="text" class="input" id="setName">
+            <label>🛍️ Título para tus productos</label>
+            <input type="text" class="input" id="setProductsTitle" placeholder="Pon aquí un título para tus productos">
           </div>
           <div class="field">
-            <label>Rubro / categoría</label>
-            <input type="text" class="input" id="setCategory">
-          </div>
-          <div class="field">
-            <label>Logo</label>
-            <label class="upload-box">📁 Haz clic para subir el logo
-              <input type="file" accept="image/*" style="display:none" onchange="handleLogo(event)">
-            </label>
-            <input type="hidden" id="setLogo">
-            <img id="setLogoPreview" class="upload-preview" style="display:none" alt="">
+            <label>🛠️ Título para tus servicios</label>
+            <input type="text" class="input" id="setServicesTitle" placeholder="Pon aquí un título para tus servicios">
           </div>
           <div class="row-2">
             <div class="field">
@@ -371,25 +389,12 @@
             <input type="number" min="0" class="input" id="setDelivery" placeholder="0">
             <div class="obs-hint">Se suma al total solo cuando el cliente elige “Domicilio”. En “Servicio en mesa” no se cobra.</div>
           </div>
-          <div class="row-2">
-            <div class="field">
-              <label>Color de la interfaz</label>
-              <div class="color-row">
-                <input type="color" id="setColorPicker" oninput="document.getElementById('setColorHex').value=this.value">
-                <input type="text" class="input" id="setColorHex" oninput="document.getElementById('setColorPicker').value=this.value">
-              </div>
-            </div>
-            <div class="field">
-              <label>Tema</label>
-              <select class="select" id="setTheme">
-                <option value="dark">Oscuro</option>
-                <option value="light">Claro</option>
-              </select>
-            </div>
-          </div>
           <div class="field">
-            <label>PIN de administrador</label>
-            <input type="text" class="input" id="setPin" inputmode="numeric" maxlength="6">
+            <label>Color de la interfaz</label>
+            <div class="color-row">
+              <input type="color" id="setColorPicker" oninput="document.getElementById('setColorHex').value=this.value">
+              <input type="text" class="input" id="setColorHex" oninput="document.getElementById('setColorPicker').value=this.value">
+            </div>
           </div>
           <button class="btn btn-primary" id="saveSettingsBtn" onclick="saveSettings()">Guardar ajustes</button>
           <details class="sql-box">
@@ -417,8 +422,7 @@
           </div>
           <div class="field">
             <label>Categoría</label>
-            <input type="text" class="input" id="prodCategory" list="categoryList" placeholder="Ej: Hamburguesas, Bebidas, Reparaciones">
-            <datalist id="categoryList"></datalist>
+            <select id="prodCategory" class="select"></select>
           </div>
           <div class="field">
             <label>Nombre</label>
@@ -523,14 +527,14 @@
   </div>
   <!-- MODAL CARRITO / CHECKOUT -->
   <div class="modal-overlay" id="cartModal">
-    <div class="modal wide">
+    <div class="modal cart-modal">
       <button class="modal-close" onclick="closeModal('cartModal')">×</button>
       <h3 class="modal-title serif">Tu pedido / consulta</h3>
       <div class="modal-body">
         <div id="cartItemsList"></div>
         <div class="field" id="deliveryField">
           <label>¿Cómo recibes tu pedido?</label>
-          <div class="option-cards">
+          <div class="option-cards" id="deliveryOptions">
             <button type="button" class="option-card active" id="modeDomicilio" onclick="setDeliveryMode('domicilio')">
               <span class="ico">🛵</span>Domicilio
               <span style="display:block;font-size:.68rem;opacity:.8" id="domicilioHint">Envío gratis</span>
@@ -625,8 +629,13 @@
   created_at timestamptz default now()
 );
 alter table shops add column if not exists delivery_fee numeric default 0;
+alter table shops add column if not exists products_title text;
+alter table shops add column if not exists services_title text;
 alter table shop_banners add column if not exists media_url text;
 alter table shop_banners add column if not exists media_type text default 'image';`;
+  const DEFAULT_PRODUCTS_TITLE = 'Pon aquí un título para tus productos';
+  const DEFAULT_SERVICES_TITLE = 'Pon aquí un título para tus servicios';
+  const HERO_IMAGE_MS = 4000;
   /* Estado general */
   let shopData = null;
   let productsList = [];
@@ -640,8 +649,10 @@ alter table shop_banners add column if not exists media_type text default 'image
   let themeOverride = null;
   let heroIndex = 0;
   let heroTimer = null;
+  let heroSignature = null;
   /* Carrito y checkout */
   let cart = [];
+  let cartBtnDismissed = false;
   const order = { mode: 'domicilio', customerName: '', address: '', tableNumber: '', pay: 'efectivo', walletName: '' };
   /* Modal de producto del cliente */
   let custProduct = null;
@@ -702,6 +713,7 @@ alter table shop_banners add column if not exists media_type text default 'image
       const savedCart = localStorage.getItem('cart_' + shopId);
       if (savedCart) cart = JSON.parse(savedCart) || [];
     } catch (e) { cart = []; }
+    bindHeroSwipe();
     await loadAll(true);
     $('searchInput').addEventListener('input', onSearchInput);
     $('pinInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') verifyAdminPin(); });
@@ -777,9 +789,12 @@ alter table shop_banners add column if not exists media_type text default 'image
     $('shopHeaderName').textContent = shopData.name;
     $('shopHeaderCategory').textContent = shopData.category || 'Menú & Catálogo';
     $('greetSub').textContent = shopData.category || 'Productos y servicios frescos para ti';
-    $('greetTitle').textContent = activeType === 'servicio' ? 'Nuestros servicios' : '¿Qué se te antoja hoy?';
+    $('greetTitle').textContent = activeType === 'servicio'
+      ? ((shopData.services_title || '').trim() || DEFAULT_SERVICES_TITLE)
+      : ((shopData.products_title || '').trim() || DEFAULT_PRODUCTS_TITLE);
     $('domicilioHint').textContent = Number(shopData.delivery_fee || 0) === 0
       ? 'Envío gratis' : 'Envío ' + money(Number(shopData.delivery_fee));
+    applyDeliveryAvailability();
   }
   /* ============================================================
      HERO / BANNERS (imagen o video)
@@ -790,39 +805,96 @@ alter table shop_banners add column if not exists media_type text default 'image
     if (isVideo) return `<video class="${cls || ''}" src="${url}" autoplay muted loop playsinline></video>`;
     return `<img class="${cls || ''}" src="${url}" alt="">`;
   }
+  function heroMediaHtml(url, type) {
+    if (!url) return `<div class="media-ph">🎉</div>`;
+    const isVideo = type === 'video' || /\.mp4($|\?)/i.test(url) || url.startsWith('data:video');
+    if (isVideo) return `<video src="${url}" muted playsinline preload="auto"></video>`;
+    return `<img src="${url}" alt="" draggable="false">`;
+  }
   function renderHero() {
     const slider = $('sliderContainer');
+    /* Solo se vuelve a dibujar si los banners cambiaron (así la rotación y los videos no se reinician con el sondeo) */
+    const sig = bannersList.map((b) => b.id + '|' + b.title + '|' + b.mediaType + '|' + (b.mediaUrl || '').length).join('#');
+    if (sig === heroSignature) return;
+    heroSignature = sig;
+    if (heroTimer) clearTimeout(heroTimer);
     if (!bannersList.length) { slider.innerHTML = ''; slider.className = ''; return; }
     slider.className = 'hero';
+    const multi = bannersList.length > 1;
     slider.innerHTML =
       bannersList.map((b, i) => `
         <div class="hero-slide ${i === 0 ? 'active' : ''}">
-          ${mediaHtml(b.mediaUrl, b.mediaType, '🎉')}
+          ${heroMediaHtml(b.mediaUrl, b.mediaType)}
           ${b.title ? `<div class="hero-caption"><span class="hero-tag">Promoción</span><h2>${esc(b.title)}</h2></div>` : ''}
         </div>`).join('') +
-      (bannersList.length > 1 ? `<div class="hero-dots">${bannersList.map((_, i) =>
+      (multi ? `
+        <button class="hero-arrow prev" onclick="heroPrev()" aria-label="Anterior">‹</button>
+        <button class="hero-arrow next" onclick="heroNext()" aria-label="Siguiente">›</button>
+        <div class="hero-swipe-hint">Desliza <span class="arr">→</span></div>
+        <div class="hero-dots">${bannersList.map((_, i) =>
         `<button class="hero-dot ${i === 0 ? 'active' : ''}" onclick="goHeroSlide(${i})"></button>`).join('')}</div>` : '');
     heroIndex = 0;
-    if (heroTimer) clearInterval(heroTimer);
-    if (bannersList.length > 1) {
-      heroTimer = setInterval(() => {
-        const slides = slider.querySelectorAll('.hero-slide');
-        const dots = slider.querySelectorAll('.hero-dot');
-        if (!slides.length) return;
-        slides[heroIndex].classList.remove('active');
-        if (dots[heroIndex]) dots[heroIndex].classList.remove('active');
-        heroIndex = (heroIndex + 1) % slides.length;
-        slides[heroIndex].classList.add('active');
-        if (dots[heroIndex]) dots[heroIndex].classList.add('active');
-      }, 5000);
+    playHeroSlide(0);
+  }
+  function playHeroSlide(i) {
+    const slider = $('sliderContainer');
+    const slides = slider.querySelectorAll('.hero-slide');
+    const dots = slider.querySelectorAll('.hero-dot');
+    if (heroTimer) clearTimeout(heroTimer);
+    if (!slides.length) return;
+    heroIndex = ((i % slides.length) + slides.length) % slides.length;
+    slides.forEach((s, k) => {
+      s.classList.toggle('active', k === heroIndex);
+      const v = s.querySelector('video');
+      if (v && k !== heroIndex) { v.onended = null; v.onerror = null; try { v.pause(); } catch (e) {} }
+    });
+    dots.forEach((d, k) => d.classList.toggle('active', k === heroIndex));
+    const current = slides[heroIndex];
+    const video = current.querySelector('video');
+    /* Un solo banner: si es video se repite, si es imagen queda fija */
+    if (slides.length < 2) {
+      if (video) { video.muted = true; video.loop = true; const p = video.play(); if (p && p.catch) p.catch(() => {}); }
+      return;
+    }
+    const goNext = () => playHeroSlide(heroIndex + 1);
+    if (video) {
+      /* Video: dura lo que dure el video y luego pasa al siguiente */
+      video.muted = true;
+      video.loop = false;
+      try { video.currentTime = 0; } catch (e) {}
+      video.onended = goNext;
+      video.onerror = () => { heroTimer = setTimeout(goNext, HERO_IMAGE_MS); };
+      const p = video.play();
+      if (p && p.catch) p.catch(() => { heroTimer = setTimeout(goNext, HERO_IMAGE_MS); });
+    } else {
+      /* Imagen: 4 segundos */
+      heroTimer = setTimeout(goNext, HERO_IMAGE_MS);
     }
   }
-  function goHeroSlide(i) {
-    heroIndex = i;
-    const slides = $('sliderContainer').querySelectorAll('.hero-slide');
-    const dots = $('sliderContainer').querySelectorAll('.hero-dot');
-    slides.forEach((s, k) => s.classList.toggle('active', k === i));
-    dots.forEach((d, k) => d.classList.toggle('active', k === i));
+  function goHeroSlide(i) { playHeroSlide(i); }
+  function heroNext() { if (bannersList.length > 1) playHeroSlide(heroIndex + 1); }
+  function heroPrev() { if (bannersList.length > 1) playHeroSlide(heroIndex - 1); }
+  function bindHeroSwipe() {
+    const el = $('sliderContainer');
+    let startX = null, startY = null;
+    const finish = (x, y) => {
+      if (startX === null) return;
+      const dx = x - startX, dy = y - startY;
+      startX = null; startY = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) { if (dx < 0) heroNext(); else heroPrev(); }
+    };
+    el.addEventListener('touchstart', (e) => {
+      if (e.target.closest('button')) return;
+      const t = e.touches[0]; startX = t.clientX; startY = t.clientY;
+    }, { passive: true });
+    el.addEventListener('touchend', (e) => { const t = e.changedTouches[0]; finish(t.clientX, t.clientY); }, { passive: true });
+    el.addEventListener('mousedown', (e) => {
+      if (e.target.closest('button')) return;
+      startX = e.clientX; startY = e.clientY;
+    });
+    el.addEventListener('mouseup', (e) => finish(e.clientX, e.clientY));
+    el.addEventListener('mouseleave', () => { startX = null; startY = null; });
+    el.addEventListener('dragstart', (e) => e.preventDefault());
   }
   /* ============================================================
      FILTROS Y CATEGORÍAS
@@ -888,7 +960,34 @@ alter table shop_banners add column if not exists media_type text default 'image
     });
     return [...map.entries()].filter(([, v]) => v.length).map(([name, items]) => ({ name, items, image: categoryImage(name) }));
   }
+  function productCardHtml(p) {
+    const isServ = (p.item_type || 'producto') === 'servicio';
+    return `
+      <article class="pcard">
+        <div class="pcard-media">
+          <span class="badge-type ${isServ ? 'servicio' : ''}">${isServ ? '🛠️ Servicio' : '🛍️ Producto'}</span>
+          ${mediaHtml(p.image_url, 'image', isServ ? '🛠️' : '🍽️')}
+          <button class="plus-btn" onclick="openCustomerProduct('${p.id}')" title="Agregar con opciones">+</button>
+        </div>
+        <div class="pcard-body">
+          <span class="chip-type">${isServ ? 'Servicio' : 'Producto'}</span>
+          <h4 class="pcard-title">${esc(p.name)}</h4>
+          ${p.description ? `<p class="pcard-desc">${esc(p.description)}</p>` : ''}
+          <div class="pcard-foot"><span class="price">${money(p.price)}</span></div>
+        </div>
+      </article>`;
+  }
   function renderProducts() {
+    /* "Todos": todos los ítems juntos, sin separar por categorías */
+    if (activeCat === 'all') {
+      const items = getFiltered();
+      if (!items.length) {
+        $('productsContainer').innerHTML = `<div class="empty-state"><span class="emoji">🔍</span>No se encontraron ítems disponibles.</div>`;
+        return;
+      }
+      $('productsContainer').innerHTML = `<section class="cat-section"><div class="pgrid">${items.map(productCardHtml).join('')}</div></section>`;
+      return;
+    }
     const groups = sectionGroups();
     if (!groups.length) {
       $('productsContainer').innerHTML = `<div class="empty-state"><span class="emoji">🔍</span>No se encontraron ítems disponibles.</div>`;
@@ -901,23 +1000,7 @@ alter table shop_banners add column if not exists media_type text default 'image
           <span>${g.items.length} ${g.items.length === 1 ? 'ítem' : 'ítems'}</span>
         </div>
         <div class="pgrid">
-          ${g.items.map((p) => {
-            const isServ = (p.item_type || 'producto') === 'servicio';
-            return `
-            <article class="pcard">
-              <div class="pcard-media">
-                <span class="badge-type ${isServ ? 'servicio' : ''}">${isServ ? '🛠️ Servicio' : '🛍️ Producto'}</span>
-                ${mediaHtml(p.image_url, 'image', isServ ? '🛠️' : '🍽️')}
-                <button class="plus-btn" onclick="openCustomerProduct('${p.id}')" title="Agregar con opciones">+</button>
-              </div>
-              <div class="pcard-body">
-                <span class="chip-type">${isServ ? 'Servicio' : 'Producto'}</span>
-                <h4 class="pcard-title">${esc(p.name)}</h4>
-                ${p.description ? `<p class="pcard-desc">${esc(p.description)}</p>` : ''}
-                <div class="pcard-foot"><span class="price">${money(p.price)}</span></div>
-              </div>
-            </article>`;
-          }).join('')}
+          ${g.items.map(productCardHtml).join('')}
         </div>
       </section>`).join('');
   }
@@ -978,6 +1061,7 @@ alter table shop_banners add column if not exists media_type text default 'image
       }
       toast(custProduct.name + ' agregado al pedido', '✅');
     }
+    cartBtnDismissed = false;
     persistCart();
     closeModal('customerProductModal');
     updateCartUI();
@@ -988,11 +1072,16 @@ alter table shop_banners add column if not exists media_type text default 'image
   function persistCart() {
     try { localStorage.setItem('cart_' + shopId, JSON.stringify(cart)); } catch (e) {}
   }
+  function dismissCartButton(e) {
+    if (e) e.stopPropagation();
+    cartBtnDismissed = true;
+    updateCartUI();
+  }
   function updateCartUI() {
     const count = cart.reduce((a, c) => a + c.qty, 0);
     const total = cart.reduce((a, c) => a + c.price * c.qty, 0);
     const btn = $('cartFloatBtn');
-    btn.style.display = count > 0 ? 'flex' : 'none';
+    btn.style.display = count > 0 && !cartBtnDismissed ? 'flex' : 'none';
     $('cartCount').textContent = count;
     $('cartTotal').textContent = money(total);
     if ($('cartModal').style.display === 'flex') renderCartLines();
@@ -1013,6 +1102,7 @@ alter table shop_banners add column if not exists media_type text default 'image
     if (line) openCustomerProduct(line.productId, lineId);
   }
   function openCartModal() {
+    applyDeliveryAvailability();
     renderCartLines();
     openModal('cartModal');
   }
@@ -1044,6 +1134,19 @@ alter table shop_banners add column if not exists media_type text default 'image
     renderTotals();
   }
   function deliveryFee() { return Number((shopData && shopData.delivery_fee) || 0); }
+  /* ¿Es un restaurante o negocio de comidas afín? (define si aparece "Servicio en mesa") */
+  function isFoodBusiness() {
+    if (!shopData) return false;
+    const txt = ((shopData.category || '') + ' ' + (shopData.name || ''))
+      .toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return /(restaur|comida|cafe|gastro|pizz|hamburg|burger|asadero|parrill|asados|food|panader|pasteler|reposter|helader|sushi|marisc|bistro|pollo|broaster|arepa|empanad|taquer|tacos|brunch|coctel|cervec|jugos|juguer|fruteria|postre|donas|\bwok\b|grill|steak|pescad|cevich|kebab|shawarma|crepe|waffle|snack|almuerzo|corrientazo|fonda|piqueteadero|hot ?dog|\bbar\b|\bpub\b|discoteca|licorera|cocina|salsamentaria|charcuter|lonchera|chuzo|fritanga|picada|mexican|italian|china|oriental|peruan|vegan|vegetarian)/.test(txt);
+  }
+  function applyDeliveryAvailability() {
+    const food = isFoodBusiness();
+    $('modeMesa').style.display = food ? '' : 'none';
+    $('deliveryOptions').classList.toggle('single', !food);
+    if (!food && order.mode === 'mesa') setDeliveryMode('domicilio');
+  }
   function renderTotals() {
     const subtotal = cart.reduce((a, c) => a + c.price * c.qty, 0);
     const count = cart.reduce((a, c) => a + c.qty, 0);
@@ -1175,6 +1278,24 @@ alter table shop_banners add column if not exists media_type text default 'image
       $('pinError').style.visibility = 'visible';
     }
   }
+  /* Categorías disponibles para asignar ítems (solo las creadas) */
+  function adminCategoryNames() {
+    if (categoriesSupported) return categoriesList.map((c) => c.name);
+    return [...new Set(productsList.map((p) => p.category).filter(Boolean))];
+  }
+  function hasAdminCategories() { return adminCategoryNames().length > 0; }
+  function updateItemsTabVisibility() {
+    const show = hasAdminCategories();
+    const tabBtn = document.querySelector('#adminPanelModal .tab[data-tab="items"]');
+    if (tabBtn) tabBtn.style.display = show ? '' : 'none';
+    if (!show && $('tab-items').style.display !== 'none') setAdminTab('categorias');
+  }
+  function fillCategorySelect(selected) {
+    const opts = adminCategoryNames().slice();
+    if (selected && !opts.includes(selected)) opts.push(selected);
+    $('prodCategory').innerHTML = opts.map((n) => `<option value="${esc(n)}">${esc(n)}</option>`).join('');
+    if (selected) $('prodCategory').value = selected;
+  }
   function setAdminTab(tab) {
     ['items', 'categorias', 'banners', 'ajustes'].forEach((t) => {
       $('tab-' + t).style.display = t === tab ? '' : 'none';
@@ -1182,7 +1303,7 @@ alter table shop_banners add column if not exists media_type text default 'image
     document.querySelectorAll('#adminPanelModal .tab').forEach((b) => b.classList.toggle('active', b.dataset.tab === tab));
   }
   function openAdminPanel() {
-    setAdminTab('items');
+    setAdminTab(hasAdminCategories() ? 'items' : 'categorias');
     renderAdminLists();
     fillSettingsForm();
     openModal('adminPanelModal');
@@ -1200,7 +1321,6 @@ alter table shop_banners add column if not exists media_type text default 'image
         <button class="icon-sm del" onclick="deleteProduct('${p.id}')" title="Eliminar">🗑️</button>
       </div>`).join('') : `<div class="empty-state" style="padding:24px 8px">No hay ítems todavía.</div>`;
     /* Categorías */
-    $('categoryList').innerHTML = categoryNames().map((n) => `<option value="${esc(n)}"></option>`).join('');
     $('adminCategoriesList').innerHTML = categoriesSupported
       ? (categoriesList.length ? categoriesList.map((c) => `
         <div class="admin-row">
@@ -1211,8 +1331,9 @@ alter table shop_banners add column if not exists media_type text default 'image
           </div>
           <button class="icon-sm edit" onclick="editCategory('${c.id}')">✏️</button>
           <button class="icon-sm del" onclick="deleteCategory('${c.id}')">🗑️</button>
-        </div>`).join('') : `<div class="empty-state" style="padding:24px 8px">No hay categorías todavía.</div>`)
+        </div>`).join('') : `<div class="empty-state" style="padding:24px 8px">No hay categorías todavía.<br>Crea al menos una categoría para poder agregar ítems.</div>`)
       : `<div class="empty-state" style="padding:24px 8px">Crea la tabla <b>shop_categories</b> en Supabase (mira el SQL en Ajustes).</div>`;
+    updateItemsTabVisibility();
     /* Banners */
     $('adminBannersList').innerHTML = bannersList.length ? bannersList.map((b) => `
       <div class="admin-row">
@@ -1226,23 +1347,19 @@ alter table shop_banners add column if not exists media_type text default 'image
       </div>`).join('') : `<div class="empty-state" style="padding:24px 8px">No hay banners publicados.</div>`;
   }
   function fillSettingsForm() {
-    $('setName').value = shopData.name || '';
-    $('setCategory').value = shopData.category || '';
+    $('setProductsTitle').value = shopData.products_title || '';
+    $('setServicesTitle').value = shopData.services_title || '';
     $('setWhatsapp').value = shopData.whatsapp || '';
     $('setPhone').value = shopData.phone || '';
-    $('setPin').value = shopData.pin || '1234';
     $('setColorHex').value = shopData.primary_color || '#134989';
     $('setColorPicker').value = (shopData.primary_color || '#134989').length === 7 ? shopData.primary_color : '#134989';
-    $('setTheme').value = shopData.theme || 'dark';
     $('setDelivery').value = Number(shopData.delivery_fee || 0);
-    $('setLogo').value = shopData.logo || '';
-    showPreview('setLogoPreview', shopData.logo, 'image');
   }
   /* ---------------- Productos / servicios ---------------- */
   function resetProductForm() {
     $('editProductId').value = '';
     $('prodType').value = 'producto';
-    $('prodCategory').value = '';
+    fillCategorySelect('');
     $('prodName').value = '';
     $('prodPrice').value = '';
     $('prodDesc').value = '';
@@ -1251,6 +1368,11 @@ alter table shop_banners add column if not exists media_type text default 'image
     $('prodImgPreview').src = '';
   }
   function openAddProductModal() {
+    if (!hasAdminCategories()) {
+      toast('Primero crea al menos una categoría', '🗂️');
+      setAdminTab('categorias');
+      return;
+    }
     resetProductForm();
     $('productModalTitle').textContent = 'Agregar ítem';
     $('saveProductBtn').textContent = 'Guardar ítem';
@@ -1264,7 +1386,7 @@ alter table shop_banners add column if not exists media_type text default 'image
     $('productModalTitle').textContent = 'Editar ítem';
     $('saveProductBtn').textContent = 'Guardar cambios';
     $('prodType').value = p.item_type || 'producto';
-    $('prodCategory').value = p.category || '';
+    fillCategorySelect(p.category || '');
     $('prodName').value = p.name;
     $('prodPrice').value = p.price;
     $('prodDesc').value = p.description || '';
@@ -1280,7 +1402,7 @@ alter table shop_banners add column if not exists media_type text default 'image
       business_id: shopId,
       item_type: $('prodType').value,
       name,
-      category: $('prodCategory').value.trim() || 'General',
+      category: ($('prodCategory').value || '').trim() || 'General',
       price: parseFloat(price),
       description: $('prodDesc').value.trim(),
       image_url: $('prodImgBase64').value
@@ -1448,30 +1570,39 @@ alter table shop_banners add column if not exists media_type text default 'image
   /* ---------------- Ajustes del negocio ---------------- */
   async function saveSettings() {
     const payload = {
-      name: $('setName').value.trim(),
-      category: $('setCategory').value.trim(),
-      logo: $('setLogo').value || null,
       whatsapp: $('setWhatsapp').value.trim(),
       phone: $('setPhone').value.trim(),
-      pin: $('setPin').value.trim() || '1234',
       primary_color: $('setColorHex').value.trim() || '#134989',
-      theme: $('setTheme').value,
-      delivery_fee: Number($('setDelivery').value || 0)
+      delivery_fee: Number($('setDelivery').value || 0),
+      products_title: $('setProductsTitle').value.trim(),
+      services_title: $('setServicesTitle').value.trim()
     };
     const btn = $('saveSettingsBtn'); btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Guardando…';
     let { error } = await supabaseClient.from('shops').update(payload).eq('business_id', shopId);
-    if (error && /delivery_fee/.test(error.message || '')) {
-      const { delivery_fee, ...legacy } = payload;
-      const retry = await supabaseClient.from('shops').update(legacy).eq('business_id', shopId);
+    /* Si faltan columnas nuevas en la tabla, se reintenta sin ellas */
+    const optionalCols = ['delivery_fee', 'products_title', 'services_title'];
+    const missing = [];
+    let guard = 0;
+    while (error && guard < optionalCols.length) {
+      const msg = error.message || '';
+      const col = optionalCols.find((c) => msg.includes(c) && c in payload);
+      if (!col) break;
+      missing.push(col);
+      delete payload[col];
+      const retry = await supabaseClient.from('shops').update(payload).eq('business_id', shopId);
       error = retry.error;
-      if (!error) {
-        deliverySupported = false;
-        toast('Guardado, pero agrega la columna delivery_fee en shops para el domicilio (SQL en Ajustes)', '⚠️');
-      }
+      guard++;
     }
     btn.disabled = false; btn.textContent = 'Guardar ajustes';
     if (error) { toast('Error al guardar ajustes', '⚠️'); return; }
-    if (deliverySupported) toast('Ajustes guardados, todos verán los cambios al instante', '🎨');
+    if (missing.includes('delivery_fee')) {
+      deliverySupported = false;
+      toast('Guardado, pero agrega la columna delivery_fee en shops para el domicilio (SQL en Ajustes)', '⚠️');
+    }
+    if (missing.includes('products_title') || missing.includes('services_title')) {
+      toast('Guardado, pero agrega las columnas products_title y services_title en shops para los títulos (SQL en Ajustes)', '⚠️');
+    }
+    if (!missing.length) toast('Ajustes guardados, todos verán los cambios al instante', '🎨');
     await loadAll(false);
   }
   /* ============================================================
@@ -1516,14 +1647,6 @@ alter table shop_banners add column if not exists media_type text default 'image
     compressImage(file, (dataUrl) => {
       $('catImgBase64').value = dataUrl;
       showPreview('catImgPreview', dataUrl, 'image');
-    });
-  }
-  function handleLogo(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    compressImage(file, (dataUrl) => {
-      $('setLogo').value = dataUrl;
-      showPreview('setLogoPreview', dataUrl, 'image');
     });
   }
   function handleBannerMedia(e) {
