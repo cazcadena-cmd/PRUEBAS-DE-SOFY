@@ -3,60 +3,20 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#087fd1"><title>Madelena | Comercio local</title>
 <link rel="manifest" href="./manifest.json">
+<link rel="preconnect" href="https://jpukgeomsmwyxtqnpcsd.supabase.co" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://i.imgur.com">
 <style>
 :root{color-scheme:light;--bg:#f2f9ff;--surface:#fff;--soft:#e4f3ff;--text:#10243a;--muted:#61778c;--line:rgba(20,103,158,.14);--accent:#29b6f6;--deep:#087fd1;--shadow:0 24px 70px rgba(21,112,174,.15)}:root[data-theme=dark]{color-scheme:dark;--bg:#06111d;--surface:#0d1d2d;--soft:#132a3d;--text:#f3faff;--muted:#91aabe;--line:rgba(126,211,255,.13);--shadow:0 26px 80px rgba(0,8,18,.46)}*{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--bg)}body{margin:0;min-width:320px;background:var(--bg);color:var(--text);font-family:Arial,"Segoe UI",sans-serif;transition:.3s}button,input,select{font:inherit}button{color:inherit}a{text-decoration:none;color:inherit}svg{width:20px;height:20px}.hidden{display:none!important}.app{min-height:100vh;overflow:hidden;background:radial-gradient(circle at 75% 6%,rgba(41,182,246,.14),transparent 28%),var(--bg)}
-.topbar{width:min(1160px,calc(100% - 40px));height:92px;margin:auto;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:20}.brand,.actions{display:flex;align-items:center}.brand{gap:12px;margin-left:30px}.brand-mark{width:42px;height:42px;display:grid;place-items:center;color:#fff;border-radius:13px;background:linear-gradient(145deg,#55ceff,#087fd1);box-shadow:0 9px 22px rgba(8,127,209,.28);transform:rotate(-3deg)}.brand-copy{display:flex;flex-direction:column}.brand small{color:var(--muted);font-size:10px}.brand img{max-height:104px;width:auto;display:block}.actions{gap:12px}.theme{border:1px solid var(--line);background:var(--surface);padding:4px;display:flex;border-radius:30px;cursor:pointer}.theme span{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}.theme span.active{color:#fff;background:var(--accent)}.theme svg{width:16px}.primary{min-height:46px;border:0;padding:0 21px;border-radius:14px;background:linear-gradient(135deg,#4dccff,var(--deep));color:#fff;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;box-shadow:0 12px 26px rgba(8,127,209,.25);transition:.2s}.primary:hover{transform:translateY(-2px)}
-.hero{height:min(420px,calc(100vh - 112px));min-height:320px;position:relative;background:#06111d;overflow:hidden}.slides,.slide,.slide video,.shade{position:absolute;inset:0;width:100%;height:100%}.slide{opacity:0;pointer-events:none;transition:opacity .7s,transform 1s;transform:scale(1.025)}.slide.active{opacity:1;pointer-events:auto;transform:scale(1)}.slide video{object-fit:contain;object-position:center 0%}.shade{z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(4,17,31,.9),rgba(4,26,44,.6) 43%,rgba(4,31,53,.16) 78%),linear-gradient(0deg,rgba(2,17,31,.62),transparent 45%)}.hero-copy{
-  position:relative;
-  z-index:2;
-  width:min(1160px,calc(100% - 40px));
-  height:100%;
-  margin:auto;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:flex-start;
-  color:#fff;
-  pointer-events:none;
-  animation:up .8s;
-  transform:translateY(35px); /* Ajusta este valor en px para bajar más o menos el texto */
-}/* Quita el transform de la regla general */
-.eyebrow{
-  margin:0 0 8px;
-  color:var(--accent);
-  font-weight:800;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.16em;
-}
-
-/* Aplica el movimiento SOLO al texto del banner principal */
-.hero-copy .eyebrow{
-  position: relative;
-  top: 2px; /* Ajusta este valor: -30px sube más, -15px sube menos */
-  margin-bottom: -10px; /* Evita que deje un hueco vacío con el título de abajo */
-}
-.hero h1{
-  max-width:680px;
-  margin:14px 0 34px; /* Separa el título: queda debajo de "Descubre lo que tienes cerca" sin taparlo y deja espacio al texto de abajo */
-  font-size:clamp(24px,3.5vw,36px); /* Reducido de clamp(32px,5vw,52px) */
-  line-height:.98;
-  letter-spacing:-.055em;
-}.hero h1 span{color:var(--accent)} .hero-copy>p:last-child{
- max-width:480px;
-  margin:8px 0;
-  color:rgba(255,255,255,.76);
-  font-size:clamp(12px,1.4vw,14px); /* Reducido de clamp(14px,1.8vw,16px) */
-  line-height:1.4;
-  transform: translateY(-30px); /* Sube solo el texto sin desplazar nada más */
-}.slider-controls{position:absolute;z-index:5;width:min(1160px,calc(100% - 40px));left:50%;bottom:15px;transform:translateX(-50%);display:flex;justify-content:space-between;align-items:center}.dots,.arrows{display:flex;gap:8px;align-items:center}.dots button{width:8px;height:8px;padding:0;border:0;border-radius:10px;background:rgba(255,255,255,.42);cursor:pointer}.dots button.active{width:30px;background:var(--accent)}.arrows button{width:46px;height:46px;border:1px solid rgba(174,226,255,.4);border-radius:50%;color:#fff;background:rgba(5,38,61,.72);font-size:29px;cursor:pointer}.arrows button:hover{background:var(--accent)}
+.topbar{width:min(1160px,calc(100% - 40px));height:92px;margin:auto;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:20}.brand,.actions{display:flex;align-items:center}.brand{gap:12px;margin-left:30px}.brand-mark{width:42px;height:42px;display:grid;place-items:center;color:#fff;border-radius:13px;background:linear-gradient(145deg,#55ceff,#087fd1);box-shadow:0 9px 22px rgba(8,127,209,.28);transform:rotate(-3deg)}.brand-copy{display:flex;flex-direction:column}.brand small{color:var(--muted);font-size:10px}.brand img{max-height:104px;width:auto;display:block}.actions{gap:12px}.theme{border:1px solid var(--line);background:var(--surface);padding:4px;display:flex;border-radius:30px;cursor:pointer;flex-shrink:0}.theme span{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}.theme span.active{color:#fff;background:var(--accent)}.theme svg{width:16px}.primary{min-height:46px;border:0;padding:0 21px;border-radius:14px;background:linear-gradient(135deg,#4dccff,var(--deep));color:#fff;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;box-shadow:0 12px 26px rgba(8,127,209,.25);transition:.2s}.primary:hover{transform:translateY(-2px)}
+.hero{height:min(420px,calc(100vh - 112px));min-height:320px;position:relative;background:#06111d;overflow:hidden}.slides,.slide,.slide video,.shade{position:absolute;inset:0;width:100%;height:100%}.slide{opacity:0;pointer-events:none;transition:opacity .7s,transform 1s;transform:scale(1.025)}.slide.active{opacity:1;pointer-events:auto;transform:scale(1)}.slide video{object-fit:contain;object-position:center 0%}.shade{z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(4,17,31,.9),rgba(4,26,44,.6) 43%,rgba(4,31,53,.16) 78%),linear-gradient(0deg,rgba(2,17,31,.62),transparent 45%)}.hero-copy{position:relative;z-index:2;width:min(1160px,calc(100% - 40px));height:100%;margin:auto;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;color:#fff;pointer-events:none;animation:up .8s;transform:translateY(35px)}
+.eyebrow{margin:0 0 8px;color:var(--accent);font-weight:800;font-size:10px;text-transform:uppercase;letter-spacing:.16em}
+.hero-copy .eyebrow{position:relative;top:2px;margin-bottom:-10px}
+.hero h1{max-width:680px;margin:14px 0 34px;font-size:clamp(24px,3.5vw,36px);line-height:.98;letter-spacing:-.055em}.hero h1 span{color:var(--accent)} .hero-copy>p:last-child{max-width:480px;margin:8px 0;color:rgba(255,255,255,.76);font-size:clamp(12px,1.4vw,14px);line-height:1.4;transform:translateY(-30px)}.slider-controls{position:absolute;z-index:5;width:min(1160px,calc(100% - 40px));left:50%;bottom:15px;transform:translateX(-50%);display:flex;justify-content:space-between;align-items:center}.dots,.arrows{display:flex;gap:8px;align-items:center}.dots button{width:8px;height:8px;padding:0;border:0;border-radius:10px;background:rgba(255,255,255,.42);cursor:pointer}.dots button.active{width:30px;background:var(--accent)}.arrows button{width:46px;height:46px;border:1px solid rgba(174,226,255,.4);border-radius:50%;color:#fff;background:rgba(5,38,61,.72);font-size:29px;cursor:pointer}.arrows button:hover{background:var(--accent)}
 .content{width:min(1060px,calc(100% - 40px));margin:auto;padding:15px 0 30px}.heading{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:27px}.heading h2,.modal h2{margin:0;font-size:clamp(31px,4vw,44px);line-height:1.05}.search{max-width:540px;height:52px;margin-bottom:34px;padding:0 18px;display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:15px;background:var(--surface);color:var(--muted)}.search:focus-within{border-color:var(--accent)}.search input{width:100%;border:0;outline:0;background:transparent;color:var(--text)}.empty{min-height:310px;border-block:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px}.empty-icon{width:58px;height:58px;display:grid;place-items:center;border-radius:18px;color:var(--accent);background:rgba(41,182,246,.12)}.empty h3{font-size:22px;margin:17px 0 8px}.empty p{color:var(--muted);line-height:1.6;max-width:470px;margin:0 0 22px}.shop{min-width:0;animation:up .5s}.shop img{width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:24px;background:var(--soft);transition:.35s}.shop:hover img{transform:translateY(-6px);box-shadow:var(--shadow)}.shop h3{margin:14px 0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.shop p{color:var(--muted);margin:0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.no-results{text-align:center;color:var(--muted);padding:70px}
 .categories{padding-top:110px;padding-bottom:100px}.count{color:var(--muted);font-size:14px}.category-empty{min-height:220px;display:grid;place-items:center;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:24px}.category{height:255px;padding:0;border:0;border-radius:22px;overflow:hidden;position:relative;text-align:left;color:#fff;cursor:pointer;background:var(--soft)}.category>img,.category-shade{position:absolute;inset:0;width:100%;height:100%}.category>img{object-fit:cover;transition:.55s}.category:hover>img{transform:scale(1.07)}.category-shade{background:linear-gradient(0deg,rgba(3,20,35,.9),transparent 80%)}.category-label{position:absolute;left:20px;bottom:19px;display:flex;flex-direction:column}.category-label strong{font-size:18px}.category-label small{color:#c6eafa;margin-top:3px}.category i{position:absolute;right:17px;top:17px;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:rgba(4,34,55,.6)}footer{min-height:150px;border-top:1px solid var(--line);width:min(1160px,calc(100% - 40px));margin:auto;display:flex;align-items:center;justify-content:space-between;color:var(--muted)}footer span{font-weight:800;color:var(--text);letter-spacing:.14em}
-.backdrop{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(2,14,26,.72);backdrop-filter:blur(14px);animation:fade .22s}.modal{width:min(550px,100%);max-height:calc(100vh - 40px);overflow:auto;position:relative;border:1px solid var(--line);border-radius:28px;background:var(--surface);padding:36px;box-shadow:0 35px 100px #0007;animation:pop .35s}.modal.small{width:min(440px,100%)}.close{position:absolute;top:22px;right:22px;width:38px;height:38px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line);background:var(--soft);cursor:pointer}.intro{color:var(--muted);line-height:1.55;margin:13px 50px 26px 0}form,form label{display:flex;flex-direction:column}form{gap:17px}form label{gap:8px;font-size:13px;font-weight:700}form input,form select{width:100%;height:50px;border:1px solid var(--line);border-radius:13px;padding:0 14px;outline:0;background:var(--soft);color:var(--text)}.upload{width:100%;min-height:130px;border:1.5px dashed rgba(41,182,246,.55);border-radius:16px;color:var(--text);background:rgba(41,182,246,.07);cursor:pointer;overflow:hidden}.upload span{display:flex;flex-direction:column;align-items:center;gap:4px}.upload small,.storage{color:var(--muted);font-weight:400}.upload img{width:100%;height:145px;object-fit:contain}.file{position:absolute;width:1px;height:1px;opacity:0}.error{color:#ff5e76;font-size:12px}.notice{color:var(--accent);font-size:12px;font-weight:700;line-height:1.5}.submit{width:100%}.storage{text-align:center;font-size:10px}.list{border-top:1px solid var(--line);margin-top:25px}.list a{min-height:55px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);font-weight:600;cursor:pointer}.category-shops{display:flex;flex-direction:column;gap:10px;margin-top:22px}.category-shop{display:flex;align-items:center;gap:13px;border-bottom:1px solid var(--line);padding-bottom:10px}.category-shop img{width:54px;height:54px;object-fit:cover;border-radius:14px}.category-shop span{display:flex;flex-direction:column}.category-shop small{color:var(--muted)}.toast{position:fixed;z-index:200;left:50%;bottom:24px;transform:translateX(-50%);background:var(--surface);border:1px solid var(--line);padding:13px 20px;border-radius:14px;box-shadow:var(--shadow);font-weight:700}
+.backdrop{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(2,14,26,.72);backdrop-filter:blur(14px);animation:fade .22s}.modal{width:min(550px,100%);max-height:calc(100vh - 40px);overflow:auto;position:relative;border:1px solid var(--line);border-radius:28px;background:var(--surface);padding:36px;box-shadow:0 35px 100px #0007;animation:pop .35s}.modal.small{width:min(440px,100%)}.close{position:absolute;top:22px;right:22px;width:38px;height:38px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line);background:var(--soft);cursor:pointer;z-index:3}.intro{color:var(--muted);line-height:1.55;margin:13px 50px 26px 0}form,form label{display:flex;flex-direction:column}form{gap:17px}form label{gap:8px;font-size:13px;font-weight:700}form input,form select{width:100%;height:50px;border:1px solid var(--line);border-radius:13px;padding:0 14px;outline:0;background:var(--soft);color:var(--text)}.upload{width:100%;min-height:130px;border:1.5px dashed rgba(41,182,246,.55);border-radius:16px;color:var(--text);background:rgba(41,182,246,.07);cursor:pointer;overflow:hidden}.upload span{display:flex;flex-direction:column;align-items:center;gap:4px}.upload small,.storage{color:var(--muted);font-weight:400}.upload img{width:100%;height:145px;object-fit:contain}.file{position:absolute;width:1px;height:1px;opacity:0}.error{color:#ff5e76;font-size:12px}.notice{color:var(--accent);font-size:12px;font-weight:700;line-height:1.5}.submit{width:100%}.storage{text-align:center;font-size:10px}.list{border-top:1px solid var(--line);margin-top:25px}.list a{min-height:55px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);font-weight:600;cursor:pointer}.category-shops{display:flex;flex-direction:column;gap:10px;margin-top:22px}.category-shop{display:flex;align-items:center;gap:13px;border-bottom:1px solid var(--line);padding-bottom:10px}.category-shop img{width:54px;height:54px;object-fit:cover;border-radius:14px}.category-shop span{display:flex;flex-direction:column}.category-shop small{color:var(--muted)}.toast{position:fixed;z-index:2000;left:50%;bottom:24px;transform:translateX(-50%);background:var(--surface);border:1px solid var(--line);padding:13px 20px;border-radius:14px;box-shadow:var(--shadow);font-weight:700}
 
-/* ==========================================
-   MODAL DE CONFIRMACIÓN DE CIERRE DE SESIÓN
-   ========================================== */
 #logoutModal{z-index:1500}
 .logout-icon{width:62px;height:62px;margin:0 auto 14px;display:grid;place-items:center;border-radius:20px;color:#ff5e76;background:rgba(255,94,118,.12)}
 .logout-icon svg{width:28px;height:28px}
@@ -64,11 +24,8 @@
 .logout-actions button{flex:1}
 .danger{background:linear-gradient(135deg,#ff7b8f,#e5384d)!important;box-shadow:0 12px 26px rgba(229,56,77,.28)!important}
 
-@keyframes up{from{opacity:0;transform:translateY(18px)}}@keyframes fade{from{opacity:0}}@keyframes pop{from{opacity:0;transform:translateY(20px) scale(.97)}}@media(max-width:760px){.topbar{width:calc(100% - 28px);height:78px}.brand small{display:none}.create-top{width:42px;padding:0;font-size:0}.hero{min-height:300px;height:360px}.hero-copy{width:calc(100% - 38px);justify-content:flex-end;padding-bottom:50px}.hero h1{font-size:clamp(28px, 8vw, 40px)}.shade{background:linear-gradient(0deg,rgba(2,16,29,.95),rgba(3,27,47,.45) 63%,transparent)}.slider-controls{width:calc(100% - 38px);bottom:10px}.content{width:calc(100% - 32px);padding-top:20px}.heading{align-items:center}.heading h2{font-size:33px}.category{height:220px}footer{width:calc(100% - 32px);flex-direction:column;justify-content:center}.modal{padding:30px 22px 24px}}
+@keyframes up{from{opacity:0;transform:translateY(18px)}}@keyframes fade{from{opacity:0}}@keyframes pop{from{opacity:0;transform:translateY(20px) scale(.97)}}@media(max-width:760px){.topbar{width:calc(100% - 28px);height:78px}.brand small{display:none}.hero{min-height:300px;height:360px}.hero-copy{width:calc(100% - 38px);justify-content:flex-end;padding-bottom:50px}.hero h1{font-size:clamp(28px, 8vw, 40px)}.shade{background:linear-gradient(0deg,rgba(2,16,29,.95),rgba(3,27,47,.45) 63%,transparent)}.slider-controls{width:calc(100% - 38px);bottom:10px}.content{width:calc(100% - 32px);padding-top:20px}.heading{align-items:center}.heading h2{font-size:33px}.category{height:220px}footer{width:calc(100% - 32px);flex-direction:column;justify-content:center}.modal{padding:30px 22px 24px}}
 
-/* ==========================================
-   1. BOTÓN ENGRANE + MODAL DE SOPORTE
-   ========================================== */
 .settings-top{width:46px;padding:0}
 .settings-top svg{width:21px;height:21px;color:#fff;transition:transform .6s ease}
 .settings-top:hover svg{transform:rotate(120deg)}
@@ -85,9 +42,6 @@
 .support-loader span{width:38px;height:38px;border-radius:50%;border:3px solid rgba(41,182,246,.2);border-top-color:var(--accent);animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ==========================================
-   2 y 3. MODAL "CREA TU COMERCIO" MÁS ANCHO
-   ========================================== */
 #createModal{padding:32px}
 .modal.wide{width:min(880px,100%);max-height:calc(100vh - 64px);max-height:calc(100dvh - 64px);padding:34px 40px 28px}
 .modal.wide .intro{margin:10px 50px 22px 0;max-width:640px}
@@ -97,9 +51,6 @@ form label.logo-field{height:100%}
 .logo-field .upload{flex:1;display:flex;align-items:center;justify-content:center}
 .form-actions{display:flex;flex-direction:column;gap:12px}
 
-/* ==========================================
-   4 y 5. SLIDER DE PRODUCTOS
-   ========================================== */
 .shops-panel{position:relative;max-width:760px;padding:18px 22px 22px;border:1px solid var(--line);border-radius:26px;background:linear-gradient(145deg,rgba(41,182,246,.11),rgba(41,182,246,.03));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 50px rgba(8,60,110,.12),inset 0 1px 0 rgba(255,255,255,.06)}
 :root[data-theme=light] .shops-panel{background:linear-gradient(145deg,rgba(255,255,255,.75),rgba(228,243,255,.5))}
 .shops-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
@@ -131,16 +82,11 @@ form label.logo-field{height:100%}
 .shops-progress{position:absolute;left:22px;right:22px;bottom:10px;height:2px;border-radius:2px;background:rgba(41,182,246,.12);overflow:hidden}
 .shops-progress i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#4dccff,var(--deep));transform-origin:left;animation:progress 4s linear infinite}
 @keyframes progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-
-/* Tarjeta de PRODUCTO (precio + referencia) */
 .shops .shop{position:relative}
 .price-tag{position:absolute;right:10px;top:10px;z-index:2;padding:6px 11px;border-radius:30px;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,#4dccff,#087fd1);box-shadow:0 8px 18px rgba(8,127,209,.35);letter-spacing:.02em}
 .shop .ref-tag{display:inline-block;color:var(--accent);font-weight:800;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
 .shop .shop-name{color:var(--muted)}
 
-/* ==========================================
-   6. CATEGORÍAS EN 2 COLUMNAS CON ROTACIÓN
-   ========================================== */
 .category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:760px}
 .category-grid .category{height:165px;border-radius:20px}
 .category>img.swap{opacity:0;transform:scale(1.08)}
@@ -154,10 +100,17 @@ form label.logo-field{height:100%}
 a.category-shop{transition:.2s;border-radius:12px}
 a.category-shop:hover{background:var(--soft);padding-left:8px}
 
-/* ==========================================
-   (4) SOLO EN WEB: CONTENEDORES MÁS AMPLIOS
-   Y COMPLETOS PARA PRODUCTOS Y CATEGORÍAS
-   ========================================== */
+/* (9) BUSCADOR DE CATEGORÍAS CON SUGERENCIAS */
+.cat-search{position:relative;max-width:540px;margin-bottom:26px;z-index:15}
+.cat-search .search{margin-bottom:0}
+.cat-search .cat-clear{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:20px;line-height:1;padding:0 2px}
+.cat-suggest{position:absolute;left:0;right:0;top:calc(100% + 6px);max-height:280px;overflow:auto;border:1px solid var(--line);border-radius:15px;background:var(--surface);box-shadow:var(--shadow);padding:6px;animation:fade .18s}
+.cat-suggest button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:11px 12px;border:0;border-radius:10px;background:transparent;color:var(--text);text-align:left;cursor:pointer;font-weight:700;font-size:14px}
+.cat-suggest button:hover,.cat-suggest button.hl{background:var(--soft);color:var(--accent)}
+.cat-suggest small{color:var(--muted);font-weight:400;font-size:12px;white-space:nowrap}
+.cat-suggest p{margin:0;padding:12px;color:var(--muted);font-size:13px}
+.cat-suggest-title{padding:6px 12px 4px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:800}
+
 @media(min-width:761px){
   .content{width:min(1160px,calc(100% - 40px))}
   .shops-panel.grid-panel{max-width:100%}
@@ -200,253 +153,70 @@ a.category-shop:hover{background:var(--soft);padding-left:8px}
   .pf-head-btn{flex:1}
 }
 
-/* ==========================================
-   ESTILOS Y ANIMACIONES PARA EL BANNER PWA
-   ========================================== */
-.pwa-banner {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 9999;
-  background: var(--surface, #0d1d2d);
-  border-bottom: 2px solid var(--accent, #29b6f6);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-  padding: 10px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  animation: slideDown 0.5s ease-out forwards;
-}
+.pwa-banner{position:fixed;top:0;left:0;width:100%;z-index:9999;background:var(--surface,#0d1d2d);border-bottom:2px solid var(--accent,#29b6f6);box-shadow:0 8px 24px rgba(0,0,0,0.3);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;animation:slideDown 0.5s ease-out forwards}
+.pwa-banner.hidden{display:none!important}
+@keyframes slideDown{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
+.pwa-content{display:flex;align-items:center;gap:10px;overflow:hidden}
+.pwa-icon img{width:38px;height:38px;border-radius:8px;object-fit:cover;display:block}
+.pwa-info{display:flex;flex-direction:column}
+.pwa-info strong{font-size:14px;color:var(--text,#f3faff);line-height:1.2}
+.pwa-info span{font-size:11px;color:var(--muted,#91aabe);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pwa-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.pwa-btn-ring{background:linear-gradient(135deg,#134989,#087fd1);color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:bold;font-size:13px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 4px 12px rgba(8,127,209,0.4);animation:ringRing 2s infinite ease-in-out}
+.pwa-btn-ring svg{width:16px;height:16px}
+@keyframes ringRing{0%{transform:scale(1) rotate(0deg)}10%{transform:scale(1.08) rotate(12deg)}15%{transform:scale(1.08) rotate(-12deg)}20%{transform:scale(1.08) rotate(12deg)}25%{transform:scale(1.08) rotate(-12deg)}30%{transform:scale(1) rotate(0deg)}100%{transform:scale(1) rotate(0deg)}}
+.pwa-close{background:transparent;border:none;color:var(--muted,#91aabe);font-size:22px;cursor:pointer;padding:0 4px;line-height:1}
+.pwa-close:hover{color:var(--text,#fff)}
 
-.pwa-banner.hidden {
-  display: none !important;
-}
+/* AUTENTICACIÓN Y PERFIL */
+.user-profile-badge{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);padding:3px 10px 3px 3px;border-radius:30px;cursor:pointer;transition:.2s;flex-shrink:0}
+.user-profile-badge:hover{border-color:var(--accent)}
+.user-profile-badge img{width:30px;height:30px;border-radius:50%;object-fit:cover;border:1.5px solid var(--accent);background:var(--soft);flex-shrink:0}
+.user-profile-badge .badge-txt{display:flex;flex-direction:column;align-items:flex-start;gap:2px;line-height:1.1}
+.user-profile-badge span{font-size:12px;font-weight:700;color:var(--text);white-space:nowrap}
+.user-profile-badge .role-tag{font-size:8.5px;padding:2px 6px;border-radius:10px;background:var(--soft);color:var(--accent);text-transform:uppercase;font-weight:800;white-space:nowrap;letter-spacing:.03em}
+.btn-logout{background:transparent;border:0;color:var(--muted);cursor:pointer;padding:4px;display:flex;align-items:center}
+.btn-logout:hover{color:#ff5e76}
 
-@keyframes slideDown {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
+/* (10) Botón de iniciar sesión más compacto */
+#loginTopBtn{min-height:38px;padding:0 14px;font-size:13px;border-radius:12px;gap:6px;white-space:nowrap;flex-shrink:0}
+#loginTopBtn svg{width:16px;height:16px}
 
-.pwa-content {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  overflow: hidden;
+/* (7) Botón ¿Quieres vender? */
+.sell-btn{white-space:nowrap}
+@media(max-width:760px){
+  .actions{gap:8px}
+  .brand{margin-left:0}
+  .brand img{max-height:70px}
+  #loginTopBtn{min-height:34px;padding:0 11px;font-size:12px;border-radius:11px}
+  #loginTopBtn svg{width:14px;height:14px}
+  .theme{padding:3px}
+  .theme span{width:28px;height:28px}
+  .user-profile-badge{padding:3px 8px 3px 3px;gap:6px}
+  .user-profile-badge img{width:28px;height:28px}
+  .user-profile-badge span{font-size:11px}
+  /* (8) Popup pequeño que entra de izquierda a derecha */
+  .sell-btn{position:fixed;left:14px;bottom:18px;z-index:90;min-height:40px;padding:0 16px;font-size:13px;border-radius:30px;box-shadow:0 12px 30px rgba(8,127,209,.45);animation:sellIn .7s cubic-bezier(.2,.9,.25,1.2) both,sellPulse 2.6s 1s ease-in-out infinite}
+  .sell-btn svg{width:16px;height:16px}
 }
+@keyframes sellIn{from{transform:translateX(-140%);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes sellPulse{0%,100%{box-shadow:0 12px 30px rgba(8,127,209,.45)}50%{box-shadow:0 12px 30px rgba(8,127,209,.45),0 0 0 7px rgba(41,182,246,.18)}}
 
-.pwa-icon img {
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
-  object-fit: cover;
-  display: block;
-}
+#authModal{z-index:1000;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.auth-tabs{display:flex;gap:10px;margin:0 50px 20px 0;border-bottom:1px solid var(--line);padding-bottom:10px}
+.auth-tab-btn{flex:1;padding:10px;background:transparent;border:none;color:var(--muted);font-weight:700;font-size:14px;cursor:pointer;border-radius:10px}
+.auth-tab-btn.active{background:var(--soft);color:var(--accent)}
+.role-selector{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.role-option{border:1px solid var(--line);background:var(--soft);padding:12px;border-radius:12px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;transition:.2s}
+.role-option input{display:none}
+.role-option.selected{border-color:var(--accent);background:rgba(41,182,246,0.15);color:var(--accent)}
+.avatar-upload-preview{width:70px;height:70px;border-radius:50%;object-fit:cover;margin:8px auto;display:block;border:2px dashed var(--accent);background:var(--soft)}
 
-.pwa-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.pwa-info strong {
-  font-size: 14px;
-  color: var(--text, #f3faff);
-  line-height: 1.2;
-}
-
-.pwa-info span {
-  font-size: 11px;
-  color: var(--muted, #91aabe);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.pwa-actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-/* Botón con animación Ring-Ring */
-.pwa-btn-ring {
-  background: linear-gradient(135deg, #134989, #087fd1);
-  color: #ffffff;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-weight: bold;
-  font-size: 13px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(8, 127, 209, 0.4);
-  animation: ringRing 2s infinite ease-in-out;
-}
-
-.pwa-btn-ring svg {
-  width: 16px;
-  height: 16px;
-}
-
-@keyframes ringRing {
-  0% { transform: scale(1) rotate(0deg); }
-  10% { transform: scale(1.08) rotate(12deg); }
-  15% { transform: scale(1.08) rotate(-12deg); }
-  20% { transform: scale(1.08) rotate(12deg); }
-  25% { transform: scale(1.08) rotate(-12deg); }
-  30% { transform: scale(1) rotate(0deg); }
-  100% { transform: scale(1) rotate(0deg); }
-}
-
-.pwa-close {
-  background: transparent;
-  border: none;
-  color: var(--muted, #91aabe);
-  font-size: 22px;
-  cursor: pointer;
-  padding: 0 4px;
-  line-height: 1;
-}
-
-.pwa-close:hover {
-  color: var(--text, #ffffff);
-}
-/* ==========================================
-   ESTILOS DE AUTENTICACIÓN Y PERFIL DE USUARIO
-   ========================================== */
-.user-profile-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  padding: 4px 10px 4px 4px;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: .2s;
-}
-.user-profile-badge:hover { border-color: var(--accent); }
-.user-profile-badge img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1.5px solid var(--accent);
-  background: var(--soft);
-}
-.user-profile-badge span {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text);
-  max-width: 90px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.user-profile-badge .role-tag {
-  font-size: 9px;
-  padding: 2px 6px;
-  border-radius: 10px;
-  background: var(--soft);
-  color: var(--accent);
-  text-transform: uppercase;
-  font-weight: 800;
-}
-.btn-logout {
-  background: transparent;
-  border: 0;
-  color: var(--muted);
-  cursor: pointer;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-}
-.btn-logout:hover { color: #ff5e76; }
-
-/* Modal Auth (no bloqueante: la app siempre es navegable) */
-#authModal {
-  z-index: 1000;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
-.auth-tabs {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 10px;
-}
-.auth-tab-btn {
-  flex: 1;
-  padding: 10px;
-  background: transparent;
-  border: none;
-  color: var(--muted);
-  font-weight: 700;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 10px;
-}
-.auth-tab-btn.active {
-  background: var(--soft);
-  color: var(--accent);
-}
-.role-selector {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 4px;
-}
-.role-option {
-  border: 1px solid var(--line);
-  background: var(--soft);
-  padding: 12px;
-  border-radius: 12px;
-  text-align: center;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 700;
-  transition: .2s;
-}
-.role-option input { display: none; }
-.role-option.selected {
-  border-color: var(--accent);
-  background: rgba(41, 182, 246, 0.15);
-  color: var(--accent);
-}
-.avatar-upload-preview {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin: 8px auto;
-  display: block;
-  border: 2px dashed var(--accent);
-  background: var(--soft);
-}
-
-/* ==========================================
-   MODAL DE CONTRASEÑA (reemplaza al PIN)
-   ========================================== */
 .admin-top{width:46px;padding:0}
 .admin-top svg{width:21px;height:21px;color:#fff;transition:transform .6s ease}
 .admin-top:hover svg{transform:rotate(120deg)}
-@media(max-width:760px){.admin-top{width:42px}}
 #passwordModal{z-index:1200}
 
-/* ==========================================
-   MODAL DE PERFIL (comprador / vendedor)
-   ========================================== */
 #profileModal{z-index:1100}
 .modal.profile{width:min(620px,100%);max-height:calc(100vh - 40px);max-height:calc(100dvh - 40px);padding:30px}
 .profile-head{display:flex;align-items:center;gap:16px;padding-bottom:18px;border-bottom:1px solid var(--line)}
@@ -455,6 +225,9 @@ a.category-shop:hover{background:var(--soft);padding-left:8px}
 .profile-head p{margin:4px 0 7px;color:var(--muted);font-size:13px}
 .profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0 6px}
 .profile-stats div{border:1px solid var(--line);background:var(--soft);border-radius:14px;padding:12px 8px;text-align:center}
+.profile-stats div.clickable{cursor:pointer;transition:.2s}
+.profile-stats div.clickable:hover{border-color:var(--accent);transform:translateY(-2px)}
+.profile-stats div.clickable small{color:var(--accent)}
 .profile-stats b{display:block;font-size:20px;line-height:1.1}
 .profile-stats small{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.06em}
 .pf-section-title{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin:22px 0 8px;font-weight:800}
@@ -469,55 +242,39 @@ a.category-shop:hover{background:var(--soft);padding-left:8px}
 .pf-kv b{color:var(--muted);font-weight:700}
 .pf-kv span{text-align:right;font-weight:700;word-break:break-word}
 .pf-avatar-badge{font-size:9px;padding:3px 8px;border-radius:10px;background:var(--soft);color:var(--accent);text-transform:uppercase;font-weight:800;letter-spacing:.08em}
-
-/* (3) Botones dentro de la tarjeta de perfil (junto al nombre y el rol) */
 .pf-head-actions{margin-left:auto;display:flex;flex-direction:column;gap:8px;flex-shrink:0}
 .pf-head-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:0 14px;border:1px solid var(--line);background:var(--soft);color:var(--text);border-radius:12px;font-size:12px;font-weight:800;cursor:pointer;transition:.2s;white-space:nowrap}
 .pf-head-btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
 .pf-head-btn svg{width:16px;height:16px;flex-shrink:0}
+
+/* (2) MODAL DE PRODUCTOS DEL VENDEDOR */
+#productsModal{z-index:1150}
+.modal.products{width:min(560px,100%)}
+.pm-list{margin-top:14px;display:flex;flex-direction:column}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head><body>
-<!-- Alerta personalizada de instalación PWA -->
 <div id="pwaInstallBanner" class="pwa-banner hidden">
   <div class="pwa-content">
-    <div class="pwa-icon">
-      <img src="https://i.imgur.com/HuC4TzS.gif" alt="App Logo">
-    </div>
-    <div class="pwa-info">
-      <strong>Instala Sofy-Shop</strong>
-      <span id="pwaText">Disfruta de una mejor experiencia en tu dispositivo.</span>
-    </div>
+    <div class="pwa-icon"><img src="https://i.imgur.com/HuC4TzS.gif" alt="App Logo"></div>
+    <div class="pwa-info"><strong>Instala Sofy-Shop</strong><span id="pwaText">Disfruta de una mejor experiencia en tu dispositivo.</span></div>
   </div>
   <div class="pwa-actions">
-    <button id="pwaInstallBtn" class="pwa-btn-ring">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-        <polyline points="7 10 12 15 17 10"/>
-        <line x1="12" y1="15" x2="12" y2="3"/>
-      </svg>
-      Instalar
-    </button>
+    <button id="pwaInstallBtn" class="pwa-btn-ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Instalar</button>
     <button id="pwaCloseBtn" class="pwa-close" aria-label="Cerrar">&times;</button>
   </div>
 </div>
 <main class="app">
 <header class="topbar"><a class="brand" href="#inicio"><img id="brandLogo" src="https://i.imgur.com/HuC4TzS.gif" alt="Madelena"><span class="brand-copy"><small>Tu barrio, mas cerca</small></span></a><div class="actions"><button class="primary" id="loginTopBtn"><span data-icon="user"></span>Iniciar sesión</button><div id="userProfileBadge" class="user-profile-badge hidden" title="Ver mi perfil">
   <img id="userAvatarImg" src="" alt="Avatar">
-  <div style="display:flex; flex-direction:column;">
-    <span id="userNameTxt">Usuario</span>
-    <small id="userRoleTxt" class="role-tag">COMPRADOR</small>
-  </div>
-</div><button class="theme" id="themeBtn" aria-label="Cambiar tema"><span id="sun" data-icon="sun"></span><span id="moon" data-icon="moon"></span></button><button class="primary create-top" data-open-create><span data-icon="plus"></span>Crear comercio</button></div></header>
+  <div class="badge-txt"><span id="userNameTxt">Usuario</span><small id="userRoleTxt" class="role-tag">COMPRADOR</small></div>
+</div><button class="theme" id="themeBtn" aria-label="Cambiar tema"><span id="sun" data-icon="sun"></span><span id="moon" data-icon="moon"></span></button><button class="primary sell-btn hidden" id="sellBtn" data-open-create><span data-icon="store"></span>¿Quieres vender?</button></div></header>
 <section class="hero" id="inicio">
   <div class="slides" id="slidesContainer">
     <div class="shade"></div>
     <div class="slider-controls">
       <div class="dots" id="dots"></div>
-      <div class="arrows">
-        <button type="button" id="prev">&#8249;</button>
-        <button type="button" id="next">&#8250;</button>
-      </div>
+      <div class="arrows"><button type="button" id="prev">&#8249;</button><button type="button" id="next">&#8250;</button></div>
     </div>
   </div>
   <div class="hero-copy">
@@ -526,175 +283,68 @@ a.category-shop:hover{background:var(--soft);padding-left:8px}
     <p>Comercios locales, sabores y servicios que hacen grande a nuestro país.</p>
   </div>
 </section>
-<!-- (9) Se eliminaron los textos "Directorio local" y "Comercios 1A" para que el contenido suba -->
 <section class="content"><label class="search"><span data-icon="search"></span><input id="search" placeholder="Buscar producto, referencia o comercio"></label><div id="shopContent"></div></section>
-<section class="content categories" id="categorias"><div class="heading"><div><p class="eyebrow">Explora a tu manera</p><h2>Categorias</h2></div><span class="count" id="categoryCount"></span></div><div id="categoryContent"></div></section><footer><p>Hecho para impulsar el comercio local.</p></footer></main>
+<section class="content categories" id="categorias"><div class="heading"><div><p class="eyebrow">Explora a tu manera</p><h2>Categorias</h2></div><span class="count" id="categoryCount"></span></div>
+<div class="cat-search" id="catSearchBox"><label class="search"><span data-icon="search"></span><input id="catSearch" placeholder="Buscar categoría..." autocomplete="off"><button type="button" class="cat-clear hidden" id="catClear" aria-label="Limpiar">&times;</button></label><div class="cat-suggest hidden" id="catSuggest"></div></div>
+<div id="categoryContent"></div></section><footer><p>Hecho para impulsar el comercio local.</p></footer></main>
 <div class="backdrop hidden" id="createModal"><section class="modal wide"><button class="close" data-close-create><span data-icon="close"></span></button><p class="eyebrow">Unete al directorio</p><h2>Crea tu comercio</h2><p class="notice hidden" id="onboardNote">Paso 1 de 2 · Registra los datos de tu comercio. Al continuar completarás tu cuenta.</p><p class="intro">¡Tu tienda estará en el directorio!
 Registra tu página, sube tus productos y servicios, y conecta con millones de clientes.</p><form id="shopForm"><div class="form-grid"><div class="form-col"><label>Nombre del comercio<input id="shopName" maxlength="60" required></label><label>Categoría
   <select id="shopCategory" class="form-control" required>
     <option value="" disabled selected>Selecciona una categoría...</option>
-
-    <optgroup label="Alimentos, Bebidas y Proveeduría">
-        <option value="Restaurantes">Restaurantes</option>
-        <option value="Cafeterías">Cafeterías</option>
-        <option value="Panaderías y Pastelerías">Panaderías y Pastelerías</option>
-        <option value="Bares y Discotecas">Bares y Discotecas</option>
-        <option value="Supermercados y Minimercados">Supermercados y Minimercados</option>
-        <option value="Carnicerías">Carnicerías</option>
-        <option value="Salsamentarias">Salsamentarias</option>
-        <option value="Pescaderías">Pescaderías</option>
-        <option value="Dulcerías">Dulcerías</option>
-    </optgroup>
-
-    <optgroup label="Comercio y Retail">
-        <option value="Tiendas de ropa">Tiendas de ropa</option>
-        <option value="Zapaterías y Venta de Calzado">Zapaterías y Venta de Calzado</option>
-        <option value="Joyerías">Joyerías</option>
-        <option value="Tiendas de Maquillaje y Cosméticos">Tiendas de Maquillaje y Cosméticos</option>
-        <option value="Tiendas de Aseo">Tiendas de Aseo</option>
-        <option value="Librerías y Papelerías">Librerías y Papelerías</option>
-        <option value="Tecnología">Tecnología</option>
-        <option value="Comercio electrónico">Comercio electrónico</option>
-        <option value="Negocios de venta al detal">Negocios de venta al detal</option>
-    </optgroup>
-
-    <optgroup label="Salud, Estética y Bienestar">
-        <option value="Centros Médicos">Centros Médicos</option>
-        <option value="Centros Odontológicos">Centros Odontológicos</option>
-        <option value="Ópticas">Ópticas</option>
-        <option value="Farmacias">Farmacias</option>
-        <option value="Tiendas Naturistas">Tiendas Naturistas</option>
-        <option value="Salones de Belleza">Salones de Belleza</option>
-        <option value="Barberías">Barberías</option>
-        <option value="Centros de Estética">Centros de Estética</option>
-        <option value="Spas">Spas</option>
-        <option value="Spas de Uñas">Spas de Uñas</option>
-        <option value="Estudios de Tatuajes y Piercing">Estudios de Tatuajes y Piercing</option>
-        <option value="Gimnasios y Deportes">Gimnasios y Deportes</option>
-    </optgroup>
-
-    <optgroup label="Mascotas">
-        <option value="Veterinarias">Veterinarias</option>
-        <option value="Petshop">Petshop (Tiendas de Mascotas)</option>
-        <option value="Paseadores de Mascotas">Paseadores de Mascotas</option>
-    </optgroup>
-
-    <optgroup label="Educación">
-        <option value="Jardines Infantiles">Jardines Infantiles</option>
-        <option value="Colegios">Colegios</option>
-        <option value="Escuelas de Música">Escuelas de Música</option>
-        <option value="Educación y Academias">Otras Academias</option>
-    </optgroup>
-
-    <optgroup label="Servicios Técnicos y Reparaciones">
-        <option value="Servicio Técnico de Celulares">Servicio Técnico de Celulares</option>
-        <option value="Servicio Técnico de Televisores">Servicio Técnico de Televisores</option>
-        <option value="Servicio Técnico de Impresoras">Servicio Técnico de Impresoras</option>
-        <option value="Reparación de Calzado">Reparación de Calzado</option>
-        <option value="Sastrerías">Sastrerías</option>
-    </optgroup>
-
-    <optgroup label="Construcción, Oficios y Mantenimiento">
-        <option value="Ferreterías y Construcción">Ferreterías</option>
-        <option value="Contratistas para Remodelaciones y Construcción">Contratistas para Remodelaciones y Construcción</option>
-        <option value="Fabricantes de Cocinas">Fabricantes de Cocinas</option>
-        <option value="Vidrierías">Vidrierías</option>
-        <option value="Electricistas">Electricistas</option>
-        <option value="Cerrajeros">Cerrajeros</option>
-        <option value="Carpinteros">Carpinteros</option>
-        <option value="Plomeros">Plomeros</option>
-        <option value="Pintores">Pintores</option>
-        <option value="Mantenimiento y Limpieza">Mantenimiento y Limpieza</option>
-    </optgroup>
-
-    <optgroup label="Automotriz">
-        <option value="Lavaderos de Autos">Lavaderos de Autos</option>
-        <option value="Lavaderos de Motos">Lavaderos de Motos</option>
-        <option value="Automotriz y Talleres">Talleres Mecánicos y Repuestos</option>
-    </optgroup>
-
-    <optgroup label="Servicios Profesionales, Agencias y Finanzas">
-        <option value="Agencias de Marketing, Diseño y Publicidad">Agencias de Marketing, Diseño y Publicidad</option>
-        <option value="Servicios Profesionales">Servicios Profesionales (Abogados, Contadores, etc.)</option>
-        <option value="Agencias de Viajes">Agencias de Viajes</option>
-        <option value="Bienes Raíces e Inmobiliarias">Bienes Raíces e Inmobiliarias</option>
-        <option value="Corresponsales Bancarios">Corresponsales Bancarios</option>
-        <option value="Casas de Empeño">Casas de Empeño</option>
-    </optgroup>
-
-    <optgroup label="Logística y Otros Servicios">
-        <option value="Empresas de Envíos o Mensajería">Empresas de Envíos o Mensajería</option>
-        <option value="Lavanderías">Lavanderías</option>
-        <option value="Hoteles y Turismo">Hoteles y Turismo</option>
-        <option value="Logística y Transporte">Logística y Transporte</option>
-    </optgroup>
+    <optgroup label="Alimentos, Bebidas y Proveeduría"><option value="Restaurantes">Restaurantes</option><option value="Cafeterías">Cafeterías</option><option value="Panaderías y Pastelerías">Panaderías y Pastelerías</option><option value="Bares y Discotecas">Bares y Discotecas</option><option value="Supermercados y Minimercados">Supermercados y Minimercados</option><option value="Carnicerías">Carnicerías</option><option value="Salsamentarias">Salsamentarias</option><option value="Pescaderías">Pescaderías</option><option value="Dulcerías">Dulcerías</option></optgroup>
+    <optgroup label="Comercio y Retail"><option value="Tiendas de ropa">Tiendas de ropa</option><option value="Zapaterías y Venta de Calzado">Zapaterías y Venta de Calzado</option><option value="Joyerías">Joyerías</option><option value="Tiendas de Maquillaje y Cosméticos">Tiendas de Maquillaje y Cosméticos</option><option value="Tiendas de Aseo">Tiendas de Aseo</option><option value="Librerías y Papelerías">Librerías y Papelerías</option><option value="Tecnología">Tecnología</option><option value="Comercio electrónico">Comercio electrónico</option><option value="Negocios de venta al detal">Negocios de venta al detal</option></optgroup>
+    <optgroup label="Salud, Estética y Bienestar"><option value="Centros Médicos">Centros Médicos</option><option value="Centros Odontológicos">Centros Odontológicos</option><option value="Ópticas">Ópticas</option><option value="Farmacias">Farmacias</option><option value="Tiendas Naturistas">Tiendas Naturistas</option><option value="Salones de Belleza">Salones de Belleza</option><option value="Barberías">Barberías</option><option value="Centros de Estética">Centros de Estética</option><option value="Spas">Spas</option><option value="Spas de Uñas">Spas de Uñas</option><option value="Estudios de Tatuajes y Piercing">Estudios de Tatuajes y Piercing</option><option value="Gimnasios y Deportes">Gimnasios y Deportes</option></optgroup>
+    <optgroup label="Mascotas"><option value="Veterinarias">Veterinarias</option><option value="Petshop">Petshop (Tiendas de Mascotas)</option><option value="Paseadores de Mascotas">Paseadores de Mascotas</option></optgroup>
+    <optgroup label="Educación"><option value="Jardines Infantiles">Jardines Infantiles</option><option value="Colegios">Colegios</option><option value="Escuelas de Música">Escuelas de Música</option><option value="Educación y Academias">Otras Academias</option></optgroup>
+    <optgroup label="Servicios Técnicos y Reparaciones"><option value="Servicio Técnico de Celulares">Servicio Técnico de Celulares</option><option value="Servicio Técnico de Televisores">Servicio Técnico de Televisores</option><option value="Servicio Técnico de Impresoras">Servicio Técnico de Impresoras</option><option value="Reparación de Calzado">Reparación de Calzado</option><option value="Sastrerías">Sastrerías</option></optgroup>
+    <optgroup label="Construcción, Oficios y Mantenimiento"><option value="Ferreterías y Construcción">Ferreterías</option><option value="Contratistas para Remodelaciones y Construcción">Contratistas para Remodelaciones y Construcción</option><option value="Fabricantes de Cocinas">Fabricantes de Cocinas</option><option value="Vidrierías">Vidrierías</option><option value="Electricistas">Electricistas</option><option value="Cerrajeros">Cerrajeros</option><option value="Carpinteros">Carpinteros</option><option value="Plomeros">Plomeros</option><option value="Pintores">Pintores</option><option value="Mantenimiento y Limpieza">Mantenimiento y Limpieza</option></optgroup>
+    <optgroup label="Automotriz"><option value="Lavaderos de Autos">Lavaderos de Autos</option><option value="Lavaderos de Motos">Lavaderos de Motos</option><option value="Automotriz y Talleres">Talleres Mecánicos y Repuestos</option></optgroup>
+    <optgroup label="Servicios Profesionales, Agencias y Finanzas"><option value="Agencias de Marketing, Diseño y Publicidad">Agencias de Marketing, Diseño y Publicidad</option><option value="Servicios Profesionales">Servicios Profesionales (Abogados, Contadores, etc.)</option><option value="Agencias de Viajes">Agencias de Viajes</option><option value="Bienes Raíces e Inmobiliarias">Bienes Raíces e Inmobiliarias</option><option value="Corresponsales Bancarios">Corresponsales Bancarios</option><option value="Casas de Empeño">Casas de Empeño</option></optgroup>
+    <optgroup label="Logística y Otros Servicios"><option value="Empresas de Envíos o Mensajería">Empresas de Envíos o Mensajería</option><option value="Lavanderías">Lavanderías</option><option value="Hoteles y Turismo">Hoteles y Turismo</option><option value="Logística y Transporte">Logística y Transporte</option></optgroup>
   </select>
 </label></div><div class="form-col"><label class="logo-field">Logo de tu tienda<button class="upload" type="button" id="uploadBtn"><span id="uploadPrompt"><b data-icon="upload"></b><strong>Sube una imagen</strong><small>PNG, JPG, GIF o WEBP, maximo 3 MB</small></span><img id="preview" class="hidden" alt="Vista previa"></button><input class="file" id="fileInput" type="file" accept="image/*"></label></div></div><p class="error hidden" id="formError">Revisa los campos y la imagen.</p><div class="form-actions"><button class="primary submit" type="submit" id="publishBtn">Publicar comercio</button></div><small class="storage">Guardado permanente en este navegador</small></form></section></div>
 <div class="backdrop hidden" id="categoryModal"><section class="modal small"><button class="close" data-close><span data-icon="close"></span></button><p class="eyebrow">Categoria</p><h2 id="categoryTitle"></h2><div class="category-shops" id="categoryShops"></div></section></div>
 <div class="backdrop hidden" id="supportModal"><section class="modal support"><div class="support-head"><span class="support-icon" data-icon="gear"></span><div><p class="eyebrow">Centro de ayuda</p><h3>Soporte Sofy</h3></div><button class="close" data-close><span data-icon="close"></span></button></div><div class="support-body"><div class="support-loader" id="supportLoader"><span></span>Cargando soporte...</div><iframe id="supportFrame" title="Soporte Sofy" allow="clipboard-write; fullscreen"></iframe></div></section></div>
 <div class="backdrop hidden" id="passwordModal"><section class="modal small"><button class="close" data-close><span data-icon="close"></span></button><p class="eyebrow">Acceso propietario</p><h2 id="pwTitle">Administrar negocio</h2><p class="intro" id="pwIntro">Ingresa la contraseña de tu cuenta para administrar tu página de negocio y tu catálogo.</p><form id="passwordForm"><label>Contraseña<input type="password" id="pwInput" autocomplete="current-password" required placeholder="••••••••"></label><p class="error hidden" id="pwError">Contraseña incorrecta. Inténtalo de nuevo.</p><button class="primary submit" type="submit" id="pwSubmit">Verificar y continuar</button></form></section></div>
 <div class="backdrop hidden" id="profileModal"><section class="modal profile"><button class="close" data-close><span data-icon="close"></span></button><div class="profile-head"><img id="pfAvatar" src="" alt="Avatar"><div><span class="pf-avatar-badge" id="pfRole">COMPRADOR</span><h2 id="pfName" style="margin-top:6px;">Usuario</h2><p id="pfEmail">correo@ejemplo.com</p></div><div class="pf-head-actions" id="pfHeadActions"><button class="pf-head-btn hidden" id="pfAdminBtn" type="button" title="Administrar mi negocio"><span data-icon="gearColor"></span>Administrar</button><button class="pf-head-btn hidden" id="pfSupportBtn" type="button" title="Soporte"><span data-icon="help"></span>Soporte</button></div></div><div class="profile-stats" id="pfStats"></div><div id="pfBody"></div><button class="primary submit" id="pfLogout" style="margin-top:22px;">Cerrar sesión</button></section></div>
+<div class="backdrop hidden" id="productsModal"><section class="modal products"><button class="close" id="pmClose"><span data-icon="close"></span></button><p class="eyebrow">Mi catálogo</p><h2 style="font-size:28px">Mis productos</h2><div class="pm-list" id="pmList"></div></section></div>
 <div class="backdrop hidden" id="logoutModal"><section class="modal small" style="text-align:center"><div class="logout-icon"><span data-icon="logout"></span></div><p class="eyebrow" style="margin:0 0 6px">Sesión</p><h2 style="font-size:26px;margin:0 0 10px">¿Cerrar sesión?</h2><p style="color:var(--muted);line-height:1.6;margin:0;font-size:14px">¿Estás seguro de que deseas cerrar sesión? Tendrás que iniciar sesión de nuevo para volver a entrar.</p><div class="logout-actions"><button class="primary submit" id="logoutCancelBtn" type="button">Cancelar</button><button class="primary submit danger" id="logoutConfirmBtn" type="button">Sí, cerrar sesión</button></div></section></div>
 <div class="toast hidden" id="toast"></div>
-<!-- MODAL DE INICIO DE SESIÓN / REGISTRO (aparece solo cuando se necesita) -->
 <div class="backdrop hidden" id="authModal">
-  <section class="modal small" style="pointer-events: auto;">
-        <div class="auth-tabs">
+  <section class="modal small" style="pointer-events:auto;">
+    <button class="close" id="authCloseBtn" type="button" aria-label="Cerrar"><span data-icon="close"></span></button>
+    <div class="auth-tabs">
       <button class="auth-tab-btn active" id="tabLoginBtn" type="button">Iniciar Sesión</button>
       <button class="auth-tab-btn" id="tabRegisterBtn" type="button">Registrarse</button>
     </div>
-
-    <!-- FORMULARIO LOGIN -->
     <form id="loginForm">
       <p class="eyebrow">Bienvenido a Sofy</p>
-      <h2 style="margin-bottom: 12px;">Ingresa a tu cuenta</h2>
-      <label>Correo Electrónico
-        <input type="email" id="loginEmail" required placeholder="tu@email.com">
-      </label>
-      <label>Contraseña
-        <input type="password" id="loginPassword" required placeholder="••••••••">
-      </label>
+      <h2 style="margin-bottom:12px;">Ingresa a tu cuenta</h2>
+      <label>Correo Electrónico<input type="email" id="loginEmail" required placeholder="tu@email.com"></label>
+      <label>Contraseña<input type="password" id="loginPassword" required placeholder="••••••••"></label>
       <p class="error hidden" id="loginError"></p>
       <button class="primary submit" type="submit" id="loginSubmitBtn">Ingresar</button>
     </form>
-
-    <!-- FORMULARIO REGISTRO -->
     <form id="registerForm" class="hidden">
       <p class="eyebrow">Únete a Sofy</p>
-      <h2 style="margin-bottom: 10px;">Crea tu cuenta</h2>
+      <h2 style="margin-bottom:10px;">Crea tu cuenta</h2>
       <p class="notice hidden" id="regNotice"></p>
-
-      <label>Nombre Completo
-        <input type="text" id="regFullName" required placeholder="Ej. Maria Pérez">
-      </label>
-
+      <label>Nombre Completo<input type="text" id="regFullName" required placeholder="Ej. Maria Pérez"></label>
       <label>Selecciona tu Rol
         <div class="role-selector">
-          <label class="role-option selected" id="roleCompradorLbl">
-            <input type="radio" name="userRole" value="comprador" checked onchange="selectRole('comprador')">
-            🛍️ Comprador
-          </label>
-          <label class="role-option" id="roleVendedorLbl">
-            <input type="radio" name="userRole" value="vendedor" onchange="selectRole('vendedor')">
-            🏪 Vendedor
-          </label>
+          <label class="role-option selected" id="roleCompradorLbl"><input type="radio" name="userRole" value="comprador" checked onchange="selectRole('comprador')">🛍️ Comprador</label>
+          <label class="role-option" id="roleVendedorLbl"><input type="radio" name="userRole" value="vendedor" onchange="selectRole('vendedor')">🏪 Vendedor</label>
         </div>
       </label>
-
-      <label>Foto de Perfil
-        <input type="file" id="regAvatarInput" accept="image/*" style="display:none;" onchange="previewAuthAvatar(event)">
-        <div class="upload" onclick="document.getElementById('regAvatarInput').click()" style="cursor:pointer; text-align:center; padding: 10px;">
+      <label>Foto de Perfil (selfie)
+        <input type="file" id="regAvatarInput" accept="image/*" capture="user" style="display:none;" onchange="previewAuthAvatar(event)">
+        <div class="upload" onclick="document.getElementById('regAvatarInput').click()" style="cursor:pointer;text-align:center;padding:10px;">
           <img id="regAvatarPreview" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='70' height='70' viewBox='0 0 24 24' fill='none' stroke='%2329b6f6' stroke-width='1.5'><circle cx='12' cy='8' r='4'/><path d='M20 21a8 8 0 1 0-16 0'/></svg>" class="avatar-upload-preview" alt="Foto">
-          <small style="display:block; margin-top:4px;">Haz clic aquí para tomar o elegir foto</small>
+          <small style="display:block;margin-top:4px;">📸 Toca aquí para tomarte una selfie</small>
         </div>
       </label>
-      <label>Correo Electrónico
-        <input type="email" id="regEmail" required placeholder="tu@email.com">
-      </label>
-      <label>Contraseña
-        <input type="password" id="regPassword" required minlength="6" placeholder="Mínimo 6 caracteres">
-      </label>
-
+      <label>Correo Electrónico<input type="email" id="regEmail" required placeholder="tu@email.com"></label>
+      <label>Contraseña<input type="password" id="regPassword" required minlength="6" placeholder="Mínimo 6 caracteres"></label>
       <p class="error hidden" id="regError"></p>
       <button class="primary submit" type="submit" id="regSubmitBtn">Crear Cuenta</button>
     </form>
@@ -705,35 +355,43 @@ const icons={store:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" s
 document.querySelectorAll('[data-icon]').forEach(e=>e.innerHTML=icons[e.dataset.icon]||'');
 const $=id=>document.getElementById(id);
 
-// Conexión a Supabase
 const { createClient } = supabase;
 const supabaseUrl = 'https://jpukgeomsmwyxtqnpcsd.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpwdWtnZW9tc213eXh0cW5wY3NkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwMDA3MzQsImV4cCI6MjEwNDU3NjczNH0.aALmQGfEkU4YCJM_9yUGJoUYfFVSLaZe0tnOlznKm54';
 const _supabase = createClient(supabaseUrl, supabaseKey);
 
+/* Identificador único de un comercio: business_id o, si no existe, id */
+function shopKey(s){if(!s)return '';const k=(s.business_id!==null&&s.business_id!==undefined&&s.business_id!=='')?s.business_id:s.id;return (k===null||k===undefined)?'':String(k)}
+function shopKeys(s){return [s.business_id,s.id].filter(v=>v!==null&&v!==undefined&&v!=='').map(String)}
+
 /* ==========================================
-   CORREO DE CONFIRMACIÓN (Formspree)
+   (5) CORREO DE CONFIRMACIÓN (Formspree)
+   Se envía al titular y con copia (_cc) al usuario
    ========================================== */
 const FORMSPREE_ENDPOINT='https://formspree.io/f/mwlpbjpq';
 async function sendFormspree(subject,data){
   try{
-    const body=Object.assign({'_subject':subject,'_replyto':data.correo||data.email||'',fecha:new Date().toLocaleString('es-CO'),plataforma:'App Sofy'},data);
+    const userMail=data.correo||data.email||'';
+    const body=Object.assign({'_subject':subject,'_replyto':userMail,fecha:new Date().toLocaleString('es-CO'),plataforma:'App Sofy'},data);
+    if(userMail)body._cc=userMail;
     const r=await fetch(FORMSPREE_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)});
+    if(!r.ok&&userMail){
+      // Si el plan no admite _cc, se reintenta sin él para que al menos llegue al titular
+      delete body._cc;
+      const r2=await fetch(FORMSPREE_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},body:JSON.stringify(body)});
+      return r2.ok;
+    }
     return r.ok;
   }catch(err){console.warn('No se pudo enviar el correo de confirmación:',err);return false}
 }
 
-/* ==========================================
-   AUTENTICACIÓN, ROLES Y PERFIL DE USUARIO
-   (La app siempre es navegable: el login solo
-   aparece cuando se registra o se va a comprar)
-   ========================================== */
 let currentUserProfile = null;
 let currentAuthUser = null;
 let regAvatarFile = null;
-let commerceDraft = null;      // datos del comercio en el onboarding del vendedor
-let onboardingMode = false;    // true = el comercio se registra ANTES de crear la cuenta
-let pendingAuthAction = null;  // acción a continuar tras autenticarse
+let commerceDraft = null;
+let onboardingMode = false;
+let upgradeMode = false;       // comprador que pasa a vendedor con "¿Quieres vender?"
+let pendingAuthAction = null;
 
 function switchAuthTab(type) {
   $('tabLoginBtn').classList.toggle('active', type === 'login');
@@ -741,37 +399,25 @@ function switchAuthTab(type) {
   $('loginForm').classList.toggle('hidden', type !== 'login');
   $('registerForm').classList.toggle('hidden', type !== 'register');
 }
-
 function openAuth(tab, pending) {
   pendingAuthAction = typeof pending === 'function' ? pending : null;
   switchAuthTab(tab || 'login');
   $('authModal').classList.remove('hidden');
 }
-function closeAuth() {
-  $('authModal').classList.add('hidden');
-}
-function dismissAuth() {
-  $('authModal').classList.add('hidden');
-  pendingAuthAction = null;
-}
-function runPendingAuth() {
-  const fn = pendingAuthAction;
-  pendingAuthAction = null;
-  if (typeof fn === 'function') setTimeout(fn, 120);
-}
+function closeAuth(){$('authModal').classList.add('hidden')}
+function dismissAuth(){$('authModal').classList.add('hidden');pendingAuthAction = null}
+function runPendingAuth(){const fn = pendingAuthAction;pendingAuthAction = null;if (typeof fn === 'function') setTimeout(fn, 120)}
 
-// Asignación directa de eventos de clic a los botones
 $('tabLoginBtn').onclick = () => switchAuthTab('login');
 $('tabRegisterBtn').onclick = () => switchAuthTab('register');
 $('loginTopBtn').onclick = () => { pendingAuthAction = null; openAuth('login'); };
+$('authCloseBtn').onclick = dismissAuth; // (11) X para cerrar el panel
 
 window.selectRole = function(role) {
   $('roleCompradorLbl').classList.toggle('selected', role === 'comprador');
   $('roleVendedorLbl').classList.toggle('selected', role === 'vendedor');
-  // (3) Al elegir VENDEDOR se abre primero el panel "Crea tu comercio"
   if (role === 'vendedor' && !commerceDraft) startVendedorOnboarding();
 };
-
 window.previewAuthAvatar = function(e) {
   const file = e.target.files[0];
   if (file) {
@@ -782,13 +428,12 @@ window.previewAuthAvatar = function(e) {
   }
 };
 
-/* ---------- Visibilidad de engranes y botones según rol ---------- */
-/* (3) Los botones "Administrar" y "Soporte" ahora viven dentro del
-   modal de perfil, junto al nombre y el rol (ver pfAdminBtn / pfSupportBtn) */
+/* (7) El botón ¿Quieres vender? solo aparece con sesión iniciada y rol COMPRADOR */
 function applyRoleUI() {
   const logged = !!currentUserProfile;
   $('loginTopBtn').classList.toggle('hidden', logged);
   $('userProfileBadge').classList.toggle('hidden', !logged);
+  $('sellBtn').classList.toggle('hidden', !(logged && (currentUserProfile.role || 'comprador') === 'comprador'));
   if (logged) {
     $('userAvatarImg').src = currentUserProfile.avatar_url || '';
     $('userNameTxt').textContent = (currentUserProfile.full_name || 'Usuario').split(' ')[0];
@@ -797,47 +442,27 @@ function applyRoleUI() {
 }
 
 async function loadUserProfile(userId) {
-  const { data, error } = await _supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', userId)
-    .single();
-
-  if (error || !data) {
-    currentUserProfile = null;
-    applyRoleUI();
-    return false;
-  }
-
+  const { data, error } = await _supabase.from('profiles').select('*').eq('id', userId).single();
+  if (error || !data) { currentUserProfile = null; applyRoleUI(); return false; }
   currentUserProfile = data;
   $('authModal').classList.add('hidden');
   applyRoleUI();
   return true;
 }
-
 async function checkAuthSession() {
   const { data: { session } } = await _supabase.auth.getSession();
-  if (session) {
-    currentAuthUser = session.user;
-    await loadUserProfile(session.user.id);
-  } else {
-    currentAuthUser = null;
-    applyRoleUI();
-  }
+  if (session) { currentAuthUser = session.user; await loadUserProfile(session.user.id); }
+  else { currentAuthUser = null; applyRoleUI(); }
 }
 
-/* ---------- LOGIN ---------- */
 $('loginForm').onsubmit = async (e) => {
   e.preventDefault();
   $('loginError').classList.add('hidden');
   $('loginSubmitBtn').disabled = true;
   $('loginSubmitBtn').textContent = 'Ingresando...';
-
   const email = $('loginEmail').value.trim();
   const password = $('loginPassword').value;
-
   const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
-
   if (error) {
     $('loginError').textContent = 'Correo o contraseña incorrectos.';
     $('loginError').classList.remove('hidden');
@@ -859,7 +484,6 @@ $('loginForm').onsubmit = async (e) => {
   }
 };
 
-/* ---------- REGISTRO ---------- */
 $('registerForm').onsubmit = async (e) => {
   e.preventDefault();
   $('regError').classList.add('hidden');
@@ -867,55 +491,37 @@ $('registerForm').onsubmit = async (e) => {
   const role = (document.querySelector('input[name="userRole"]:checked') || { value: 'comprador' }).value;
   const email = $('regEmail').value.trim();
   const password = $('regPassword').value;
-
   const regFail = (msg) => {
     $('regError').textContent = msg;
     $('regError').classList.remove('hidden');
     $('regSubmitBtn').disabled = false;
     $('regSubmitBtn').textContent = 'Crear Cuenta';
   };
-
   if (!fullName) return regFail('Escribe tu nombre completo.');
-  if (!regAvatarFile) return regFail('Por favor selecciona una foto de perfil.');
+  if (!regAvatarFile) return regFail('Por favor tómate una selfie para tu foto de perfil.');
   if (password.length < 6) return regFail('La contraseña debe tener al menos 6 caracteres.');
-
-  // (3) Si es vendedor y aún no diligencia el comercio, primero va el panel del comercio
   if (role === 'vendedor' && !commerceDraft) {
     $('regSubmitBtn').disabled = false;
     $('regSubmitBtn').textContent = 'Crear Cuenta';
     startVendedorOnboarding();
     return;
   }
-
   $('regSubmitBtn').disabled = true;
   $('regSubmitBtn').textContent = 'Creando cuenta...';
-
-  // (1) Cerrar CUALQUIER sesión previa: así el correo de confirmación y la
-  //     sesión quedan amarrados al correo que se está registrando y no a
-  //     otra cuenta abierta antes en el mismo navegador.
   try { await _supabase.auth.signOut(); } catch (signOutErr) { console.warn(signOutErr); }
 
-  // 1. Registro de usuario en Supabase Auth
   const { data: authData, error: authError } = await _supabase.auth.signUp({ email, password });
-
-  if (authError || !authData.user) {
-    return regFail(authError ? authError.message : 'Error al registrar usuario.');
-  }
-
-  // (1) Si el correo ya existía, Supabase devuelve un usuario "vacío"
-  if (authData.user.identities && authData.user.identities.length === 0) {
-    return regFail('Este correo ya tiene una cuenta registrada. Inicia sesión para continuar.');
-  }
+  if (authError || !authData.user) return regFail(authError ? authError.message : 'Error al registrar usuario.');
+  if (authData.user.identities && authData.user.identities.length === 0) return regFail('Este correo ya tiene una cuenta registrada. Inicia sesión para continuar.');
 
   const userId = authData.user.id;
-
-  // (1) Garantizar que la sesión activa sea la de ESTA cuenta recién creada
   let activeUser = authData.user;
   if (!authData.session) {
     const { data: signInData, error: signInError } = await _supabase.auth.signInWithPassword({ email, password });
     if (signInError || !signInData.user) {
       $('regSubmitBtn').disabled = false;
       $('regSubmitBtn').textContent = 'Crear Cuenta';
+      sendFormspree('Nueva inscripción en Sofy · ' + role.toUpperCase(), {tipo_registro:'Cuenta de usuario (pendiente de confirmar)',nombre_completo:fullName,correo:email,email_registrado:email,rol:role,id_usuario:userId});
       showToast('Cuenta creada. Revisa tu correo ' + email + ' para confirmar e iniciar sesión.');
       switchAuthTab('login');
       return;
@@ -932,36 +538,20 @@ $('registerForm').onsubmit = async (e) => {
   } catch (sessErr) { console.warn(sessErr); }
   currentAuthUser = activeUser;
 
-  // 2. Subir imagen a avatars
-  const fileExt = regAvatarFile.name.split('.').pop();
+  const fileExt = (regAvatarFile.name.split('.').pop() || 'jpg');
   const avatarName = `${userId}-${Date.now()}.${fileExt}`;
   const { error: uploadError } = await _supabase.storage.from('avatars').upload(avatarName, regAvatarFile, { upsert: true });
-
   let avatarUrl = '';
   if (!uploadError) {
     const { data: pubUrlData } = _supabase.storage.from('avatars').getPublicUrl(avatarName);
     avatarUrl = pubUrlData.publicUrl;
   }
+  const { error: profileError } = await _supabase.from('profiles').upsert([{ id: userId, full_name: fullName, role: role, avatar_url: avatarUrl }]);
+  if (profileError) return regFail('Error al guardar perfil: ' + profileError.message);
 
-  // 3. Crear el perfil en la tabla profiles
-  const { error: profileError } = await _supabase.from('profiles').upsert([{
-    id: userId,
-    full_name: fullName,
-    role: role,
-    avatar_url: avatarUrl
-  }]);
-
-  if (profileError) {
-    return regFail('Error al guardar perfil: ' + profileError.message);
-  }
-
-  // 4. (3) Si es vendedor, se publica el comercio diligenciado en el paso 1
   let shopInfo = null;
-  if (role === 'vendedor' && commerceDraft) {
-    shopInfo = await publishDraftShop(userId);
-  }
+  if (role === 'vendedor' && commerceDraft) shopInfo = await publishDraftShop(userId);
 
-  // 5. (8) Correo de confirmación con todos los datos diligenciados
   sendFormspree('Nueva inscripción en Sofy · ' + role.toUpperCase(), {
     tipo_registro: 'Cuenta de usuario',
     nombre_completo: fullName,
@@ -973,7 +563,7 @@ $('registerForm').onsubmit = async (e) => {
     nombre_comercio: commerceDraft ? commerceDraft.name : 'No aplica',
     categoria_comercio: commerceDraft ? commerceDraft.category : 'No aplica',
     logo_comercio: (shopInfo && shopInfo.logo) || (commerceDraft && commerceDraft.logoUrl) || 'Pendiente',
-    id_negocio: (shopInfo && shopInfo.business_id) || 'Pendiente'
+    id_negocio: (shopInfo && shopKey(shopInfo)) || 'Pendiente'
   });
 
   await loadUserProfile(userId);
@@ -986,11 +576,11 @@ $('registerForm').onsubmit = async (e) => {
   onboardingMode = false;
   $('onboardNote').classList.add('hidden');
   closeAuth();
+  if (shopInfo) { await fetchShops(); }
   showToast('¡Cuenta creada con éxito! Revisa tu correo de confirmación.');
   runPendingAuth();
 };
 
-/* ---------- CERRAR SESIÓN (con confirmación independiente) ---------- */
 async function logoutUser() {
   await _supabase.auth.signOut();
   currentUserProfile = null;
@@ -1000,8 +590,6 @@ async function logoutUser() {
   showToast('Sesión finalizada.');
 }
 function confirmLogout() { open('logoutModal'); }
-
-if ($('btnLogout')) $('btnLogout').onclick = confirmLogout;
 if ($('pfLogout')) $('pfLogout').onclick = confirmLogout;
 if ($('logoutCancelBtn')) $('logoutCancelBtn').onclick = closeAll;
 if ($('logoutConfirmBtn')) $('logoutConfirmBtn').onclick = logoutUser;
@@ -1016,52 +604,26 @@ theme(localStorage.getItem('madelena-theme')||'dark');
 $('themeBtn').onclick=()=>theme(document.documentElement.dataset.theme==='dark'?'light':'dark');
 
 async function fetchBannerVideos() {
-  // Añadimos .is('business_id', null) para traer SOLO los banners globales/generales
-  const { data, error } = await _supabase
-    .from('shop_banners')
-    .select('*')
-    .is('business_id', null)
-    .order('order_index', { ascending: true });
-
+  const { data, error } = await _supabase.from('shop_banners').select('*').is('business_id', null).order('order_index', { ascending: true });
   if (error || !data || !data.length) return;
-
   const slidesContainer = $('slidesContainer');
   const shade = slidesContainer.querySelector('.shade');
-
-  // Limpiamos los slides actuales
   document.querySelectorAll('.slide').forEach(s => s.remove());
-
   data.forEach((item, index) => {
     const slide = document.createElement('a');
     slide.className = 'slide' + (index === 0 ? ' active' : '');
-
-    // Si tiene video muestra el reproductor, si tiene imagen muestra la foto
-    if (item.video_url) {
-      slide.innerHTML = `<video src="${item.video_url}" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>`;
-    } else if (item.image_url) {
-      slide.innerHTML = `<img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;">`;
-    }
-
+    if (item.video_url) slide.innerHTML = `<video src="${item.video_url}" autoplay loop muted playsinline webkit-playsinline preload="${index===0?'auto':'metadata'}"></video>`;
+    else if (item.image_url) slide.innerHTML = `<img src="${item.image_url}" style="width:100%; height:100%; object-fit:cover;" ${index?'loading="lazy"':''}>`;
     slidesContainer.insertBefore(slide, shade);
   });
-
   initSlider();
 }
-
 function initSlider() {
   const slides = [...document.querySelectorAll('.slide')];
   const videos = slides.map(s => s.querySelector('video'));
   $('dots').innerHTML = '';
-
-  slides.forEach((s, i) => {
-    let b = document.createElement('button');
-    b.type = 'button';
-    b.onclick = () => show(i);
-    $('dots').appendChild(b);
-  });
-
+  slides.forEach((s, i) => { let b = document.createElement('button'); b.type = 'button'; b.onclick = () => show(i); $('dots').appendChild(b); });
   const dots = [...$('dots').children];
-
   window.show = function(i) {
     clearTimeout(timer);
     if (!slides.length) return;
@@ -1069,22 +631,14 @@ function initSlider() {
     slides.forEach((s, n) => {
       s.classList.toggle('active', n === current);
       if (dots[n]) dots[n].classList.toggle('active', n === current);
-      if (videos[n]) {
-        videos[n].pause();
-        if (n === current) {
-          videos[n].currentTime = 0;
-          videos[n].play().catch(() => {});
-        }
-      }
+      if (videos[n]) { videos[n].pause(); if (n === current) { videos[n].currentTime = 0; videos[n].play().catch(() => {}); } }
     });
     timer = setTimeout(() => show(current + 1), 10000);
   };
-
-  $('prev').onclick = e => { e.stopPropagation(); show(current - 1); };$('next').onclick = e => { e.stopPropagation(); show(current + 1); };
-
+  $('prev').onclick = e => { e.stopPropagation(); show(current - 1); };
+  $('next').onclick = e => { e.stopPropagation(); show(current + 1); };
   if (slides.length > 0) show(0);
 }
-
 fetchBannerVideos();
 
 function esc(v){let d=document.createElement('div');d.textContent=(v===null||v===undefined)?'':String(v);return d.innerHTML}
@@ -1098,16 +652,11 @@ function formatPrice(v){
 }
 function showToast(msg){$('toast').textContent=msg;$('toast').classList.remove('hidden');clearTimeout(showToast._t);showToast._t=setTimeout(()=>$('toast').classList.add('hidden'),3000)}
 
-/* ---------- COMERCIOS (para categorías) ---------- */
 async function fetchShops(){
   const { data, error } = await _supabase.from('shops').select('*').order('id', { ascending: false });
   if(!error && data){ shops = data; renderCategories(); }
 }
 
-/* ==========================================
-   (6) PRODUCTOS DEL CATÁLOGO DE TODOS LOS
-   COMERCIOS, AL AZAR, CON REFERENCIA Y PRECIO
-   ========================================== */
 const PRODUCT_TABLES=['products','productos','catalog_products','shop_products','catalogo','catalog','product','items'];
 let productCfg=null;
 function pickKey(row,cands){return cands.find(k=>Object.prototype.hasOwnProperty.call(row,k))||null}
@@ -1132,13 +681,9 @@ async function detectProducts(){
   if(emptyTable){productCfg={table:emptyTable,name:'name',ref:null,price:'price',image:'image',bid:'business_id',cat:null};return productCfg}
   return null;
 }
-async function fetchProducts(){
-  const cfg=await detectProducts();
-  if(!cfg){products=[];renderProducts();return}
-  const { data, error } = await _supabase.from(cfg.table).select('*').limit(200);
-  if(error||!data){products=[];renderProducts();return}
-  const shopMap={};shops.forEach(s=>{if(s.business_id)shopMap[String(s.business_id)]=s.name});
-  products=data.map(r=>({
+function buildShopMap(){const m={};shops.forEach(s=>shopKeys(s).forEach(k=>m[k]=s.name));return m}
+function mapProductRow(r,cfg,shopMap){
+  return {
     _id:String(r.id!==undefined?r.id:(r.uuid||Math.random())),
     _name:cfg.name?(r[cfg.name]||'Producto'):'Producto',
     _ref:cfg.ref?(r[cfg.ref]||''):'',
@@ -1147,10 +692,40 @@ async function fetchProducts(){
     _bid:cfg.bid?String(r[cfg.bid]||''):'',
     _cat:cfg.cat?(r[cfg.cat]||''):'',
     _shop:cfg.bid?shopMap[String(r[cfg.bid]||'')]||'':''
-  })).filter(p=>p._img||p._name);
-  // Orden aleatorio como pedía el panel
+  };
+}
+async function fetchProducts(){
+  const cfg=await detectProducts();
+  if(!cfg){products=[];renderProducts();return}
+  const { data, error } = await _supabase.from(cfg.table).select('*').limit(200);
+  if(error||!data){products=[];renderProducts();return}
+  const shopMap=buildShopMap();
+  products=data.map(r=>mapProductRow(r,cfg,shopMap)).filter(p=>p._img||p._name);
   for(let i=products.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[products[i],products[j]]=[products[j],products[i]]}
   renderProducts();
+}
+
+/* (2) Productos de las tiendas del vendedor directamente desde la BD */
+async function fetchSellerProducts(bids){
+  if(!bids||!bids.length)return [];
+  const local=()=>products.filter(p=>bids.includes(p._bid));
+  const cfg=await detectProducts();
+  if(!cfg||!cfg.bid)return local();
+  try{
+    const { data, error } = await _supabase.from(cfg.table).select('*').in(cfg.bid,bids).limit(500);
+    if(error||!data){
+      // Si hay un error de tipos (uuid / número), se intenta uno por uno
+      let all=[];
+      for(const b of bids){
+        const r=await _supabase.from(cfg.table).select('*').eq(cfg.bid,b).limit(500);
+        if(!r.error&&r.data)all=all.concat(r.data);
+      }
+      if(!all.length)return local();
+      const m=buildShopMap();return all.map(r=>mapProductRow(r,cfg,m));
+    }
+    const m=buildShopMap();
+    return data.map(r=>mapProductRow(r,cfg,m));
+  }catch(e){return local()}
 }
 
 function visibleProductsCount(){return window.matchMedia('(min-width:761px)').matches?8:4}
@@ -1168,7 +743,7 @@ function renderProducts(){
     (more?'<div class="shops-tools"><span class="swipe-hint"><span class="swipe-track"></span>Desliza para ver más<span class="swipe-arrows"><i>&#8250;</i><i>&#8250;</i><i>&#8250;</i></span></span><div class="shops-nav"><button type="button" data-shops-prev aria-label="Anterior">&#8249;</button><button type="button" data-shops-next aria-label="Siguiente">&#8250;</button></div></div>':'')+
     '</div><div class="shops" id="shopsTrack">'+list.map(p=>{
       const href='catalogo.html'+(p._bid?'?id='+encodeURIComponent(p._bid):'');
-      return '<a class="shop product-card" href="'+href+'" data-pid="'+esc(p._id)+'"><img src="'+(p._img?esc(p._img):FALLBACK_IMG)+'" alt="'+esc(p._name)+'" loading="lazy">'+
+      return '<a class="shop product-card" href="'+href+'" data-pid="'+esc(p._id)+'"><img src="'+(p._img?esc(p._img):FALLBACK_IMG)+'" alt="'+esc(p._name)+'" loading="lazy" decoding="async">'+
       '<span class="price-tag">'+formatPrice(p._price)+'</span><h3>'+esc(p._name)+'</h3><p>'+(p._ref?'<b class="ref-tag">REF '+esc(p._ref)+'</b>':'')+(p._shop?(p._ref?' · ':'')+'<span class="shop-name">'+esc(p._shop)+'</span>':'')+'</p></a>';
     }).join('')+'</div>'+
     (list.length>1?'<div class="shops-progress"><i></i></div>':'')+'</div>';
@@ -1177,7 +752,6 @@ function renderProducts(){
   restartShopsProgress();
 }
 
-/* Clic en producto: si es comprador y no está registrado, aparece el modal una sola vez */
 function bindProducts(){
   document.querySelectorAll('.product-card').forEach(a=>{
     a.addEventListener('click',ev=>{
@@ -1191,7 +765,6 @@ function bindProducts(){
   });
 }
 
-/* (10) Intereses / último visto (se guarda por usuario) */
 function recentsKey(){return 'sofy_recent_'+(currentUserProfile?currentUserProfile.id:'guest')}
 function trackProductView(p){
   try{
@@ -1203,37 +776,77 @@ function trackProductView(p){
 }
 function getRecents(){try{return JSON.parse(localStorage.getItem(recentsKey())||'[]')}catch(e){return []}}
 
-/* ---------- CATEGORÍAS (7) los comercios siguen igual ---------- */
 function renderCategories(){
   let g={};shops.forEach(s=>(g[s.category]||(g[s.category]=[])).push(s));
   let entries=Object.entries(g);
   $('categoryCount').textContent=entries.length?entries.length+' disponibles':'';
-  $('categoryContent').innerHTML=!entries.length?'<div class="category-empty"><p>Las categorias apareceran aqui cuando registres comercios.</p></div>':'<div class="category-grid" id="categoryGrid">'+entries.map(([c,a])=>'<button class="category" data-category="'+esc(c)+'" data-idx="0"><img src="'+a[0].logo+'"><span class="category-shade"></span>'+(a.length>1?'<span class="cat-dots">'+a.map((x,n)=>'<b'+(n===0?' class="on"':'')+'></b>').join('')+'</span>':'')+'<span class="category-label"><strong>'+esc(c)+'</strong><small>'+a.length+' comercios</small></span><i>&#8599;</i></button>').join('')+'</div>';
+  $('catSearchBox').classList.toggle('hidden',!entries.length);
+  $('categoryContent').innerHTML=!entries.length?'<div class="category-empty"><p>Las categorias apareceran aqui cuando registres comercios.</p></div>':'<div class="category-grid" id="categoryGrid">'+entries.map(([c,a])=>'<button class="category" data-category="'+esc(c)+'" data-idx="0"><img src="'+esc(a[0].logo)+'" loading="lazy" decoding="async"><span class="category-shade"></span>'+(a.length>1?'<span class="cat-dots">'+a.map((x,n)=>'<b'+(n===0?' class="on"':'')+'></b>').join('')+'</span>':'')+'<span class="category-label"><strong>'+esc(c)+'</strong><small>'+a.length+' comercios</small></span><i>&#8599;</i></button>').join('')+'</div>';
   bind();
   bindCategoryRotator();
+  applyCategoryFilter();
 }
 
+function openCategory(c){
+  $('categoryTitle').textContent=c;
+  $('categoryShops').innerHTML=shops.filter(s=>s.category===c).map(s=>'<a href="negocio.html?id='+encodeURIComponent(shopKey(s))+'" target="_blank" class="category-shop"><img src="'+esc(s.logo)+'" loading="lazy"><span><strong>'+esc(s.name)+'</strong><small>'+esc(c)+'</small></span></a>').join('');
+  $('categoryModal').classList.remove('hidden');
+}
 function bind(){
   document.querySelectorAll('[data-open-create]').forEach(b=>b.onclick=()=>openCreateFlow());
-  document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>{
-    let c=b.dataset.category;
-    $('categoryTitle').textContent=c;
-    $('categoryShops').innerHTML=shops.filter(s=>s.category===c).map(s=>'<a href="negocio.html?id='+s.business_id+'" target="_blank" class="category-shop"><img src="'+s.logo+'"><span><strong>'+esc(s.name)+'</strong><small>'+esc(c)+'</small></span></a>').join('');
-    $('categoryModal').classList.remove('hidden');
-  });
+  document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>openCategory(b.dataset.category));
 }
-  function open(id){$(id).classList.remove('hidden')}
+function open(id){$(id).classList.remove('hidden')}
 function closeAll(){document.querySelectorAll('.backdrop').forEach(m=>m.classList.add('hidden'))}
 function close(){closeAll()}
 
-/* ---------- (3) Flujo "Crear comercio" según estado de sesión/rol ---------- */
+/* ==========================================
+   (9) BUSCADOR DE CATEGORÍAS CON SUGERENCIAS
+   ========================================== */
+let catFilter='';
+function norm(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
+function categoryList(){const g={};shops.forEach(s=>{if(s.category)g[s.category]=(g[s.category]||0)+1});return Object.entries(g).sort((a,b)=>a[0].localeCompare(b[0],'es'))}
+function renderCatSuggest(){
+  const q=norm($('catSearch').value.trim());
+  const list=categoryList().filter(([c])=>!q||norm(c).includes(q));
+  $('catSuggest').innerHTML=(q?'':'<div class="cat-suggest-title">Categorías disponibles</div>')+
+    (list.length?list.map(([c,n])=>'<button type="button" data-sug="'+esc(c)+'"><span>'+esc(c)+'</span><small>'+n+' '+(n===1?'comercio':'comercios')+'</small></button>').join(''):'<p>No encontramos categorías con esa búsqueda.</p>');
+  $('catSuggest').classList.remove('hidden');
+  $('catSuggest').querySelectorAll('[data-sug]').forEach(b=>b.onmousedown=e=>{e.preventDefault();selectCategory(b.dataset.sug)});
+}
+function selectCategory(c){
+  $('catSearch').value=c;
+  catFilter=c;
+  $('catSuggest').classList.add('hidden');
+  $('catClear').classList.remove('hidden');
+  applyCategoryFilter();
+  openCategory(c);
+}
+function applyCategoryFilter(){
+  const g=$('categoryGrid');if(!g)return;
+  const q=norm(catFilter);
+  [...g.children].forEach(b=>{b.style.display=(!q||norm(b.dataset.category).includes(q))?'':'none'});
+}
+$('catSearch').addEventListener('focus',renderCatSuggest);
+$('catSearch').addEventListener('input',()=>{
+  const v=$('catSearch').value.trim();
+  catFilter=v;
+  $('catClear').classList.toggle('hidden',!v);
+  applyCategoryFilter();
+  renderCatSuggest();
+});
+$('catSearch').addEventListener('keydown',e=>{
+  if(e.key==='Enter'){e.preventDefault();const f=$('catSuggest').querySelector('[data-sug]');if(f)selectCategory(f.dataset.sug)}
+  else if(e.key==='Escape'){$('catSuggest').classList.add('hidden')}
+});
+$('catSearch').addEventListener('blur',()=>setTimeout(()=>$('catSuggest').classList.add('hidden'),120));
+$('catClear').onclick=()=>{$('catSearch').value='';catFilter='';$('catClear').classList.add('hidden');applyCategoryFilter();$('catSearch').focus()};
+
+/* ---------- Flujo "¿Quieres vender?" ---------- */
 function openCreateFlow(){
   if(!currentUserProfile){openAuth('register');return}
-  if(currentUserProfile.role==='comprador'){
-    showToast('Tu cuenta es COMPRADOR. Para registrar comercios crea una cuenta de VENDEDOR.');
-    return;
-  }
   onboardingMode=false;
+  upgradeMode=(currentUserProfile.role||'comprador')==='comprador';
   $('onboardNote').classList.add('hidden');
   open('createModal');
 }
@@ -1253,21 +866,18 @@ function closeCreateModal(){
   if(onboardingMode){
     $('authModal').classList.remove('hidden');
     switchAuthTab('register');
-    $('regNotice').textContent=commerceDraft
-      ? '✅ Comercio "'+commerceDraft.name+'" listo. Paso 2 de 2: completa tu cuenta.'
-      : 'Paso 2 de 2: completa tu cuenta para publicar tu comercio.';
+    $('regNotice').textContent=commerceDraft?'✅ Comercio "'+commerceDraft.name+'" listo. Paso 2 de 2: completa tu cuenta.':'Paso 2 de 2: completa tu cuenta para publicar tu comercio.';
     $('regNotice').classList.remove('hidden');
   }
 }
 
-/* (5) El PIN desapareció: los engranes se abren con la contraseña de la cuenta.
-   (3) Ahora se abren desde la tarjeta de perfil (junto al nombre y el rol). */
+/* (3) Administrar: tras la contraseña se dirige a la tienda en catalogo.html */
 let pwAction=null;
 function openAdminFlow(){
   if(!currentUserProfile){openAuth('register');return}
   pwAction=async()=>{
     const bid=await getMyShopId();
-    if(bid)window.location.href='negocio.html?id='+encodeURIComponent(bid);
+    if(bid)window.location.href='catalogo.html?id='+encodeURIComponent(bid);
     else showToast('Aun no tienes un comercio registrado.');
   };
   $('pwTitle').textContent='Administrar mi negocio';
@@ -1300,20 +910,37 @@ $('passwordForm').onsubmit=async e=>{
   if(typeof fn==='function')fn();
 };
 
-/* (4/5) ID del comercio del vendedor conectado (se consulta siempre a la BD) */
-async function getMyShopId(){
+/* (1/3) Tiendas del vendedor: owner_id en BD + caché + lista local.
+   Se usa business_id o, si está vacío, el id (caso "Comercio de prueba"). */
+async function getMyShops(){
+  const uid=currentUserProfile?currentUserProfile.id:null;
+  if(!uid)return [];
+  let mine=[];
   try{
-    const uid=currentUserProfile?currentUserProfile.id:null;
-    if(!uid)return null;
-    const { data } = await _supabase.from('shops').select('business_id,owner_id').eq('owner_id',uid).limit(1);
-    if(data&&data.length){localStorage.setItem('sofy_my_shop_'+uid,data[0].business_id);return data[0].business_id}
-    const cached=localStorage.getItem('sofy_my_shop_'+uid);
-    if(cached)return cached;
+    const { data } = await _supabase.from('shops').select('*').eq('owner_id',uid);
+    if(data&&data.length)mine=data;
   }catch(e){}
+  const cached=localStorage.getItem('sofy_my_shop_'+uid);
+  if(cached&&cached!=='undefined'&&cached!=='null'){
+    const hit=shops.find(s=>shopKeys(s).includes(String(cached)));
+    if(hit&&!mine.some(m=>shopKey(m)===shopKey(hit)))mine.push(hit);
+    else if(!hit&&!mine.length){
+      try{
+        let r=await _supabase.from('shops').select('*').eq('business_id',cached).limit(1);
+        if((!r.data||!r.data.length))r=await _supabase.from('shops').select('*').eq('id',cached).limit(1);
+        if(r.data&&r.data.length)mine.push(r.data[0]);
+      }catch(e){}
+    }
+  }
+  shops.filter(s=>s.owner_id&&String(s.owner_id)===String(uid)).forEach(s=>{if(!mine.some(m=>shopKey(m)===shopKey(s)))mine.push(s)});
+  if(mine.length)localStorage.setItem('sofy_my_shop_'+uid,shopKey(mine[0]));
+  return mine;
+}
+async function getMyShopId(){
+  try{const mine=await getMyShops();if(mine.length)return shopKey(mine[0])}catch(e){}
   return null;
 }
 
-/* ---------- PUBLICAR COMERCIO (onboarding y modo normal) ---------- */
 async function insertShopRow(payload,userId){
   let res=await _supabase.from('shops').insert([payload]).select().single();
   if((res.error||!res.data)&&userId){
@@ -1340,24 +967,18 @@ async function publishDraftShop(userId){
     const ext=(d.file.name.split('.').pop()||'jpg').toLowerCase();
     const fileName=(userId||'shop')+'-'+Date.now()+'.'+ext;
     const { error: upErr } = await _supabase.storage.from('logos').upload(fileName,d.file,{upsert:true});
-    if(!upErr){
-      const { data:pu } = _supabase.storage.from('logos').getPublicUrl(fileName);
-      logoUrl=pu.publicUrl;
-      d.logoUrl=logoUrl;
-    }
+    if(!upErr){const { data:pu } = _supabase.storage.from('logos').getPublicUrl(fileName);logoUrl=pu.publicUrl;d.logoUrl=logoUrl}
   }
   const payload={name:d.name,category:d.category,logo:logoUrl,owner_id:userId};
   const { data, error } = await insertShopRow(payload,userId);
   if(error){console.warn('No se pudo publicar el comercio:',error.message);return null}
-  if(data&&data.business_id)localStorage.setItem('sofy_my_shop_'+userId,data.business_id);
+  if(data&&shopKey(data))localStorage.setItem('sofy_my_shop_'+userId,shopKey(data));
   return data;
 }
 
 $('shopForm').onsubmit=async e=>{
   e.preventDefault();
   let name=$('shopName').value.trim(),category=$('shopCategory').value;
-
-  // (3) Onboarding del vendedor: se guardan los datos y se continúa con el registro
   if(onboardingMode){
     if(!name||!category||!previewFile){$('formError').classList.remove('hidden');return}
     $('formError').classList.add('hidden');
@@ -1374,26 +995,26 @@ $('shopForm').onsubmit=async e=>{
     showToast('Comercio guardado. Ahora crea tu cuenta.');
     return;
   }
-
   if(!name||!category||!previewFile){$('formError').classList.remove('hidden');return}
   const publishBtn=$('publishBtn');
   publishBtn.disabled=true;publishBtn.textContent='Publicando...';
-
   const fileExt = previewFile.name.split('.').pop();
   const fileName = `${Date.now()}.${fileExt}`;
   const uid=currentUserProfile?currentUserProfile.id:null;
-
   const { error: uploadError } = await _supabase.storage.from('logos').upload(fileName, previewFile);
   if(uploadError){ $('formError').textContent='Error al subir la imagen.'; $('formError').classList.remove('hidden'); publishBtn.disabled=false; publishBtn.textContent='Publicar comercio'; return; }
-
   const { data: { publicUrl } } = _supabase.storage.from('logos').getPublicUrl(fileName);
-
   const { data: newShop, error: dbError } = await insertShopRow({ name, category, logo: publicUrl, owner_id: uid }, uid);
   if(dbError){ $('formError').textContent='Error al guardar el comercio.'; $('formError').classList.remove('hidden'); publishBtn.disabled=false; publishBtn.textContent='Publicar comercio'; return; }
+  if(newShop&&shopKey(newShop)&&uid)localStorage.setItem('sofy_my_shop_'+uid,shopKey(newShop));
 
-  if(newShop&&newShop.business_id&&uid)localStorage.setItem('sofy_my_shop_'+uid,newShop.business_id);
+  // (7) El comprador que publica su comercio pasa a ser VENDEDOR
+  if(upgradeMode&&uid){
+    const { error: upRoleErr } = await _supabase.from('profiles').update({ role: 'vendedor' }).eq('id', uid);
+    if(!upRoleErr){currentUserProfile.role='vendedor';applyRoleUI()}
+    upgradeMode=false;
+  }
 
-  // (8) Confirmación por correo con los datos del comercio publicado
   if(currentUserProfile){
     sendFormspree('Comercio publicado en Sofy · '+name,{
       tipo_registro:'Publicación de comercio',
@@ -1404,10 +1025,9 @@ $('shopForm').onsubmit=async e=>{
       nombre_comercio:name,
       categoria_comercio:category,
       logo_comercio:publicUrl,
-      id_negocio:(newShop&&newShop.business_id)||'Pendiente'
+      id_negocio:(newShop&&shopKey(newShop))||'Pendiente'
     });
   }
-
   $('shopForm').reset();
   previewFile=null;
   $('preview').classList.add('hidden');
@@ -1419,7 +1039,6 @@ $('shopForm').onsubmit=async e=>{
   showToast('Comercio publicado correctamente');
 };
 
-/* ====== Slider del panel de productos: navegación, pausa y rotación animada ====== */
 let shopsPausedUntil=0;
 function bindShopsSlider(){
   const t=$('shopsTrack');
@@ -1429,7 +1048,6 @@ function bindShopsSlider(){
   const prev=document.querySelector('[data-shops-prev]'),next=document.querySelector('[data-shops-next]');
   if(prev)prev.onclick=()=>{pause();rotateShops(t,-1);restartShopsProgress()};
   if(next)next.onclick=()=>{pause();rotateShops(t,1);restartShopsProgress()};
-  // Deslizar con el dedo para ver más productos
   let sx=null,sy=null;
   t.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
   t.addEventListener('touchend',e=>{
@@ -1439,8 +1057,6 @@ function bindShopsSlider(){
     if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)){pause();rotateShops(t,dx<0?1:-1);restartShopsProgress()}
   },{passive:true});
 }
-
-// Cuadrícula 2x2: rota las posiciones entre TODOS los elementos (visibles y ocultos)
 function rotateShops(t,dir){
   const items=[...t.children];
   if(items.length<2)return;
@@ -1456,10 +1072,7 @@ function rotateShops(t,dir){
     el.style.transform='translate('+(first[i].left-last.left)+'px,'+(first[i].top-last.top)+'px)';
   });
   t.offsetWidth;
-  items.forEach(el=>{
-    el.style.transition='transform .75s cubic-bezier(.2,.8,.2,1)';
-    el.style.transform='';
-  });
+  items.forEach(el=>{el.style.transition='transform .75s cubic-bezier(.2,.8,.2,1)';el.style.transform=''});
   setTimeout(()=>items.forEach(el=>{el.style.transition=''}),800);
 }
 function restartShopsProgress(){
@@ -1467,7 +1080,6 @@ function restartShopsProgress(){
   if(!bar)return;
   bar.style.animation='none';bar.offsetWidth;bar.style.animation='';
 }
-
 setInterval(()=>{
   if(document.hidden)return;
   const t=$('shopsTrack');
@@ -1477,7 +1089,6 @@ setInterval(()=>{
   restartShopsProgress();
 },4000);
 
-/* ====== Categorías: rotación de posición e imagen cada 4 segundos ====== */
 let catTimerStarted=false;
 function bindCategoryRotator(){
   if(catTimerStarted)return;catTimerStarted=true;
@@ -1486,7 +1097,7 @@ function bindCategoryRotator(){
       if(document.hidden)return;
       const g=$('categoryGrid');
       if(!g)return;
-      flipRotate(g);
+      if(!catFilter)flipRotate(g);
       rotateCategoryImages();
     },4000);
   },2000);
@@ -1510,8 +1121,6 @@ function rotateCategoryImages(){
     pre.src=list[i].logo;
   });
 }
-
-// Rota la primera tarjeta al final con animación FLIP (las demás se deslizan a su nueva posición)
 function flipRotate(container){
   const items=[...container.children];
   if(items.length<2)return;
@@ -1521,24 +1130,16 @@ function flipRotate(container){
   items.forEach((el,i)=>{
     const last=el.getBoundingClientRect();
     el.style.transition='none';
-    if(el===moved){
-      el.style.opacity='0';
-      el.style.transform='scale(.85)';
-    }else{
-      el.style.transform='translate('+(first[i].left-last.left)+'px,'+(first[i].top-last.top)+'px)';
-    }
+    if(el===moved){el.style.opacity='0';el.style.transform='scale(.85)'}
+    else{el.style.transform='translate('+(first[i].left-last.left)+'px,'+(first[i].top-last.top)+'px)'}
   });
   container.offsetWidth;
-  items.forEach(el=>{
-    el.style.transition='transform .75s cubic-bezier(.2,.8,.2,1), opacity .75s ease';
-    el.style.transform='';
-    el.style.opacity='';
-  });
+  items.forEach(el=>{el.style.transition='transform .75s cubic-bezier(.2,.8,.2,1), opacity .75s ease';el.style.transform='';el.style.opacity=''});
   setTimeout(()=>items.forEach(el=>{el.style.transition=''}),800);
 }
 
 /* ==========================================
-   (10) MODAL DE PERFIL
+   MODAL DE PERFIL
    ========================================== */
 const ORDER_TABLES=['orders','purchases','compras','pedidos','ventas','order_items'];
 const FAV_TABLES=['favorites','favoritos','shop_favorites','tiendas_favoritas','follows'];
@@ -1551,7 +1152,6 @@ async function tableExists(name){
 }
 async function findTable(names){for(const n of names){if(await tableExists(n))return n}return null}
 function pick(row,cands){return cands.find(k=>Object.prototype.hasOwnProperty.call(row,k))||null}
-
 async function fetchOrdersFor(uid,bids){
   const t=await findTable(ORDER_TABLES);
   if(!t)return null;
@@ -1573,6 +1173,17 @@ async function fetchFavCount(uid){
   if(!data)return 0;
   return data.filter(r=>{const k=pick(r,['user_id','buyer_id','profile_id','comprador_id','customer_id']);return k&&String(r[k])===String(uid)}).length;
 }
+
+/* (2) Modal con los productos del vendedor */
+let sellerProducts=[];
+function openProductsModal(){
+  $('pmList').innerHTML=sellerProducts.length
+    ? sellerProducts.map(p=>'<a class="pf-item" href="catalogo.html'+(p._bid?'?id='+encodeURIComponent(p._bid):'')+'"><img src="'+(p._img?esc(p._img):FALLBACK_IMG)+'" alt="" loading="lazy"><span><b>'+esc(p._name)+'</b><small>'+esc((p._ref?'REF '+p._ref+' · ':'')+(p._shop||''))+'</small></span><span class="pf-price">'+formatPrice(p._price)+'</span></a>').join('')
+    : '<p class="pf-empty">Aún no tienes productos en tu catálogo. Entra a <b>Administrar</b> para agregarlos.</p>';
+  open('productsModal');
+}
+$('pmClose').onclick=()=>$('productsModal').classList.add('hidden');
+
 async function openProfileModal(){
   if(!currentUserProfile)return;
   const u=currentUserProfile;
@@ -1585,55 +1196,46 @@ async function openProfileModal(){
   open('profileModal');
 
   const isSeller=(u.role||'comprador')==='vendedor';
-  // (3) Botones dentro de la tarjeta de perfil: solo para vendedores/comercios
   $('pfAdminBtn').classList.toggle('hidden',!isSeller);
   $('pfSupportBtn').classList.toggle('hidden',!isSeller);
 
   const recents=getRecents();
-  let myBids=[];
+  let myShops=[],myBids=[];
   if(isSeller){
-    try{
-      const { data } = await _supabase.from('shops').select('business_id,name,category,logo').eq('owner_id',u.id);
-      if(data&&data.length)myBids=data.map(s=>String(s.business_id));
-      else{
-        const cached=localStorage.getItem('sofy_my_shop_'+u.id);
-        if(cached)myBids=[String(cached)];
-      }
-    }catch(e){}
-    if(!myBids.length&&shops.length){
-      const mine=shops.filter(s=>s.owner_id&&String(s.owner_id)===String(u.id));
-      if(mine.length)myBids=mine.map(s=>String(s.business_id));
-    }
+    myShops=await getMyShops();
+    myShops.forEach(s=>shopKeys(s).forEach(k=>{if(!myBids.includes(k))myBids.push(k)}));
   }
 
-  const orders=await fetchOrdersFor(isSeller?null:u.id,isSeller?myBids:null);
-  const favs=await fetchFavCount(u.id);
-  const shopNameById={};shops.forEach(s=>shopNameById[String(s.business_id)]=s.name);
+  const [orders,favs,sp]=await Promise.all([
+    fetchOrdersFor(isSeller?null:u.id,isSeller?myBids:null),
+    fetchFavCount(u.id),
+    isSeller?fetchSellerProducts(myBids):Promise.resolve([])
+  ]);
+  sellerProducts=sp||[];
+  const shopNameById=buildShopMap();
 
-  /* Resumen */
   if(isSeller){
     const clients=new Set((orders||[]).map(o=>String(o.buyer)).filter(x=>x&&x!=='null'));
-    const prodCount=myBids.length?products.filter(p=>myBids.includes(p._bid)).length:0;
-    $('pfStats').innerHTML='<div><b>'+(myBids.length||1)+'</b><small>Tiendas</small></div><div><b>'+prodCount+'</b><small>Productos</small></div><div><b>'+clients.size+'</b><small>Clientes</small></div>';
+    $('pfStats').innerHTML='<div><b>'+(myShops.length||0)+'</b><small>Tiendas</small></div><div class="clickable" id="pfProdStat" title="Ver mis productos"><b>'+sellerProducts.length+'</b><small>Productos ›</small></div><div><b>'+clients.size+'</b><small>Clientes</small></div>';
+    $('pfProdStat').onclick=openProductsModal;
   }else{
     $('pfStats').innerHTML='<div><b>'+((orders&&orders.length)||0)+'</b><small>Compras</small></div><div><b>'+recents.length+'</b><small>Vistos</small></div><div><b>'+favs+'</b><small>Favoritos</small></div>';
   }
 
   let html='';
   if(isSeller){
-    /* VENDEDOR: mis tiendas y quiénes son mis clientes */
     html+='<p class="pf-section-title">Mis tiendas</p>';
-    const mine=shops.filter(s=>myBids.includes(String(s.business_id)));
-    if(mine.length){
-      html+=mine.map(s=>'<a class="pf-item" href="negocio.html?id='+encodeURIComponent(s.business_id)+'"><img src="'+(s.logo?esc(s.logo):FALLBACK_IMG)+'" alt=""><span><b>'+esc(s.name)+'</b><small>'+esc(s.category||'')+'</small></span><span class="pf-price">Administrar</span></a>').join('');
+    if(myShops.length){
+      html+=myShops.map(s=>'<a class="pf-item" href="catalogo.html?id='+encodeURIComponent(shopKey(s))+'"><img src="'+(s.logo?esc(s.logo):FALLBACK_IMG)+'" alt=""><span><b>'+esc(s.name)+'</b><small>'+esc(s.category||'')+'</small></span><span class="pf-price">Ver tienda</span></a>').join('');
     }else{
-      html+='<p class="pf-empty">Aún no vemos comercios asociados a tu cuenta. Usa el botón <b>Crear comercio</b> para publicar el primero.</p>';
+      html+='<p class="pf-empty">Aún no vemos comercios asociados a tu cuenta.</p>';
     }
     html+='<p class="pf-section-title">Mis clientes</p>';
     if(orders&&orders.length){
       html+=orders.slice(0,8).map(o=>{
-        const nm=(o.raw&&(pick(o.raw,['buyer_name','customer_name','client_name','nombre_cliente']))||'');
-        const mail=(o.raw&&(pick(o.raw,['buyer_email','customer_email','correo_cliente'])))||'';
+        const nmK=o.raw&&pick(o.raw,['buyer_name','customer_name','client_name','nombre_cliente']);
+        const mailK=o.raw&&pick(o.raw,['buyer_email','customer_email','correo_cliente']);
+        const nm=nmK?o.raw[nmK]:'',mail=mailK?o.raw[mailK]:'';
         const label=nm||mail||(o.buyer?('Cliente '+String(o.buyer).slice(0,8)):'Cliente');
         return '<div class="pf-item"><span style="width:48px;height:48px;border-radius:12px;background:var(--soft);display:grid;place-items:center;color:var(--accent)">'+icons.user+'</span><span><b>'+esc(label)+'</b><small>'+esc((o.name||'Pedido')+' · '+((o.bid&&shopNameById[o.bid])||''))+'</small></span><span class="pf-price">'+formatPrice(o.price)+'</span></div>';
       }).join('');
@@ -1641,7 +1243,6 @@ async function openProfileModal(){
       html+='<p class="pf-empty">Todavía no hay clientes registrados en tus tiendas. Cuando compren en tu catálogo aparecerán aquí.</p>';
     }
   }else{
-    /* COMPRADOR: compras realizadas */
     html+='<p class="pf-section-title">Compras realizadas</p>';
     if(orders&&orders.length){
       html+=orders.slice(0,8).map(o=>'<div class="pf-item"><span style="width:48px;height:48px;border-radius:12px;background:var(--soft);display:grid;place-items:center;color:var(--accent)">'+icons.bag+'</span><span><b>'+esc(o.name||'Pedido')+'</b><small>'+esc((o.bid&&shopNameById[o.bid])||'Comercio')+'</small></span><span class="pf-price">'+formatPrice(o.price)+'</span></div>').join('');
@@ -1649,8 +1250,6 @@ async function openProfileModal(){
       html+='<p class="pf-empty">Aún no registramos compras en tu cuenta. Explora los productos y realiza tu primera compra.</p>';
     }
   }
-
-  /* Intereses / último visto (ambos roles) */
   html+='<p class="pf-section-title">'+(isSeller?'Productos de interés':'Tus intereses · último visto')+'</p>';
   if(recents.length){
     html+=recents.slice(0,6).map(r=>'<a class="pf-item" href="catalogo.html'+(r.bid?'?id='+encodeURIComponent(r.bid):'')+'"><img src="'+(r.img?esc(r.img):FALLBACK_IMG)+'" alt=""><span><b>'+esc(r.name)+'</b><small>'+esc((r.ref?'REF '+r.ref+' · ':'')+(r.shop||''))+'</small></span><span class="pf-price">'+formatPrice(r.price)+'</span></a>').join('');
@@ -1661,7 +1260,6 @@ async function openProfileModal(){
 }
 $('userProfileBadge').onclick=openProfileModal;
 
-/* ---------- CIERRE DE MODALES ---------- */
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeAll);
 document.querySelectorAll('[data-close-create]').forEach(b=>b.onclick=closeCreateModal);
 document.querySelectorAll('.backdrop').forEach(m=>m.onclick=e=>{
@@ -1670,9 +1268,9 @@ document.querySelectorAll('.backdrop').forEach(m=>m.onclick=e=>{
   else if(m.id==='authModal')dismissAuth();
   else m.classList.add('hidden');
 });
-$('search').oninput=()=>{renderProducts()};
+let _searchT;
+$('search').oninput=()=>{clearTimeout(_searchT);_searchT=setTimeout(renderProducts,150)};
 
-/* (4) Al cambiar de móvil a web (o al revés) se recarga la cuadrícula de productos */
 let _wideMode=window.matchMedia('(min-width:761px)').matches;
 window.addEventListener('resize',()=>{
   const w=window.matchMedia('(min-width:761px)').matches;
@@ -1697,77 +1295,49 @@ $('fileInput').onchange=()=>{
 bind();
 fetchShops().then(fetchProducts);
 </script>
-<!-- Registro del Service Worker para PWA -->
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('./sw.js')
-        .then((registration) => {
-          console.log('Service Worker registrado con éxito:', registration.scope);
-        })
-        .catch((error) => {
-          console.error('Error al registrar el Service Worker:', error);
-        });
+        .then((registration) => console.log('Service Worker registrado con éxito:', registration.scope))
+        .catch((error) => console.error('Error al registrar el Service Worker:', error));
     });
   }
 </script>
-<!-- Lógica de instalación PWA (Android e iPhone) -->
 <script>
   let deferredPrompt = null;
-
   const pwaBanner = document.getElementById('pwaInstallBanner');
   const pwaInstallBtn = document.getElementById('pwaInstallBtn');
   const pwaCloseBtn = document.getElementById('pwaCloseBtn');
   const pwaText = document.getElementById('pwaText');
-
-  // Detectar si la App ya está instalada en el dispositivo
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-
-  // Detectar si el usuario está en un iPhone / iPad
   const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
   if (!isStandalone) {
-    // 1. CAPTURA EN ANDROID / CHROME (Permite instalar con un clic)
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
       if (pwaText) pwaText.textContent = "Tu tienda siempre activa";
       if (pwaBanner) pwaBanner.classList.remove('hidden');
     });
-
-    // 2. DETECCIÓN EN IPHONE / SAFARI
     if (isIOS) {
       if (pwaText) pwaText.textContent = "Toca instalar para ver cómo agregar a tu inicio";
       if (pwaBanner) pwaBanner.classList.remove('hidden');
     }
   }
-
-  // ACCIÓN DEL BOTÓN INSTALAR
   if (pwaInstallBtn) {
     pwaInstallBtn.addEventListener('click', async () => {
       if (deferredPrompt) {
-        // Ejecución en Android: Abre el diálogo nativo de instalación
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-          if (pwaBanner) pwaBanner.classList.add('hidden');
-        }
+        if (outcome === 'accepted' && pwaBanner) pwaBanner.classList.add('hidden');
         deferredPrompt = null;
       } else if (isIOS) {
-        // Ejecución en iPhone: Muestra las instrucciones integradas
         alert("Para instalar en tu iPhone:\n1. Toca el botón 'Compartir' (el ícono del cuadrado con la flecha hacia arriba) en Safari.\n2. Desplázate y selecciona 'Agregar al inicio' ➕.");
       } else {
-        // Navegador de escritorio u otros dispositivos
         alert("Para instalar la aplicación, busca la opción 'Instalar' o 'Agregar a la pantalla de inicio' en el menú de tu navegador.");
       }
     });
   }
-
-  // CERRAR EL BANNER SI EL USUARIO LO DESCARTA
-  if (pwaCloseBtn) {
-    pwaCloseBtn.addEventListener('click', () => {
-      if (pwaBanner) pwaBanner.classList.add('hidden');
-    });
-  }
+  if (pwaCloseBtn) pwaCloseBtn.addEventListener('click', () => { if (pwaBanner) pwaBanner.classList.add('hidden'); });
 </script>
 </body></html>
