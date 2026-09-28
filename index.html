@@ -47,12 +47,23 @@
   margin:8px 0;
   color:rgba(255,255,255,.76);
   font-size:clamp(12px,1.4vw,14px); /* Reducido de clamp(14px,1.8vw,16px) */
-  line-height:1.4; 
+  line-height:1.4;
   transform: translateY(-30px); /* Sube solo el texto sin desplazar nada más */
 }.slider-controls{position:absolute;z-index:5;width:min(1160px,calc(100% - 40px));left:50%;bottom:15px;transform:translateX(-50%);display:flex;justify-content:space-between;align-items:center}.dots,.arrows{display:flex;gap:8px;align-items:center}.dots button{width:8px;height:8px;padding:0;border:0;border-radius:10px;background:rgba(255,255,255,.42);cursor:pointer}.dots button.active{width:30px;background:var(--accent)}.arrows button{width:46px;height:46px;border:1px solid rgba(174,226,255,.4);border-radius:50%;color:#fff;background:rgba(5,38,61,.72);font-size:29px;cursor:pointer}.arrows button:hover{background:var(--accent)}
 .content{width:min(1060px,calc(100% - 40px));margin:auto;padding:15px 0 30px}.heading{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:27px}.heading h2,.modal h2{margin:0;font-size:clamp(31px,4vw,44px);line-height:1.05}.search{max-width:540px;height:52px;margin-bottom:34px;padding:0 18px;display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:15px;background:var(--surface);color:var(--muted)}.search:focus-within{border-color:var(--accent)}.search input{width:100%;border:0;outline:0;background:transparent;color:var(--text)}.empty{min-height:310px;border-block:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px}.empty-icon{width:58px;height:58px;display:grid;place-items:center;border-radius:18px;color:var(--accent);background:rgba(41,182,246,.12)}.empty h3{font-size:22px;margin:17px 0 8px}.empty p{color:var(--muted);line-height:1.6;max-width:470px;margin:0 0 22px}.shop{min-width:0;animation:up .5s}.shop img{width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:24px;background:var(--soft);transition:.35s}.shop:hover img{transform:translateY(-6px);box-shadow:var(--shadow)}.shop h3{margin:14px 0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.shop p{color:var(--muted);margin:0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.no-results{text-align:center;color:var(--muted);padding:70px}
 .categories{padding-top:110px;padding-bottom:100px}.count{color:var(--muted);font-size:14px}.category-empty{min-height:220px;display:grid;place-items:center;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:24px}.category{height:255px;padding:0;border:0;border-radius:22px;overflow:hidden;position:relative;text-align:left;color:#fff;cursor:pointer;background:var(--soft)}.category>img,.category-shade{position:absolute;inset:0;width:100%;height:100%}.category>img{object-fit:cover;transition:.55s}.category:hover>img{transform:scale(1.07)}.category-shade{background:linear-gradient(0deg,rgba(3,20,35,.9),transparent 80%)}.category-label{position:absolute;left:20px;bottom:19px;display:flex;flex-direction:column}.category-label strong{font-size:18px}.category-label small{color:#c6eafa;margin-top:3px}.category i{position:absolute;right:17px;top:17px;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:rgba(4,34,55,.6)}footer{min-height:150px;border-top:1px solid var(--line);width:min(1160px,calc(100% - 40px));margin:auto;display:flex;align-items:center;justify-content:space-between;color:var(--muted)}footer span{font-weight:800;color:var(--text);letter-spacing:.14em}
 .backdrop{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(2,14,26,.72);backdrop-filter:blur(14px);animation:fade .22s}.modal{width:min(550px,100%);max-height:calc(100vh - 40px);overflow:auto;position:relative;border:1px solid var(--line);border-radius:28px;background:var(--surface);padding:36px;box-shadow:0 35px 100px #0007;animation:pop .35s}.modal.small{width:min(440px,100%)}.close{position:absolute;top:22px;right:22px;width:38px;height:38px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line);background:var(--soft);cursor:pointer}.intro{color:var(--muted);line-height:1.55;margin:13px 50px 26px 0}form,form label{display:flex;flex-direction:column}form{gap:17px}form label{gap:8px;font-size:13px;font-weight:700}form input,form select{width:100%;height:50px;border:1px solid var(--line);border-radius:13px;padding:0 14px;outline:0;background:var(--soft);color:var(--text)}.upload{width:100%;min-height:130px;border:1.5px dashed rgba(41,182,246,.55);border-radius:16px;color:var(--text);background:rgba(41,182,246,.07);cursor:pointer;overflow:hidden}.upload span{display:flex;flex-direction:column;align-items:center;gap:4px}.upload small,.storage{color:var(--muted);font-weight:400}.upload img{width:100%;height:145px;object-fit:contain}.file{position:absolute;width:1px;height:1px;opacity:0}.error{color:#ff5e76;font-size:12px}.notice{color:var(--accent);font-size:12px;font-weight:700;line-height:1.5}.submit{width:100%}.storage{text-align:center;font-size:10px}.list{border-top:1px solid var(--line);margin-top:25px}.list a{min-height:55px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);font-weight:600;cursor:pointer}.category-shops{display:flex;flex-direction:column;gap:10px;margin-top:22px}.category-shop{display:flex;align-items:center;gap:13px;border-bottom:1px solid var(--line);padding-bottom:10px}.category-shop img{width:54px;height:54px;object-fit:cover;border-radius:14px}.category-shop span{display:flex;flex-direction:column}.category-shop small{color:var(--muted)}.toast{position:fixed;z-index:200;left:50%;bottom:24px;transform:translateX(-50%);background:var(--surface);border:1px solid var(--line);padding:13px 20px;border-radius:14px;box-shadow:var(--shadow);font-weight:700}
+
+/* ==========================================
+   MODAL DE CONFIRMACIÓN DE CIERRE DE SESIÓN
+   ========================================== */
+#logoutModal{z-index:1500}
+.logout-icon{width:62px;height:62px;margin:0 auto 14px;display:grid;place-items:center;border-radius:20px;color:#ff5e76;background:rgba(255,94,118,.12)}
+.logout-icon svg{width:28px;height:28px}
+.logout-actions{display:flex;gap:10px;margin-top:22px}
+.logout-actions button{flex:1}
+.danger{background:linear-gradient(135deg,#ff7b8f,#e5384d)!important;box-shadow:0 12px 26px rgba(229,56,77,.28)!important}
+
 @keyframes up{from{opacity:0;transform:translateY(18px)}}@keyframes fade{from{opacity:0}}@keyframes pop{from{opacity:0;transform:translateY(20px) scale(.97)}}@media(max-width:760px){.topbar{width:calc(100% - 28px);height:78px}.brand small{display:none}.create-top{width:42px;padding:0;font-size:0}.hero{min-height:300px;height:360px}.hero-copy{width:calc(100% - 38px);justify-content:flex-end;padding-bottom:50px}.hero h1{font-size:clamp(28px, 8vw, 40px)}.shade{background:linear-gradient(0deg,rgba(2,16,29,.95),rgba(3,27,47,.45) 63%,transparent)}.slider-controls{width:calc(100% - 38px);bottom:10px}.content{width:calc(100% - 32px);padding-top:20px}.heading{align-items:center}.heading h2{font-size:33px}.category{height:220px}footer{width:calc(100% - 32px);flex-direction:column;justify-content:center}.modal{padding:30px 22px 24px}}
 
 /* ==========================================
@@ -87,7 +98,7 @@ form label.logo-field{height:100%}
 .form-actions{display:flex;flex-direction:column;gap:12px}
 
 /* ==========================================
-   4 y 5. SLIDER DE COMERCIOS 1A (ahora PRODUCTOS)
+   4 y 5. SLIDER DE PRODUCTOS
    ========================================== */
 .shops-panel{position:relative;max-width:760px;padding:18px 22px 22px;border:1px solid var(--line);border-radius:26px;background:linear-gradient(145deg,rgba(41,182,246,.11),rgba(41,182,246,.03));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 50px rgba(8,60,110,.12),inset 0 1px 0 rgba(255,255,255,.06)}
 :root[data-theme=light] .shops-panel{background:linear-gradient(145deg,rgba(255,255,255,.75),rgba(228,243,255,.5))}
@@ -143,6 +154,20 @@ form label.logo-field{height:100%}
 a.category-shop{transition:.2s;border-radius:12px}
 a.category-shop:hover{background:var(--soft);padding-left:8px}
 
+/* ==========================================
+   (4) SOLO EN WEB: CONTENEDORES MÁS AMPLIOS
+   Y COMPLETOS PARA PRODUCTOS Y CATEGORÍAS
+   ========================================== */
+@media(min-width:761px){
+  .content{width:min(1160px,calc(100% - 40px))}
+  .shops-panel.grid-panel{max-width:100%}
+  .shops{grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+  .shops .shop:nth-child(n+5){display:block}
+  .shops .shop:nth-child(n+9){display:none}
+  .category-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;max-width:100%}
+  .category-grid .category{height:215px}
+}
+
 @media(max-width:760px){
   .settings-top{width:42px}
   .admin-top{width:42px}
@@ -170,6 +195,9 @@ a.category-shop:hover{background:var(--soft);padding-left:8px}
   .category-grid .category-label small{font-size:11px}
   .category-grid .category i{width:26px;height:26px;right:10px;top:10px}
   .cat-dots{left:12px;top:12px}
+  .profile-head{flex-wrap:wrap}
+  .pf-head-actions{width:100%;flex-direction:row;margin-left:0;margin-top:14px}
+  .pf-head-btn{flex:1}
 }
 
 /* ==========================================
@@ -292,7 +320,7 @@ a.category-shop:hover{background:var(--soft);padding-left:8px}
 
 .pwa-close:hover {
   color: var(--text, #ffffff);
-}  
+}
 /* ==========================================
    ESTILOS DE AUTENTICACIÓN Y PERFIL DE USUARIO
    ========================================== */
@@ -441,6 +469,12 @@ a.category-shop:hover{background:var(--soft);padding-left:8px}
 .pf-kv b{color:var(--muted);font-weight:700}
 .pf-kv span{text-align:right;font-weight:700;word-break:break-word}
 .pf-avatar-badge{font-size:9px;padding:3px 8px;border-radius:10px;background:var(--soft);color:var(--accent);text-transform:uppercase;font-weight:800;letter-spacing:.08em}
+
+/* (3) Botones dentro de la tarjeta de perfil (junto al nombre y el rol) */
+.pf-head-actions{margin-left:auto;display:flex;flex-direction:column;gap:8px;flex-shrink:0}
+.pf-head-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:0 14px;border:1px solid var(--line);background:var(--soft);color:var(--text);border-radius:12px;font-size:12px;font-weight:800;cursor:pointer;transition:.2s;white-space:nowrap}
+.pf-head-btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-1px)}
+.pf-head-btn svg{width:16px;height:16px;flex-shrink:0}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head><body>
@@ -466,7 +500,7 @@ a.category-shop:hover{background:var(--soft);padding-left:8px}
     </button>
     <button id="pwaCloseBtn" class="pwa-close" aria-label="Cerrar">&times;</button>
   </div>
-</div>  
+</div>
 <main class="app">
 <header class="topbar"><a class="brand" href="#inicio"><img id="brandLogo" src="https://i.imgur.com/HuC4TzS.gif" alt="Madelena"><span class="brand-copy"><small>Tu barrio, mas cerca</small></span></a><div class="actions"><button class="primary" id="loginTopBtn"><span data-icon="user"></span>Iniciar sesión</button><div id="userProfileBadge" class="user-profile-badge hidden" title="Ver mi perfil">
   <img id="userAvatarImg" src="" alt="Avatar">
@@ -474,7 +508,7 @@ a.category-shop:hover{background:var(--soft);padding-left:8px}
     <span id="userNameTxt">Usuario</span>
     <small id="userRoleTxt" class="role-tag">COMPRADOR</small>
   </div>
-</div><button class="theme" id="themeBtn" aria-label="Cambiar tema"><span id="sun" data-icon="sun"></span><span id="moon" data-icon="moon"></span></button><button class="primary create-top" data-open-create><span data-icon="plus"></span>Crear comercio</button><button class="primary admin-top hidden" id="adminBtn" type="button" aria-label="Administrar mi negocio" title="Administrar mi negocio"><span data-icon="gear"></span></button><button class="primary settings-top hidden" id="settingsBtn" type="button" aria-label="Soporte y configuración" title="Soporte y configuración"><span data-icon="gear"></span></button></div></header>
+</div><button class="theme" id="themeBtn" aria-label="Cambiar tema"><span id="sun" data-icon="sun"></span><span id="moon" data-icon="moon"></span></button><button class="primary create-top" data-open-create><span data-icon="plus"></span>Crear comercio</button></div></header>
 <section class="hero" id="inicio">
   <div class="slides" id="slidesContainer">
     <div class="shade"></div>
@@ -599,7 +633,8 @@ Registra tu página, sube tus productos y servicios, y conecta con millones de c
 <div class="backdrop hidden" id="categoryModal"><section class="modal small"><button class="close" data-close><span data-icon="close"></span></button><p class="eyebrow">Categoria</p><h2 id="categoryTitle"></h2><div class="category-shops" id="categoryShops"></div></section></div>
 <div class="backdrop hidden" id="supportModal"><section class="modal support"><div class="support-head"><span class="support-icon" data-icon="gear"></span><div><p class="eyebrow">Centro de ayuda</p><h3>Soporte Sofy</h3></div><button class="close" data-close><span data-icon="close"></span></button></div><div class="support-body"><div class="support-loader" id="supportLoader"><span></span>Cargando soporte...</div><iframe id="supportFrame" title="Soporte Sofy" allow="clipboard-write; fullscreen"></iframe></div></section></div>
 <div class="backdrop hidden" id="passwordModal"><section class="modal small"><button class="close" data-close><span data-icon="close"></span></button><p class="eyebrow">Acceso propietario</p><h2 id="pwTitle">Administrar negocio</h2><p class="intro" id="pwIntro">Ingresa la contraseña de tu cuenta para administrar tu página de negocio y tu catálogo.</p><form id="passwordForm"><label>Contraseña<input type="password" id="pwInput" autocomplete="current-password" required placeholder="••••••••"></label><p class="error hidden" id="pwError">Contraseña incorrecta. Inténtalo de nuevo.</p><button class="primary submit" type="submit" id="pwSubmit">Verificar y continuar</button></form></section></div>
-<div class="backdrop hidden" id="profileModal"><section class="modal profile"><button class="close" data-close><span data-icon="close"></span></button><div class="profile-head"><img id="pfAvatar" src="" alt="Avatar"><div><span class="pf-avatar-badge" id="pfRole">COMPRADOR</span><h2 id="pfName" style="margin-top:6px;">Usuario</h2><p id="pfEmail">correo@ejemplo.com</p></div></div><div class="profile-stats" id="pfStats"></div><div id="pfBody"></div><button class="primary submit" id="pfLogout" style="margin-top:22px;">Cerrar sesión</button></section></div>
+<div class="backdrop hidden" id="profileModal"><section class="modal profile"><button class="close" data-close><span data-icon="close"></span></button><div class="profile-head"><img id="pfAvatar" src="" alt="Avatar"><div><span class="pf-avatar-badge" id="pfRole">COMPRADOR</span><h2 id="pfName" style="margin-top:6px;">Usuario</h2><p id="pfEmail">correo@ejemplo.com</p></div><div class="pf-head-actions" id="pfHeadActions"><button class="pf-head-btn hidden" id="pfAdminBtn" type="button" title="Administrar mi negocio"><span data-icon="gearColor"></span>Administrar</button><button class="pf-head-btn hidden" id="pfSupportBtn" type="button" title="Soporte"><span data-icon="help"></span>Soporte</button></div></div><div class="profile-stats" id="pfStats"></div><div id="pfBody"></div><button class="primary submit" id="pfLogout" style="margin-top:22px;">Cerrar sesión</button></section></div>
+<div class="backdrop hidden" id="logoutModal"><section class="modal small" style="text-align:center"><div class="logout-icon"><span data-icon="logout"></span></div><p class="eyebrow" style="margin:0 0 6px">Sesión</p><h2 style="font-size:26px;margin:0 0 10px">¿Cerrar sesión?</h2><p style="color:var(--muted);line-height:1.6;margin:0;font-size:14px">¿Estás seguro de que deseas cerrar sesión? Tendrás que iniciar sesión de nuevo para volver a entrar.</p><div class="logout-actions"><button class="primary submit" id="logoutCancelBtn" type="button">Cancelar</button><button class="primary submit danger" id="logoutConfirmBtn" type="button">Sí, cerrar sesión</button></div></section></div>
 <div class="toast hidden" id="toast"></div>
 <!-- MODAL DE INICIO DE SESIÓN / REGISTRO (aparece solo cuando se necesita) -->
 <div class="backdrop hidden" id="authModal">
@@ -666,7 +701,7 @@ Registra tu página, sube tus productos y servicios, y conecta con millones de c
   </section>
 </div>
 <script>
-const icons={store:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10v10h16V10M3 4h18l-2 6H5L3 4Z"/><path d="M9 20v-6h6v6"/></svg>',sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>',moon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.5 14.1A8.4 8.4 0 019.9 3.5 8.5 8.5 0 1020.5 14.1Z"/></svg>',plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>',search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>',upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4M7 9l5-5 5 5M5 15v4h14v-4"/></svg>',close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 6 12 12M18 6 6 18"/></svg>',gear:'<svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',box:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 8.5 12 3 3 8.5v7L12 21l9-5.5v-7Z"/><path d="m3 8.5 9 5.5 9-5.5M12 21v-7"/></svg>',bag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 7h12l1 14H5L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>',user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>',eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>',heart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20s-7-4.4-7-9.3A4.2 4.2 0 0 1 12 7a4.2 4.2 0 0 1 7 3.7C19 15.6 12 20 12 20Z"/></svg>'};
+const icons={store:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10v10h16V10M3 4h18l-2 6H5L3 4Z"/><path d="M9 20v-6h6v6"/></svg>',sun:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2"/></svg>',moon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.5 14.1A8.4 8.4 0 019.9 3.5 8.5 8.5 0 1020.5 14.1Z"/></svg>',plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>',search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>',upload:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4M7 9l5-5 5 5M5 15v4h14v-4"/></svg>',close:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m6 6 12 12M18 6 6 18"/></svg>',gear:'<svg viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',gearColor:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',help:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.4"/><path d="m5.7 5.7 3.8 3.8M14.5 14.5l3.8 3.8M18.3 5.7l-3.8 3.8M9.5 14.5l-3.8 3.8"/></svg>',logout:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>',box:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M21 8.5 12 3 3 8.5v7L12 21l9-5.5v-7Z"/><path d="m3 8.5 9 5.5 9-5.5M12 21v-7"/></svg>',bag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 7h12l1 14H5L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>',user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>',eye:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>',heart:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 20s-7-4.4-7-9.3A4.2 4.2 0 0 1 12 7a4.2 4.2 0 0 1 7 3.7C19 15.6 12 20 12 20Z"/></svg>'};
 document.querySelectorAll('[data-icon]').forEach(e=>e.innerHTML=icons[e.dataset.icon]||'');
 const $=id=>document.getElementById(id);
 
@@ -748,14 +783,12 @@ window.previewAuthAvatar = function(e) {
 };
 
 /* ---------- Visibilidad de engranes y botones según rol ---------- */
+/* (3) Los botones "Administrar" y "Soporte" ahora viven dentro del
+   modal de perfil, junto al nombre y el rol (ver pfAdminBtn / pfSupportBtn) */
 function applyRoleUI() {
   const logged = !!currentUserProfile;
-  const isSeller = logged && currentUserProfile.role === 'vendedor';
   $('loginTopBtn').classList.toggle('hidden', logged);
   $('userProfileBadge').classList.toggle('hidden', !logged);
-  // (4) Los engranes SOLO aparecen a los vendedores/comercios
-  $('adminBtn').classList.toggle('hidden', !isSeller);
-  $('settingsBtn').classList.toggle('hidden', !isSeller);
   if (logged) {
     $('userAvatarImg').src = currentUserProfile.avatar_url || '';
     $('userNameTxt').textContent = (currentUserProfile.full_name || 'Usuario').split(' ')[0];
@@ -857,6 +890,11 @@ $('registerForm').onsubmit = async (e) => {
   $('regSubmitBtn').disabled = true;
   $('regSubmitBtn').textContent = 'Creando cuenta...';
 
+  // (1) Cerrar CUALQUIER sesión previa: así el correo de confirmación y la
+  //     sesión quedan amarrados al correo que se está registrando y no a
+  //     otra cuenta abierta antes en el mismo navegador.
+  try { await _supabase.auth.signOut(); } catch (signOutErr) { console.warn(signOutErr); }
+
   // 1. Registro de usuario en Supabase Auth
   const { data: authData, error: authError } = await _supabase.auth.signUp({ email, password });
 
@@ -864,7 +902,35 @@ $('registerForm').onsubmit = async (e) => {
     return regFail(authError ? authError.message : 'Error al registrar usuario.');
   }
 
+  // (1) Si el correo ya existía, Supabase devuelve un usuario "vacío"
+  if (authData.user.identities && authData.user.identities.length === 0) {
+    return regFail('Este correo ya tiene una cuenta registrada. Inicia sesión para continuar.');
+  }
+
   const userId = authData.user.id;
+
+  // (1) Garantizar que la sesión activa sea la de ESTA cuenta recién creada
+  let activeUser = authData.user;
+  if (!authData.session) {
+    const { data: signInData, error: signInError } = await _supabase.auth.signInWithPassword({ email, password });
+    if (signInError || !signInData.user) {
+      $('regSubmitBtn').disabled = false;
+      $('regSubmitBtn').textContent = 'Crear Cuenta';
+      showToast('Cuenta creada. Revisa tu correo ' + email + ' para confirmar e iniciar sesión.');
+      switchAuthTab('login');
+      return;
+    }
+    activeUser = signInData.user;
+  }
+  try {
+    const { data: sessNow } = await _supabase.auth.getSession();
+    if (!sessNow || !sessNow.session || sessNow.session.user.id !== userId) {
+      await _supabase.auth.signOut();
+      const { data: signInRetry } = await _supabase.auth.signInWithPassword({ email, password });
+      if (signInRetry && signInRetry.user) activeUser = signInRetry.user;
+    }
+  } catch (sessErr) { console.warn(sessErr); }
+  currentAuthUser = activeUser;
 
   // 2. Subir imagen a avatars
   const fileExt = regAvatarFile.name.split('.').pop();
@@ -889,12 +955,6 @@ $('registerForm').onsubmit = async (e) => {
     return regFail('Error al guardar perfil: ' + profileError.message);
   }
 
-  // Mantener la sesión activa en memoria (necesaria para abrir los engranes con contraseña)
-  try {
-    const { data: sess } = await _supabase.auth.getSession();
-    currentAuthUser = (sess && sess.session) ? sess.session.user : authData.user;
-  } catch (sessErr) { currentAuthUser = authData.user; }
-
   // 4. (3) Si es vendedor, se publica el comercio diligenciado en el paso 1
   let shopInfo = null;
   if (role === 'vendedor' && commerceDraft) {
@@ -906,6 +966,7 @@ $('registerForm').onsubmit = async (e) => {
     tipo_registro: 'Cuenta de usuario',
     nombre_completo: fullName,
     correo: email,
+    email_registrado: email,
     rol: role,
     id_usuario: userId,
     foto_perfil: avatarUrl || 'Sin foto',
@@ -929,7 +990,7 @@ $('registerForm').onsubmit = async (e) => {
   runPendingAuth();
 };
 
-/* ---------- CERRAR SESIÓN ---------- */
+/* ---------- CERRAR SESIÓN (con confirmación independiente) ---------- */
 async function logoutUser() {
   await _supabase.auth.signOut();
   currentUserProfile = null;
@@ -938,9 +999,12 @@ async function logoutUser() {
   closeAll();
   showToast('Sesión finalizada.');
 }
+function confirmLogout() { open('logoutModal'); }
 
-if ($('btnLogout')) $('btnLogout').onclick = logoutUser;
-if ($('pfLogout')) $('pfLogout').onclick = logoutUser;
+if ($('btnLogout')) $('btnLogout').onclick = confirmLogout;
+if ($('pfLogout')) $('pfLogout').onclick = confirmLogout;
+if ($('logoutCancelBtn')) $('logoutCancelBtn').onclick = closeAll;
+if ($('logoutConfirmBtn')) $('logoutConfirmBtn').onclick = logoutUser;
 
 checkAuthSession();
 
@@ -956,7 +1020,7 @@ async function fetchBannerVideos() {
   const { data, error } = await _supabase
     .from('shop_banners')
     .select('*')
-    .is('business_id', null) 
+    .is('business_id', null)
     .order('order_index', { ascending: true });
 
   if (error || !data || !data.length) return;
@@ -970,7 +1034,7 @@ async function fetchBannerVideos() {
   data.forEach((item, index) => {
     const slide = document.createElement('a');
     slide.className = 'slide' + (index === 0 ? ' active' : '');
-    
+
     // Si tiene video muestra el reproductor, si tiene imagen muestra la foto
     if (item.video_url) {
       slide.innerHTML = `<video src="${item.video_url}" autoplay loop muted playsinline webkit-playsinline preload="auto"></video>`;
@@ -1089,10 +1153,12 @@ async function fetchProducts(){
   renderProducts();
 }
 
+function visibleProductsCount(){return window.matchMedia('(min-width:761px)').matches?8:4}
+
 function renderProducts(){
   const q=$('search').value.toLowerCase().trim();
   const list=products.filter(p=>!q||[p._name,p._ref,p._shop,p._cat].join(' ').toLowerCase().includes(q));
-  const more=list.length>4;
+  const more=list.length>visibleProductsCount();
   if(!products.length){
     $('shopContent').innerHTML='<div class="empty"><span class="empty-icon">'+icons.box+'</span><h3>Pronto veras productos aqui</h3><p>Cuando los comercios publiquen su catalogo, sus productos apareceran en este espacio para que puedas comprarlos.</p><a class="primary" href="#categorias" style="text-decoration:none">Explorar comercios</a></div>';
     return;
@@ -1194,9 +1260,10 @@ function closeCreateModal(){
   }
 }
 
-/* (5) El PIN desapareció: los engranes se abren con la contraseña de la cuenta */
+/* (5) El PIN desapareció: los engranes se abren con la contraseña de la cuenta.
+   (3) Ahora se abren desde la tarjeta de perfil (junto al nombre y el rol). */
 let pwAction=null;
-$('adminBtn').onclick=()=>{
+function openAdminFlow(){
   if(!currentUserProfile){openAuth('register');return}
   pwAction=async()=>{
     const bid=await getMyShopId();
@@ -1206,16 +1273,20 @@ $('adminBtn').onclick=()=>{
   $('pwTitle').textContent='Administrar mi negocio';
   $('pwIntro').textContent='Ingresa la contraseña de tu cuenta para administrar tu página de negocio y tu catálogo.';
   $('pwInput').value='';$('pwError').classList.add('hidden');
+  closeAll();
   open('passwordModal');setTimeout(()=>$('pwInput').focus(),150);
-};
-$('settingsBtn').onclick=()=>{
+}
+function openSupportFlow(){
   const f=$('supportFrame');
   if(!f.getAttribute('src')){
     f.onload=()=>$('supportLoader').classList.add('hidden');
     f.src='https://cazcadena-cmd.github.io/soporte-sofy/';
   }
+  closeAll();
   open('supportModal');
-};
+}
+if ($('pfAdminBtn')) $('pfAdminBtn').onclick=openAdminFlow;
+if ($('pfSupportBtn')) $('pfSupportBtn').onclick=openSupportFlow;
 $('passwordForm').onsubmit=async e=>{
   e.preventDefault();
   if(!currentAuthUser){closeAll();openAuth('login');return}
@@ -1229,13 +1300,15 @@ $('passwordForm').onsubmit=async e=>{
   if(typeof fn==='function')fn();
 };
 
-/* (4/5) ID del comercio del vendedor conectado */
+/* (4/5) ID del comercio del vendedor conectado (se consulta siempre a la BD) */
 async function getMyShopId(){
   try{
-    const cached=localStorage.getItem('sofy_my_shop_'+currentUserProfile.id);
+    const uid=currentUserProfile?currentUserProfile.id:null;
+    if(!uid)return null;
+    const { data } = await _supabase.from('shops').select('business_id,owner_id').eq('owner_id',uid).limit(1);
+    if(data&&data.length){localStorage.setItem('sofy_my_shop_'+uid,data[0].business_id);return data[0].business_id}
+    const cached=localStorage.getItem('sofy_my_shop_'+uid);
     if(cached)return cached;
-    const { data } = await _supabase.from('shops').select('business_id,owner_id').eq('owner_id',currentUserProfile.id).limit(1);
-    if(data&&data.length){localStorage.setItem('sofy_my_shop_'+currentUserProfile.id,data[0].business_id);return data[0].business_id}
   }catch(e){}
   return null;
 }
@@ -1312,9 +1385,9 @@ $('shopForm').onsubmit=async e=>{
 
   const { error: uploadError } = await _supabase.storage.from('logos').upload(fileName, previewFile);
   if(uploadError){ $('formError').textContent='Error al subir la imagen.'; $('formError').classList.remove('hidden'); publishBtn.disabled=false; publishBtn.textContent='Publicar comercio'; return; }
-  
+
   const { data: { publicUrl } } = _supabase.storage.from('logos').getPublicUrl(fileName);
-  
+
   const { data: newShop, error: dbError } = await insertShopRow({ name, category, logo: publicUrl, owner_id: uid }, uid);
   if(dbError){ $('formError').textContent='Error al guardar el comercio.'; $('formError').classList.remove('hidden'); publishBtn.disabled=false; publishBtn.textContent='Publicar comercio'; return; }
 
@@ -1326,6 +1399,7 @@ $('shopForm').onsubmit=async e=>{
       tipo_registro:'Publicación de comercio',
       nombre_completo:currentUserProfile.full_name,
       correo:currentAuthUser?currentAuthUser.email:'',
+      email_registrado:currentAuthUser?currentAuthUser.email:'',
       rol:currentUserProfile.role,
       nombre_comercio:name,
       categoria_comercio:category,
@@ -1511,6 +1585,10 @@ async function openProfileModal(){
   open('profileModal');
 
   const isSeller=(u.role||'comprador')==='vendedor';
+  // (3) Botones dentro de la tarjeta de perfil: solo para vendedores/comercios
+  $('pfAdminBtn').classList.toggle('hidden',!isSeller);
+  $('pfSupportBtn').classList.toggle('hidden',!isSeller);
+
   const recents=getRecents();
   let myBids=[];
   if(isSeller){
@@ -1593,6 +1671,13 @@ document.querySelectorAll('.backdrop').forEach(m=>m.onclick=e=>{
   else m.classList.add('hidden');
 });
 $('search').oninput=()=>{renderProducts()};
+
+/* (4) Al cambiar de móvil a web (o al revés) se recarga la cuadrícula de productos */
+let _wideMode=window.matchMedia('(min-width:761px)').matches;
+window.addEventListener('resize',()=>{
+  const w=window.matchMedia('(min-width:761px)').matches;
+  if(w!==_wideMode){_wideMode=w;renderProducts();}
+});
 
 $('uploadBtn').onclick=()=>$('fileInput').click();
 $('fileInput').onchange=()=>{
@@ -1684,5 +1769,5 @@ fetchShops().then(fetchProducts);
       if (pwaBanner) pwaBanner.classList.add('hidden');
     });
   }
-</script>  
+</script>
 </body></html>
