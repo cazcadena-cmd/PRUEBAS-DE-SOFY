@@ -95,15 +95,16 @@
     .topbar { position: sticky; top: 0; z-index: 90; background: var(--header-bg); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
     .topbar-inner { max-width: 1020px; margin: 0 auto; padding: 11px 16px 12px; display: flex; flex-direction: column; gap: 9px; }
     .hdr-row { display: flex; align-items: center; gap: 10px; width: 100%; }
-    .hdr-main { justify-content: space-between; flex-wrap: wrap; }
+    .hdr-main { justify-content: space-between; flex-wrap: nowrap; align-items: flex-start; }
     .hdr-back { justify-content: flex-start; }
     .hdr-tools { justify-content: flex-start; gap: 8px; }
     .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--primary-bright); font-weight: 600; font-size: .85rem; text-decoration: none; white-space: nowrap; }
-    .brand { display: flex; align-items: center; gap: 11px; min-width: 0; }
+    .brand { display: flex; align-items: center; gap: 11px; min-width: 0; flex: 1 1 auto; overflow: hidden; }
+    .brand > div:last-child { min-width: 0; }
     .brand-logo { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); box-shadow: 0 0 0 4px var(--primary-soft); flex: 0 0 auto; }
     .brand-logo-ph { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-size: 1.3rem; background: linear-gradient(135deg, var(--primary), var(--primary-bright)); flex: 0 0 auto; }
-    .brand-name { font-size: .98rem; font-weight: 700; line-height: 1.2; }
-    .brand-cat { font-size: .72rem; color: var(--muted); }
+    .brand-name { font-size: .98rem; font-weight: 700; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .brand-cat { font-size: .72rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .rating-badge { display: none; align-items: center; gap: 5px; margin-top: 3px; font-size: .7rem; font-weight: 800; color: #f5b301; cursor: pointer; }
     .rating-badge span.count { color: var(--muted); font-weight: 600; }
     .icon-btn { min-width: 40px; height: 40px; padding: 0 11px; border-radius: 12px; border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 7px; font-size: 1.05rem; }
@@ -417,21 +418,33 @@
     @keyframes toastIn { from { transform: translateY(14px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
     /* PERFIL DE USUARIO EN BARRA SUPERIOR */
+    /* (1) Badge de perfil compacto, anclado arriba a la derecha */
     .user-profile-badge {
-      display: flex; align-items: center; gap: 8px; background: var(--card);
-      border: 1px solid var(--border); padding: 4px 10px 4px 4px;
-      border-radius: 30px; margin-left: auto; max-width: 100%;
+      display: flex; align-items: center; gap: 6px; background: var(--card);
+      border: 1px solid var(--border); padding: 3px 8px 3px 3px;
+      border-radius: 999px; margin-left: auto; flex: 0 0 auto;
+      max-width: 168px; align-self: flex-start;
     }
-    .user-profile-badge img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--primary-bright); flex: 0 0 auto; background: var(--card-2); }
-    .user-profile-badge span { font-size: 11px; font-weight: 700; color: var(--text); max-width: 90px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .user-profile-badge .role-tag { font-size: 8px; padding: 1px 5px; border-radius: 8px; background: var(--primary-soft); color: var(--primary-bright); text-transform: uppercase; font-weight: 800; }
-    .btn-logout-cat { background: transparent; border: 0; color: var(--muted); cursor: pointer; padding: 2px; display: flex; align-items: center; }
+    .user-profile-badge img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--primary-bright); flex: 0 0 auto; background: var(--card-2); }
+    .user-profile-badge .up-txt { display: flex; flex-direction: column; min-width: 0; line-height: 1.1; }
+    .user-profile-badge span { font-size: 10.5px; font-weight: 700; color: var(--text); max-width: 78px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .user-profile-badge .role-tag { font-size: 7.5px; padding: 0 4px; border-radius: 7px; background: var(--primary-soft); color: var(--primary-bright); text-transform: uppercase; font-weight: 800; letter-spacing: .03em; max-width: 78px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .btn-logout-cat { background: transparent; border: 0; color: var(--muted); cursor: pointer; padding: 1px; display: flex; align-items: center; flex: 0 0 auto; }
     .btn-logout-cat:hover { color: var(--danger); }
     @media (max-width: 520px) {
       .hdr-main { gap: 8px; }
-      .brand-name { font-size: .9rem; }
+      .brand-name { font-size: .88rem; }
+      .brand-logo, .brand-logo-ph { width: 38px; height: 38px; }
       .icon-btn .btn-label { display: none; }
       .icon-btn { min-width: 38px; padding: 0 9px; }
+      .user-profile-badge { max-width: 132px; gap: 5px; padding: 2px 6px 2px 2px; }
+      .user-profile-badge img { width: 22px; height: 22px; }
+      .user-profile-badge span { font-size: 9.5px; max-width: 58px; }
+      .user-profile-badge .role-tag { font-size: 7px; max-width: 58px; }
+    }
+    @media (max-width: 360px) {
+      .user-profile-badge .up-txt { display: none; }
+      .user-profile-badge { max-width: 70px; }
     }
   </style>
 </head>
@@ -451,7 +464,7 @@
           <!-- Badge de Perfil de Usuario -->
           <div id="userProfileBadge" class="user-profile-badge" style="display: none;">
             <img id="userAvatarImg" src="" alt="Avatar">
-            <div style="display:flex; flex-direction:column;">
+            <div class="up-txt">
               <span id="userNameTxt">Usuario</span>
               <small id="userRoleTxt" class="role-tag">COMPRADOR</small>
             </div>
@@ -978,7 +991,7 @@
         </p>
         <div class="btn-row">
           <button class="btn btn-ghost" onclick="closeModal('successModal')">Entendido</button>
-          <button class="btn btn-primary" onclick="closeModal('successModal'); openReviewModal()">⭐ Calificar</button>
+          <button class="btn btn-primary" id="successRateBtn" style="display:none" onclick="closeModal('successModal'); openReviewModal()">⭐ Calificar</button>
         </div>
       </div>
     </div>
@@ -1040,6 +1053,19 @@
       const adminGearBtn = document.getElementById('adminGearBtn');
       if (adminGearBtn) adminGearBtn.style.display = 'none';
     }
+
+    /* (2) Solo el comprador puede calificar; las reseñas se ven para todos */
+    applyReviewPermissions();
+    if (shopData) renderReviews();
+  }
+
+  /* (2) ¿El usuario actual puede calificar? Solo el rol comprador */
+  function isBuyer() {
+    return !!(currentUserProfile && String(currentUserProfile.role || '').toLowerCase() === 'comprador');
+  }
+  function applyReviewPermissions() {
+    const b = document.getElementById('successRateBtn');
+    if (b) b.style.display = isBuyer() ? '' : 'none';
   }
 
   /* (1) Cerrar sesión con alerta independiente (sin mostrar el dominio) */
@@ -2153,7 +2179,7 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     if (!badge) return;
     if (!reviewsList.length) {
       badge.style.display = 'flex';
-      badge.innerHTML = `<span>☆</span><span class="count">Sé el primero en calificar</span>`;
+      badge.innerHTML = `<span>☆</span><span class="count">${isBuyer() ? 'Sé el primero en calificar' : 'Aún sin reseñas'}</span>`;
       return;
     }
     const avg = avgRating();
@@ -2179,7 +2205,7 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
           <div style="font-weight:800;font-size:.95rem">Calificación del vendedor</div>
           <small>${reviewsList.length ? reviewsList.length + (reviewsList.length === 1 ? ' reseña publicada' : ' reseñas publicadas') : 'Este comercio aún no tiene reseñas'}${reviewsSupported ? '' : ' · crea la tabla shop_reviews (SQL en Ajustes)'}</small>
         </div>
-        <button class="btn btn-primary" style="width:auto;padding:11px 16px" onclick="openReviewModal()">⭐ Calificar al vendedor</button>
+        ${isBuyer() ? `<button class="btn btn-primary" style="width:auto;padding:11px 16px" onclick="openReviewModal()">⭐ Calificar al vendedor</button>` : ''}
       </div>`;
     const list = reviewsList.length ? `<div class="rev-list">${reviewsList.slice(0, 9).map((r) => `
       <div class="rev-card">
@@ -2200,6 +2226,7 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
   }
   function setReviewStars(n) { reviewStars = n; renderStarPick(); }
   function openReviewModal() {
+    if (!isBuyer()) { toast('Solo los compradores pueden calificar al vendedor', '⚠️'); return; }
     reviewStars = 5;
     renderStarPick();
     if (currentUserProfile && currentUserProfile.full_name && !$('reviewName').value) {
