@@ -96,8 +96,8 @@
     .topbar-inner { max-width: 1020px; margin: 0 auto; padding: 11px 16px 12px; display: flex; flex-direction: column; gap: 9px; }
     .hdr-row { display: flex; align-items: center; gap: 10px; width: 100%; }
     .hdr-main { justify-content: space-between; flex-wrap: nowrap; align-items: flex-start; }
-    .hdr-back { justify-content: flex-start; }
-    .hdr-tools { justify-content: flex-start; gap: 8px; }
+    .hdr-back { justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .hdr-tools { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-left: auto; flex: 0 0 auto; }
     .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--primary-bright); font-weight: 600; font-size: .85rem; text-decoration: none; white-space: nowrap; }
     .brand { display: flex; align-items: center; gap: 11px; min-width: 0; flex: 1 1 auto; overflow: hidden; }
     .brand > div:last-child { min-width: 0; }
@@ -274,7 +274,7 @@
     .qty button.accent { background: linear-gradient(135deg, var(--primary), var(--primary-bright)); color: #fff; }
     .qty span { min-width: 26px; text-align: center; font-weight: 700; }
     /* Modal producto */
-    .prod-hero { position: relative; aspect-ratio: 16/10; background: var(--card-2); overflow: hidden; }
+    .prod-hero { position: relative; aspect-ratio: 16/10; background: var(--card-2); overflow: hidden; cursor: zoom-in; }
     .prod-hero img, .prod-hero video { width: 100%; height: 100%; object-fit: cover; }
     .prod-hero .media-ph { font-size: 3.4rem; }
     .prod-info { padding: 18px 22px 6px; }
@@ -418,33 +418,37 @@
     @keyframes toastIn { from { transform: translateY(14px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
     /* PERFIL DE USUARIO EN BARRA SUPERIOR */
-    /* (1) Badge de perfil compacto, anclado arriba a la derecha */
+    /* (1) Badge de perfil legible, anclado arriba a la derecha y sin empujar el contenido */
     .user-profile-badge {
-      display: flex; align-items: center; gap: 6px; background: var(--card);
-      border: 1px solid var(--border); padding: 3px 8px 3px 3px;
+      display: flex; align-items: center; gap: 8px; background: var(--card);
+      border: 1px solid var(--border); padding: 4px 10px 4px 4px;
       border-radius: 999px; margin-left: auto; flex: 0 0 auto;
-      max-width: 168px; align-self: flex-start;
+      max-width: 210px; align-self: flex-start; box-shadow: 0 4px 14px rgba(0,0,0,.14);
     }
-    .user-profile-badge img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--primary-bright); flex: 0 0 auto; background: var(--card-2); }
-    .user-profile-badge .up-txt { display: flex; flex-direction: column; min-width: 0; line-height: 1.1; }
-    .user-profile-badge span { font-size: 10.5px; font-weight: 700; color: var(--text); max-width: 78px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .user-profile-badge .role-tag { font-size: 7.5px; padding: 0 4px; border-radius: 7px; background: var(--primary-soft); color: var(--primary-bright); text-transform: uppercase; font-weight: 800; letter-spacing: .03em; max-width: 78px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .btn-logout-cat { background: transparent; border: 0; color: var(--muted); cursor: pointer; padding: 1px; display: flex; align-items: center; flex: 0 0 auto; }
-    .btn-logout-cat:hover { color: var(--danger); }
+    .user-profile-badge img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--primary-bright); flex: 0 0 auto; background: var(--card-2); }
+    .user-profile-badge .up-txt { display: flex; flex-direction: column; min-width: 0; line-height: 1.15; gap: 1px; }
+    .user-profile-badge span { font-size: 12px; font-weight: 700; color: var(--text); max-width: 104px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .user-profile-badge .role-tag { font-size: 8.5px; padding: 1px 6px; border-radius: 8px; background: var(--primary-soft); color: var(--primary-bright); text-transform: uppercase; font-weight: 800; letter-spacing: .04em; max-width: 104px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; align-self: flex-start; }
+    .btn-logout-cat { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 50%; width: 24px; height: 24px; color: var(--muted); cursor: pointer; padding: 0; display: grid; place-items: center; flex: 0 0 auto; }
+    .btn-logout-cat:hover { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 45%, transparent); }
     @media (max-width: 520px) {
       .hdr-main { gap: 8px; }
-      .brand-name { font-size: .88rem; }
-      .brand-logo, .brand-logo-ph { width: 38px; height: 38px; }
+      .brand-name { font-size: .86rem; }
+      .brand-cat { font-size: .66rem; }
+      .brand-logo, .brand-logo-ph { width: 36px; height: 36px; }
+      .brand { gap: 8px; }
       .icon-btn .btn-label { display: none; }
       .icon-btn { min-width: 38px; padding: 0 9px; }
-      .user-profile-badge { max-width: 132px; gap: 5px; padding: 2px 6px 2px 2px; }
-      .user-profile-badge img { width: 22px; height: 22px; }
-      .user-profile-badge span { font-size: 9.5px; max-width: 58px; }
-      .user-profile-badge .role-tag { font-size: 7px; max-width: 58px; }
+      .user-profile-badge { max-width: 172px; gap: 6px; padding: 3px 8px 3px 3px; }
+      .user-profile-badge img { width: 28px; height: 28px; }
+      .user-profile-badge span { font-size: 11px; max-width: 82px; }
+      .user-profile-badge .role-tag { font-size: 8px; max-width: 82px; }
+      .btn-logout-cat { width: 22px; height: 22px; }
     }
-    @media (max-width: 360px) {
-      .user-profile-badge .up-txt { display: none; }
-      .user-profile-badge { max-width: 70px; }
+    @media (max-width: 380px) {
+      .brand-cat { display: none; }
+      .user-profile-badge span { max-width: 66px; }
+      .user-profile-badge .role-tag { max-width: 66px; }
     }
   </style>
 </head>
@@ -475,10 +479,10 @@
         </div>
         <div class="hdr-row hdr-back">
           <a id="btnBackToShop" href="#" class="back-link">&#8592; Volver al Comercio</a>
-        </div>
-        <div class="hdr-row hdr-tools">
-          <button class="icon-btn" id="themeToggleBtn" title="Cambiar tema" aria-label="Cambiar tema" onclick="toggleTheme()">🌙<span class="btn-label">Modo</span></button>
-          <button class="icon-btn" id="adminGearBtn" title="Editar catálogo" aria-label="Editar catálogo" onclick="openPinModal()">⚙️<span class="btn-label">Administrador</span></button>
+          <div class="hdr-tools">
+            <button class="icon-btn" id="themeToggleBtn" title="Cambiar tema" aria-label="Cambiar tema" onclick="toggleTheme()">🌙<span class="btn-label">Modo</span></button>
+            <button class="icon-btn" id="adminGearBtn" title="Editar catálogo" aria-label="Editar catálogo" onclick="openPinModal()">⚙️<span class="btn-label">Administrador</span></button>
+          </div>
         </div>
       </div>
     </header>
@@ -619,7 +623,11 @@
           </div>
           <button class="btn btn-primary" id="saveSettingsBtn" onclick="saveSettings()">Guardar ajustes</button>
           <details class="sql-box">
-            <summary>¿Te faltan funciones nuevas? (SQL para Supabase)</summary>
+            <summary id="advancedSummary">🧰 Herramientas avanzadas de tu comercio</summary>
+            <div class="obs-hint" style="margin:8px 0 6px">
+              Activa funciones extra para tu negocio (categorías con foto, banners en video, colores y tallas,
+              opciones de envío y reseñas de clientes). Copia y ejecuta esta configuración una sola vez.
+            </div>
             <pre id="sqlHint"></pre>
           </details>
         </div>
@@ -749,7 +757,8 @@
   <div class="modal-overlay" id="customerProductModal">
     <div class="modal">
       <button class="modal-close" onclick="closeModal('customerProductModal')">×</button>
-      <div class="prod-hero" id="custProdMedia"></div>
+      <div class="prod-hero" id="custProdMedia" onclick="zoomCurrentProduct()" title="Ver imagen completa">
+      </div>
       <div class="prod-info">
         <span class="chip-type" id="custProdType">Producto</span>
         <h3 class="serif" id="custProdName"></h3>
@@ -762,9 +771,9 @@
           <div class="popts" id="custOpts" style="border-top:0;margin-top:0;padding-top:0"></div>
         </div>
         <div class="field">
-          <label>📝 Observaciones / preferencias</label>
-          <textarea class="textarea" id="custNotes" placeholder="Ej: sin cebolla, sin salsas, sin picante, término medio…"></textarea>
-          <div class="obs-hint">Cuéntanos cómo lo prefieres; tus observaciones llegan en el pedido.</div>
+          <label id="custNotesLabel">📝 Observaciones / preferencias</label>
+          <textarea class="textarea" id="custNotes" placeholder="Escribe aquí tus preferencias…"></textarea>
+          <div class="obs-hint" id="custNotesHint">Cuéntanos cómo lo prefieres; tus observaciones llegan en el pedido.</div>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin:14px 0">
           <div class="qty">
@@ -1485,6 +1494,7 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     $('domicilioHint').textContent = Number(shopData.delivery_fee || 0) === 0
       ? 'Envío gratis' : 'Envío ' + money(Number(shopData.delivery_fee));
     renderRatingBadge();
+    applyBizCopy();
     applyDeliveryAvailability();
   }
   /* ============================================================
@@ -1712,6 +1722,8 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     $('imageLightbox').style.display = 'flex';
   }
   function closeLightbox() { $('imageLightbox').style.display = 'none'; $('lbMedia').innerHTML = ''; }
+  /* Ampliar la imagen desde el modal del producto */
+  function zoomCurrentProduct() { if (custProduct) openLightbox(custProduct.id); }
   /* ============================================================
      MODAL DE PRODUCTO PARA EL CLIENTE + OBSERVACIONES
      ============================================================ */
@@ -1738,7 +1750,8 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     $('custOpts').innerHTML = inner;
     $('custOptsField').style.display = inner ? '' : 'none';
     const isServ = (p.item_type || 'producto') === 'servicio';
-    $('custProdMedia').innerHTML = mediaHtml(p.image_url, 'image', isServ ? '🛠️' : '🍽️', '');
+    $('custProdMedia').innerHTML = mediaHtml(p.image_url, 'image', isServ ? '🛠️' : '🍽️', '') +
+      '<span class="zoom-hint" style="left:10px;bottom:10px">🔍 Toca para ampliar</span>';
     $('custProdType').textContent = isServ ? '🛠️ Servicio' : '🛍️ Producto';
     $('custProdName').textContent = p.name;
     $('custProdDesc').textContent = p.description || '';
@@ -1913,6 +1926,67 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
      ============================================================ */
   function normTxt(s) {
     return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+  /* Clasificación del gremio del comercio para adaptar TODOS los textos sugeridos */
+  function bizKind() {
+    const txt = normTxt((shopData && shopData.category) + ' ' + (shopData && shopData.name));
+    const test = (re) => re.test(txt);
+    if (test(/(restaur|comida|cafeter|\bcafe\b|gastro|pizz|hamburg|burger|asader|parrill|food|sushi|marisc|bistro|pollo|broaster|arepa|empanad|taquer|tacos|brunch|almuerzo|fonda|hot ?dog|grill|steak|cevich|kebab|shawarma|crepe|waffle|cocina|catering)/)) return 'restaurante';
+    if (test(/(panader|pasteler|reposter|dulcer|helader|postre|donas)/)) return 'panaderia';
+    if (test(/(\bbar\b|\bpub\b|discotec|licorer|cervec|vinos|coctel)/)) return 'bar';
+    if (test(/(supermercad|minimercad|colmad|abarrot|bodeg[oó]n|proveedur|deposito|viver|carnicer|pescader|fruteria|fruver|verduler|salsamentar|charcuter|agua|bebida)/)) return 'supermercado';
+    if (test(/(farmac|botica|drogueria|naturista|suplement)/)) return 'farmacia';
+    if (test(/(petshop|pet ?shop|mascota|veterinar|canin|felin|agroveterinar)/)) return 'petshop';
+    if (test(/(calzad|zapat|tenis|sneaker)/)) return 'calzado';
+    if (test(/(ropa|moda|boutique|textil|uniform|lencer|pijam|sastrer|jean|camiser|infantil|bebe|maternid|deportiv|deporte|gym)/)) return 'moda';
+    if (test(/(joyer|bisuter|accesori|relojer|optic|gafas|lentes)/)) return 'joyeria';
+    if (test(/(tecnolog|electro|celular|computad|informatic)/)) return 'tecnologia';
+    if (test(/(hogar|mueble|decorac|ferreter|construc|hardware)/)) return 'hogar';
+    if (test(/(bellez|cosmetic|peluquer|barber|spa|estetic|uñas|unas)/)) return 'belleza';
+    if (test(/(papeler|libreria|jugueter|artesan|floris|planta|vivero|regalo)/)) return 'papeleria';
+    if (test(/(repuesto|auto|moto|llanter|taller|mecanic|bicicle)/)) return 'automotriz';
+    if (test(/(servicio|consultor|asesor|abogad|contab|salud|clinic|medic|odontolog|laborator|educac|academ|curso|escuela|instituto|transporte|mudanza|limpiez|lavander|inmobil|seguro|turism|viaje|hotel|evento|fotograf|publicid|imprenta|tecnic|reparacion|mantenimiento)/)) return 'servicios';
+    return 'retail';
+  }
+  const BIZ_COPY = {
+    restaurante: { search: 'Buscar platos, bebidas o combos…', notesLabel: '📝 Observaciones / preferencias', notes: 'Ej: sin cebolla, sin salsas, sin picante, término medio…', hint: 'Cuéntanos cómo lo prefieres; tus observaciones llegan en el pedido.', prodName: 'Ej: Hamburguesa especial de la casa', prodDesc: 'Ingredientes, acompañamientos, porción y tiempo de preparación…', cat: 'Ej: Entradas, Platos fuertes, Bebidas, Postres…', banner: 'Ej: 2x1 en hamburguesas todos los martes', note: 'Ej: entregar caliente, cubiertos extra, llamar al llegar…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos cómo estuvo la comida, la atención y el tiempo de entrega…' },
+    panaderia: { search: 'Buscar panes, pasteles o postres…', notesLabel: '📝 Observaciones / preferencias', notes: 'Ej: menos azúcar, sin gluten, mensaje en el pastel, para hoy 5pm…', hint: 'Indícanos personalización, decoración o fecha de recogida.', prodName: 'Ej: Bizcocho de vainilla 8 porciones', prodDesc: 'Sabor, relleno, tamaño, porciones y tiempo de elaboración…', cat: 'Ej: Panes, Bizcochos, Postres, Café…', banner: 'Ej: Bizcochos personalizados con 20% off', note: 'Ej: escribir “Feliz cumple Ana”, entregar a las 4pm…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos del sabor, la frescura y la presentación…' },
+    bar: { search: 'Buscar tragos, cervezas o picaderas…', notesLabel: '📝 Observaciones / preferencias', notes: 'Ej: con hielo aparte, sin azúcar, botella fría, vaso extra…', hint: 'Indícanos cómo prefieres tu bebida o picadera.', prodName: 'Ej: Botella de ron añejo 750ml', prodDesc: 'Marca, presentación, mililitros y qué incluye…', cat: 'Ej: Cervezas, Rones, Cócteles, Picaderas…', banner: 'Ej: Happy hour 2x1 de 6 a 9pm', note: 'Ej: llevar hielo y vasos, mesa para 4 personas…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos del ambiente, la atención y las bebidas…' },
+    supermercado: { search: 'Buscar productos de tu despensa…', notesLabel: '📝 Observaciones / preferencias', notes: 'Ej: verde para madurar, sin bolsa plástica, marca alterna si no hay…', hint: 'Dinos marcas, presentación o reemplazos permitidos.', prodName: 'Ej: Arroz selecto 5 libras', prodDesc: 'Marca, peso o presentación, unidades por empaque…', cat: 'Ej: Víveres, Lácteos, Carnes, Limpieza…', banner: 'Ej: Canasta básica con 15% de descuento', note: 'Ej: entregar en la mañana, tocar el timbre 2B…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos de la frescura, los precios y el servicio…' },
+    farmacia: { search: 'Buscar medicamentos o cuidado personal…', notesLabel: '📝 Indicaciones / observaciones', notes: 'Ej: presentación genérica, adjunto récipe médico, dosis indicada…', hint: 'Si tu producto requiere récipe médico, indícalo aquí.', prodName: 'Ej: Acetaminofén 500mg x20 tabletas', prodDesc: 'Principio activo, presentación, laboratorio, indicaciones…', cat: 'Ej: Medicamentos, Cuidado personal, Bebés, Vitaminas…', banner: 'Ej: Vitaminas con 20% de descuento', note: 'Ej: entregar en recepción, llamar antes de subir…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos de la atención, disponibilidad y rapidez…' },
+    petshop: { search: 'Buscar alimentos y accesorios para mascotas…', notesLabel: '📝 Observaciones / preferencias', notes: 'Ej: raza pequeña, cachorro de 3 meses, collar ajustable, sin olor fuerte…', hint: 'Dinos el tamaño, la raza o edad de tu mascota para recomendarte mejor.', prodName: 'Ej: Alimento para perro adulto 10kg', prodDesc: 'Especie, edad recomendada, peso, sabor y beneficios…', cat: 'Ej: Alimentos, Juguetes, Accesorios, Higiene…', banner: 'Ej: 15% off en alimento premium', note: 'Ej: entregar en la tarde, dejar con el portero…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos de la calidad del producto y la asesoría recibida…' },
+    calzado: { search: 'Buscar calzado por modelo o talla…', notesLabel: '📝 Observaciones / preferencias', notes: 'Ej: calzo 40 pero ancho, prefiero cordón negro, para uso diario…', hint: 'Indícanos talla exacta, ancho del pie o color preferido.', prodName: 'Ej: Tenis deportivo running unisex', prodDesc: 'Material, suela, horma, tallas disponibles y uso recomendado…', cat: 'Ej: Deportivos, Casuales, Formales, Sandalias…', banner: 'Ej: 2da unidad al 50% en tenis', note: 'Ej: si no hay mi talla, avísame antes de enviar…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos de la comodidad, la talla y la calidad…' },
+    moda: { search: 'Buscar prendas por estilo o talla…', notesLabel: '📝 Observaciones / preferencias', notes: 'Ej: talla M pero holgada, color alterno si no hay, es para regalo…', hint: 'Indícanos talla, color preferido o si es para regalo.', prodName: 'Ej: Camisa lino manga corta', prodDesc: 'Tela, corte, tallas, cuidados de lavado y ocasión de uso…', cat: 'Ej: Damas, Caballeros, Niños, Accesorios…', banner: 'Ej: Nueva colección con 30% off', note: 'Ej: empacar para regalo, sin factura visible…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos de la tela, la talla y la atención recibida…' },
+    joyeria: { search: 'Buscar joyas, relojes o accesorios…', notesLabel: '📝 Observaciones / preferencias', notes: 'Ej: grabar iniciales, talla de anillo 7, estuche de regalo…', hint: 'Indícanos grabados, medidas o si es para obsequio.', prodName: 'Ej: Cadena en plata 925 con dije', prodDesc: 'Material, quilates, medidas, peso y garantía…', cat: 'Ej: Anillos, Cadenas, Relojes, Aretes…', banner: 'Ej: 20% off en joyas de plata', note: 'Ej: entregar en caja de regalo con tarjeta…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos del acabado, el brillo y la atención…' },
+    tecnologia: { search: 'Buscar equipos, accesorios o repuestos…', notesLabel: '📝 Observaciones / requerimientos', notes: 'Ej: capacidad 128GB, color alterno, incluir cargador, garantía…', hint: 'Indícanos capacidad, compatibilidad o accesorios necesarios.', prodName: 'Ej: Audífonos inalámbricos bluetooth', prodDesc: 'Especificaciones técnicas, compatibilidad, garantía y contenido de la caja…', cat: 'Ej: Celulares, Accesorios, Computación, Audio…', banner: 'Ej: Accesorios tech desde $500', note: 'Ej: verificar compatibilidad con mi equipo antes de enviar…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos del funcionamiento, la garantía y el servicio…' },
+    hogar: { search: 'Buscar artículos para tu hogar…', notesLabel: '📝 Observaciones / medidas', notes: 'Ej: medida 1.60m, color a juego, requiere instalación…', hint: 'Indícanos medidas, color o si necesitas instalación.', prodName: 'Ej: Juego de sábanas queen size', prodDesc: 'Material, medidas, colores disponibles y cuidados…', cat: 'Ej: Muebles, Cocina, Decoración, Ferretería…', banner: 'Ej: Renueva tu hogar con 25% off', note: 'Ej: subir a un tercer piso sin ascensor…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos de la calidad, el armado y la entrega…' },
+    belleza: { search: 'Buscar productos o servicios de belleza…', notesLabel: '📝 Observaciones / preferencias', notes: 'Ej: piel sensible, tono claro, sin fragancia, cita en la tarde…', hint: 'Dinos tu tipo de piel/cabello, tono o el horario que prefieres.', prodName: 'Ej: Tratamiento capilar hidratante', prodDesc: 'Beneficios, tipo de piel o cabello, contenido y duración…', cat: 'Ej: Cabello, Piel, Maquillaje, Servicios…', banner: 'Ej: Combo spa con 20% de descuento', note: 'Ej: agendar para el sábado en la mañana…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos del resultado, la atención y el ambiente…' },
+    papeleria: { search: 'Buscar artículos, útiles o regalos…', notesLabel: '📝 Observaciones / personalización', notes: 'Ej: personalizar con nombre, empaque de regalo, color azul…', hint: 'Indícanos personalización, colores o presentación del regalo.', prodName: 'Ej: Set escolar 12 piezas', prodDesc: 'Contenido del set, materiales, tamaño y edad recomendada…', cat: 'Ej: Útiles, Oficina, Regalos, Juguetes…', banner: 'Ej: Temporada escolar con 30% off', note: 'Ej: envolver para regalo con lazo rojo…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos de la variedad, los precios y la atención…' },
+    automotriz: { search: 'Buscar repuestos, llantas o servicios…', notesLabel: '📝 Datos del vehículo / observaciones', notes: 'Ej: Toyota Corolla 2018, motor 1.8, medida 195/65 R15…', hint: 'Indícanos marca, modelo y año del vehículo para asegurar compatibilidad.', prodName: 'Ej: Filtro de aceite original', prodDesc: 'Compatibilidad, marca, referencia y garantía…', cat: 'Ej: Repuestos, Llantas, Lubricantes, Servicios…', banner: 'Ej: Cambio de aceite con 15% off', note: 'Ej: necesito instalación el sábado en la mañana…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos de la calidad del repuesto y el servicio técnico…' },
+    servicios: { search: 'Buscar servicios disponibles…', notesLabel: '📝 Detalles de tu solicitud', notes: 'Ej: disponibilidad los sábados, el trabajo es en un apartamento, urgencia…', hint: 'Cuéntanos qué necesitas, para cuándo y cualquier detalle importante.', prodName: 'Ej: Asesoría profesional por hora', prodDesc: 'Qué incluye el servicio, duración, alcance y requisitos…', cat: 'Ej: Consultoría, Mantenimiento, Instalación, Asesorías…', banner: 'Ej: Primera consulta gratis este mes', note: 'Ej: agendar para el próximo lunes en la mañana…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos de la puntualidad, el profesionalismo y el resultado…' },
+    retail: { search: 'Buscar productos o servicios…', notesLabel: '📝 Observaciones / preferencias', notes: 'Ej: color preferido, presentación, es para regalo, entrega en la tarde…', hint: 'Cuéntanos cómo lo prefieres; tus observaciones llegan en el pedido.', prodName: 'Ej: Nombre del producto o servicio', prodDesc: 'Detalles, características o información del servicio…', cat: 'Ej: Novedades, Ofertas, Más vendidos…', banner: 'Ej: Promoción especial de la semana', note: 'Ej: entregar después de las 6pm, llamar al llegar…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos cómo fue tu experiencia: atención, calidad y entrega…' }
+  };
+  function bizCopy() { return BIZ_COPY[bizKind()] || BIZ_COPY.retail; }
+  function setPh(id, value) { const el = $(id); if (el && value) el.placeholder = value; }
+  /* Aplica todas las sugerencias de los campos de texto según el gremio */
+  function applyBizCopy() {
+    if (!shopData) return;
+    const c = bizCopy();
+    setPh('searchInput', c.search);
+    setPh('custNotes', c.notes);
+    const lbl = $('custNotesLabel'); if (lbl) lbl.textContent = c.notesLabel;
+    const hint = $('custNotesHint'); if (hint) hint.textContent = c.hint;
+    setPh('prodName', c.prodName);
+    setPh('prodDesc', c.prodDesc);
+    setPh('catName', c.cat);
+    setPh('bannerTitle', c.banner);
+    setPh('orderNote', c.note);
+    setPh('orderAddress', c.address);
+    setPh('reviewText', c.review);
+    setPh('setProductsTitle', 'Ej: ' + ((shopData.products_title || '').trim() || 'Nuestros productos destacados'));
+    setPh('setServicesTitle', 'Ej: ' + ((shopData.services_title || '').trim() || 'Nuestros servicios'));
+    const adv = $('advancedSummary');
+    if (adv) adv.textContent = '🧰 Herramientas avanzadas de ' + (shopData.name || 'tu comercio');
   }
   function bizVariantProfile() {
     const txt = normTxt((shopData && shopData.category) + ' ' + (shopData && shopData.name));
@@ -2521,6 +2595,7 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
       sizes: JSON.stringify(formSizes)
     };
     const id = $('editProductId').value;
+    const prevImg = id ? ((productsList.find((x) => x.id === id) || {}).image_url || '') : '';
     const btn = $('saveProductBtn'); btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Guardando…';
     let res = id
       ? await supabaseClient.from('shop_products').update(payload).eq('id', id)
@@ -2538,6 +2613,7 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     }
     btn.disabled = false; btn.textContent = id ? 'Guardar cambios' : 'Guardar ítem';
     if (error) { toast('Error al guardar el ítem', '⚠️'); return; }
+    await replaceStorageMedia(prevImg, payload.image_url);
     closeModal('productModal');
     if (variantColsMissing) {
       toast('Guardado. Ejecuta el SQL de Ajustes para activar colores y tallas', '⚠️');
@@ -2548,11 +2624,13 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     renderAdminLists();
   }
   async function deleteProduct(id) {
-    const ok = await confirmDialog({ danger: true, icon: '🗑️', title: '¿Eliminar este ítem?', message: 'Esta acción no se puede deshacer.', confirmText: 'Sí, eliminar' });
+    const ok = await confirmDialog({ danger: true, icon: '🗑️', title: '¿Eliminar este ítem?', message: 'Esta acción no se puede deshacer y también se borrará su imagen almacenada.', confirmText: 'Sí, eliminar' });
     if (!ok) return;
+    const prod = productsList.find((x) => x.id === id);
     const { error } = await supabaseClient.from('shop_products').delete().eq('id', id);
     if (error) { toast('Error al eliminar', '⚠️'); return; }
-    toast('Ítem eliminado', '🗑️');
+    if (prod) await deleteStorageMedia(prod.image_url);
+    toast('Ítem e imagen eliminados', '🗑️');
     await loadAll(false);
     renderAdminLists();
   }
@@ -2588,6 +2666,7 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     if (!name) { toast('Escribe el nombre de la categoría', '⚠️'); return; }
     const payload = { name, image_url: $('catImgBase64').value || null };
     const id = $('editCategoryId').value;
+    const prevCatImg = id ? ((categoriesList.find((x) => x.id === id) || {}).image_url || '') : '';
     const btn = $('saveCategoryBtn'); btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Guardando…';
     let res;
     if (id) res = await supabaseClient.from('shop_categories').update(payload).eq('id', id);
@@ -2598,6 +2677,7 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
       toast('No se pudo guardar: verifica la tabla shop_categories (SQL en Ajustes)', '⚠️');
       return;
     }
+    await replaceStorageMedia(prevCatImg, payload.image_url);
     closeModal('categoryModal');
     toast(id ? 'Categoría actualizada' : 'Categoría creada correctamente', '✅');
     await loadAll(false);
@@ -2618,7 +2698,8 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
       await supabaseClient.from('shop_products').update({ category: 'General' }).eq('business_id', shopId).eq('category', c.name);
     }
     if (error) { toast('Error al eliminar la categoría', '⚠️'); return; }
-    toast('Categoría eliminada', '🗑️');
+    await deleteStorageMedia(c.image_url);
+    toast('Categoría e imagen eliminadas', '🗑️');
     await loadAll(false);
     renderAdminLists();
   }
@@ -2655,6 +2736,7 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     if (!mediaUrl) { toast('Sube una imagen o un video para el banner', '⚠️'); return; }
     const title = $('bannerTitle').value.trim();
     const id = $('editBannerId').value;
+    const prevBanner = id ? ((bannersList.find((x) => x.id === id) || {}).mediaUrl || '') : '';
     const btn = $('saveBannerBtn'); btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Publicando…';
     let error = null;
     if (id) {
@@ -2680,17 +2762,20 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
       else toast('Error al guardar el banner', '⚠️');
       return;
     }
+    await replaceStorageMedia(prevBanner, mediaUrl);
     closeModal('bannerModal');
     toast(id ? 'Banner actualizado correctamente' : 'Banner publicado correctamente', '🎉');
     await loadAll(false);
     renderAdminLists();
   }
   async function deleteBanner(id) {
-    const ok = await confirmDialog({ danger: true, icon: '🗑️', title: '¿Eliminar este banner?', confirmText: 'Sí, eliminar' });
+    const ok = await confirmDialog({ danger: true, icon: '🗑️', title: '¿Eliminar este banner?', message: 'También se borrará el archivo (imagen o video) almacenado.', confirmText: 'Sí, eliminar' });
     if (!ok) return;
+    const ban = bannersList.find((x) => x.id === id);
     const { error } = await supabaseClient.from('shop_banners').delete().eq('id', id);
     if (error) { toast('Error al eliminar el banner', '⚠️'); return; }
-    toast('Banner eliminado', '🗑️');
+    if (ban) await deleteStorageMedia(ban.mediaUrl);
+    toast(ban && ban.mediaType === 'video' ? 'Banner y video eliminados' : 'Banner e imagen eliminados', '🗑️');
     await loadAll(false);
     renderAdminLists();
   }
@@ -2735,6 +2820,40 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     if (!missing.length) toast('Ajustes guardados, todos verán los cambios al instante', '🎨');
     await loadAll(false);
     renderCarrierOptions();
+  }
+  /* ============================================================
+     LIMPIEZA DE MEDIOS EN SUPABASE STORAGE
+     Cada vez que el administrador elimina o reemplaza una imagen
+     o un video, el archivo se borra del bucket para ahorrar espacio.
+     ============================================================ */
+  function parseStoragePath(url) {
+    if (!url || typeof url !== 'string') return null;
+    if (url.startsWith('data:')) return null;
+    const marker = '/storage/v1/object/';
+    const i = url.indexOf(marker);
+    if (i < 0) return null;
+    let rest = url.slice(i + marker.length).replace(/^(public|sign|authenticated)\//, '');
+    const q = rest.indexOf('?');
+    if (q >= 0) rest = rest.slice(0, q);
+    const parts = rest.split('/');
+    const bucket = parts.shift();
+    const path = decodeURIComponent(parts.join('/'));
+    if (!bucket || !path) return null;
+    return { bucket, path };
+  }
+  async function deleteStorageMedia(url) {
+    const info = parseStoragePath(url);
+    if (!info) return false;
+    try {
+      const { error } = await supabaseClient.storage.from(info.bucket).remove([info.path]);
+      if (error) { console.warn('No se pudo borrar del storage:', error.message); return false; }
+      return true;
+    } catch (e) { return false; }
+  }
+  /* Borra el archivo anterior cuando se reemplaza por uno nuevo */
+  async function replaceStorageMedia(oldUrl, newUrl) {
+    if (!oldUrl || oldUrl === newUrl) return false;
+    return await deleteStorageMedia(oldUrl);
   }
   /* ============================================================
      SUBIDA DE ARCHIVOS
