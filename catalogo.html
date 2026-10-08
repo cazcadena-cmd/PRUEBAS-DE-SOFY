@@ -431,6 +431,16 @@
     .user-profile-badge .role-tag { font-size: 8.5px; padding: 1px 6px; border-radius: 8px; background: var(--primary-soft); color: var(--primary-bright); text-transform: uppercase; font-weight: 800; letter-spacing: .04em; max-width: 104px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; align-self: flex-start; }
     .btn-logout-cat { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 50%; width: 24px; height: 24px; color: var(--muted); cursor: pointer; padding: 0; display: grid; place-items: center; flex: 0 0 auto; }
     .btn-logout-cat:hover { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 45%, transparent); }
+    /* Botón de iniciar sesión cuando se navega como invitado */
+    .btn-login-cat { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, var(--primary), var(--primary-bright)); color: #fff; border: 0; border-radius: 999px; padding: 8px 14px; font-weight: 700; font-size: .78rem; cursor: pointer; margin-left: auto; flex: 0 0 auto; white-space: nowrap; box-shadow: 0 8px 18px var(--primary-soft); }
+    /* MODAL DE AUTENTICACIÓN (Iniciar sesión / Registrarse) dentro del catálogo */
+    .auth-tabs-cat { display: flex; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+    .auth-tab-btn-cat { flex: 1; padding: 9px; background: transparent; border: 0; color: var(--muted); font-weight: 700; font-size: .82rem; cursor: pointer; border-radius: 10px; font-family: inherit; }
+    .auth-tab-btn-cat.active { background: var(--bg-soft); color: var(--primary-bright); }
+    .role-selector-cat { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+    .role-option-cat { border: 1px solid var(--border); background: var(--bg-soft); padding: 10px; border-radius: 12px; text-align: center; cursor: pointer; font-size: .78rem; font-weight: 700; transition: .15s; }
+    .role-option-cat.selected { border-color: var(--primary-bright); background: var(--primary-soft); color: var(--primary-bright); }
+    .avatar-upload-preview-cat { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; margin: 4px auto; display: block; border: 2px dashed var(--primary-bright); background: var(--bg-soft); }
     @media (max-width: 520px) {
       .hdr-main { gap: 8px; }
       .brand-name { font-size: .86rem; }
@@ -444,6 +454,7 @@
       .user-profile-badge span { font-size: 11px; max-width: 82px; }
       .user-profile-badge .role-tag { font-size: 8px; max-width: 82px; }
       .btn-logout-cat { width: 22px; height: 22px; }
+      .btn-login-cat { padding: 7px 11px; font-size: .72rem; }
     }
     @media (max-width: 380px) {
       .brand-cat { display: none; }
@@ -476,12 +487,17 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
             </button>
           </div>
+          <!-- Botón para iniciar sesión cuando se navega como invitado -->
+          <button id="guestLoginBtn" class="btn-login-cat" style="display:none" onclick="openAuthModal('login')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></svg>
+            Iniciar sesión
+          </button>
         </div>
         <div class="hdr-row hdr-back">
           <a id="btnBackToShop" href="#" class="back-link">&#8592; Volver al Comercio</a>
           <div class="hdr-tools">
             <button class="icon-btn" id="themeToggleBtn" title="Cambiar tema" aria-label="Cambiar tema" onclick="toggleTheme()">🌙<span class="btn-label">Modo</span></button>
-            <button class="icon-btn" id="adminGearBtn" title="Editar catálogo" aria-label="Editar catálogo" onclick="openPinModal()">⚙️<span class="btn-label">Administrador</span></button>
+            <button class="icon-btn" id="adminGearBtn" title="Editar catálogo" aria-label="Editar catálogo" style="display:none" onclick="openPinModal()">⚙️<span class="btn-label">Administrador</span></button>
           </div>
         </div>
       </div>
@@ -1005,6 +1021,53 @@
       </div>
     </div>
   </div>
+  <!-- MODAL DE AUTENTICACIÓN (Iniciar sesión / Registrarse) -->
+  <div class="modal-overlay" id="authModalCat">
+    <div class="modal" style="max-width:440px">
+      <button class="modal-close" onclick="closeAuthModal()">×</button>
+      <div style="padding:22px 22px 0">
+        <div class="auth-tabs-cat">
+          <button type="button" class="auth-tab-btn-cat active" id="tabLoginBtnCat" onclick="switchAuthTabCat('login')">Iniciar Sesión</button>
+          <button type="button" class="auth-tab-btn-cat" id="tabRegisterBtnCat" onclick="switchAuthTabCat('register')">Registrarse</button>
+        </div>
+      </div>
+      <form id="loginFormCat" class="modal-body" style="padding-top:14px">
+        <p class="modal-sub" style="padding:0 0 4px">Bienvenido a Sofy</p>
+        <h3 class="serif" style="margin:0 0 14px">Ingresa a tu cuenta</h3>
+        <div class="field"><label>Correo Electrónico</label><input type="email" class="input" id="loginEmailCat" required placeholder="tu@email.com"></div>
+        <div class="field"><label>Contraseña</label><input type="password" class="input" id="loginPasswordCat" required placeholder="••••••••"></div>
+        <div class="field-error" id="loginErrorCat"></div>
+        <button class="btn btn-primary" type="submit" id="loginSubmitBtnCat">Ingresar</button>
+      </form>
+      <form id="registerFormCat" class="modal-body" style="display:none;padding-top:14px">
+        <p class="modal-sub" style="padding:0 0 4px">Únete a Sofy</p>
+        <h3 class="serif" style="margin:0 0 10px">Crea tu cuenta</h3>
+        <div class="field-error" id="regNoticeCat" style="display:none;color:var(--primary-bright)"></div>
+        <div class="field"><label>Nombre</label><input type="text" class="input" id="regFirstNameCat" required placeholder="Ej. Maria"></div>
+        <div class="field"><label>Apellido</label><input type="text" class="input" id="regLastNameCat" required placeholder="Ej. Pérez"></div>
+        <div class="field"><label>Número de Teléfono</label><input type="tel" class="input" id="regPhoneCat" required placeholder="Ej. 8095551234"></div>
+        <div class="field">
+          <label>Selecciona tu Rol</label>
+          <div class="role-selector-cat">
+            <label class="role-option-cat selected" id="roleCompradorLblCat"><input type="radio" name="userRoleCat" value="comprador" checked onchange="selectRoleCat('comprador')" style="display:none">🛍️ Comprador</label>
+            <label class="role-option-cat" id="roleVendedorLblCat"><input type="radio" name="userRoleCat" value="vendedor" onchange="selectRoleCat('vendedor')" style="display:none">🏪 Vendedor</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Foto de perfil (selfie)</label>
+          <input type="file" id="regAvatarInputCat" accept="image/*" capture="user" style="display:none" onchange="previewAuthAvatarCat(event)">
+          <label class="upload-box" onclick="document.getElementById('regAvatarInputCat').click()" style="cursor:pointer;text-align:center">
+            <img id="regAvatarPreviewCat" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 24 24' fill='none' stroke='%23134989' stroke-width='1.5'><circle cx='12' cy='8' r='4'/><path d='M20 21a8 8 0 1 0-16 0'/></svg>" class="avatar-upload-preview-cat" alt="Foto">
+            <div style="margin-top:6px">📸 Toca para tomarte una selfie</div>
+          </label>
+        </div>
+        <div class="field"><label>Correo Electrónico</label><input type="email" class="input" id="regEmailCat" required placeholder="tu@email.com"></div>
+        <div class="field"><label>Contraseña</label><input type="password" class="input" id="regPasswordCat" required minlength="6" placeholder="Mínimo 6 caracteres"></div>
+        <div class="field-error" id="regErrorCat"></div>
+        <button class="btn btn-primary" type="submit" id="regSubmitBtnCat">Crear Cuenta</button>
+      </form>
+    </div>
+  </div>
   <div class="toast-wrap" id="toastWrap"></div>
   <script>
   /* ============================================================
@@ -1015,13 +1078,24 @@
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   /* ==========================================
      VERIFICACIÓN DE SESIÓN Y ROLES EN CATÁLOGO
+     (El catálogo ahora es público: no se exige iniciar sesión
+     para verlo ni para abrir un producto desde index.html)
      ========================================== */
   let currentUserProfile = null;
 
   async function checkAuthAndLoadUser() {
+    const adminGearBtn = document.getElementById('adminGearBtn');
+    const profileBadge = document.getElementById('userProfileBadge');
+    const guestLoginBtn = document.getElementById('guestLoginBtn');
     const { data: { session } } = await supabaseClient.auth.getSession();
+
     if (!session) {
-      window.location.href = 'index.html';
+      currentUserProfile = null;
+      if (profileBadge) profileBadge.style.display = 'none';
+      if (adminGearBtn) adminGearBtn.style.display = 'none';
+      if (guestLoginBtn) guestLoginBtn.style.display = 'inline-flex';
+      applyReviewPermissions();
+      if (shopData) renderReviews();
       return;
     }
 
@@ -1032,17 +1106,21 @@
       .single();
 
     if (error || !data) {
-      await supabaseClient.auth.signOut();
-      window.location.href = 'index.html';
+      currentUserProfile = null;
+      if (profileBadge) profileBadge.style.display = 'none';
+      if (adminGearBtn) adminGearBtn.style.display = 'none';
+      if (guestLoginBtn) guestLoginBtn.style.display = 'inline-flex';
+      applyReviewPermissions();
+      if (shopData) renderReviews();
       return;
     }
 
     currentUserProfile = data;
+    if (guestLoginBtn) guestLoginBtn.style.display = 'none';
 
     const avatarImg = document.getElementById('userAvatarImg');
     const nameTxt = document.getElementById('userNameTxt');
     const roleTxt = document.getElementById('userRoleTxt');
-    const profileBadge = document.getElementById('userProfileBadge');
 
     if (avatarImg) avatarImg.src = data.avatar_url || 'https://via.placeholder.com/30';
     if (nameTxt) nameTxt.textContent = (data.full_name || 'Usuario').split(' ')[0];
@@ -1057,11 +1135,8 @@
       if (rn && !rn.value) rn.value = data.full_name;
     }
 
-    // Restricción: Si el rol es 'comprador', ocultar el botón de administración de catálogo (⚙️)
-    if (data.role === 'comprador') {
-      const adminGearBtn = document.getElementById('adminGearBtn');
-      if (adminGearBtn) adminGearBtn.style.display = 'none';
-    }
+    // Solo los vendedores con sesión activa ven el botón de administración de catálogo (⚙️)
+    if (adminGearBtn) adminGearBtn.style.display = (data.role === 'vendedor') ? '' : 'none';
 
     /* (2) Solo el comprador puede calificar; las reseñas se ven para todos */
     applyReviewPermissions();
@@ -1090,12 +1165,136 @@
     if (!ok) return;
     toast('Cerrando sesión…', '🚪');
     await supabaseClient.auth.signOut();
-    window.location.href = 'index.html';
+    currentUserProfile = null;
+    await checkAuthAndLoadUser();
+    toast('Sesión cerrada', '👋');
   }
 
   checkAuthAndLoadUser();
+  /* ============================================================
+     (3)(4) MODAL DE AUTENTICACIÓN DENTRO DEL CATÁLOGO
+     Permite iniciar sesión o registrarse sin salir de catalogo.html,
+     usando las mismas tablas de Supabase (auth + profiles + avatars).
+     ============================================================ */
+  let regAvatarFileCat = null;
+  let pendingAuthActionCat = null;
+  const DEFAULT_AVATAR_SVG_CAT = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 24 24' fill='none' stroke='%23134989' stroke-width='1.5'><circle cx='12' cy='8' r='4'/><path d='M20 21a8 8 0 1 0-16 0'/></svg>";
+
+  function switchAuthTabCat(type) {
+    document.getElementById('tabLoginBtnCat').classList.toggle('active', type === 'login');
+    document.getElementById('tabRegisterBtnCat').classList.toggle('active', type === 'register');
+    document.getElementById('loginFormCat').style.display = type === 'login' ? '' : 'none';
+    document.getElementById('registerFormCat').style.display = type === 'register' ? '' : 'none';
+  }
+  function openAuthModal(tab, pending) {
+    pendingAuthActionCat = typeof pending === 'function' ? pending : null;
+    switchAuthTabCat(tab || 'login');
+    openModal('authModalCat');
+  }
+  function closeAuthModal() {
+    closeModal('authModalCat');
+    pendingAuthActionCat = null;
+  }
+  function runPendingAuthCat() {
+    const fn = pendingAuthActionCat;
+    pendingAuthActionCat = null;
+    if (typeof fn === 'function') setTimeout(fn, 150);
+  }
+  window.selectRoleCat = function (role) {
+    document.getElementById('roleCompradorLblCat').classList.toggle('selected', role === 'comprador');
+    document.getElementById('roleVendedorLblCat').classList.toggle('selected', role === 'vendedor');
+  };
+  window.previewAuthAvatarCat = function (e) {
+    const file = e.target.files[0];
+    if (file) {
+      regAvatarFileCat = file;
+      const reader = new FileReader();
+      reader.onload = (evt) => { document.getElementById('regAvatarPreviewCat').src = evt.target.result; };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  document.getElementById('loginFormCat').onsubmit = async (e) => {
+    e.preventDefault();
+    const errBox = document.getElementById('loginErrorCat');
+    errBox.style.display = 'none';
+    const btn = document.getElementById('loginSubmitBtnCat');
+    btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Ingresando…';
+    const email = document.getElementById('loginEmailCat').value.trim();
+    const password = document.getElementById('loginPasswordCat').value;
+    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    btn.disabled = false; btn.textContent = 'Ingresar';
+    if (error) {
+      errBox.textContent = 'Correo o contraseña incorrectos.';
+      errBox.style.display = 'block';
+      return;
+    }
+    await checkAuthAndLoadUser();
+    closeModal('authModalCat');
+    toast('¡Bienvenido de nuevo!', '👋');
+    runPendingAuthCat();
+  };
+
+  document.getElementById('registerFormCat').onsubmit = async (e) => {
+    e.preventDefault();
+    const errBox = document.getElementById('regErrorCat');
+    errBox.style.display = 'none';
+    const btn = document.getElementById('regSubmitBtnCat');
+    const fail = (msg) => {
+      errBox.textContent = msg;
+      errBox.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Crear Cuenta';
+    };
+    const firstName = document.getElementById('regFirstNameCat').value.trim();
+    const lastName = document.getElementById('regLastNameCat').value.trim();
+    const phone = document.getElementById('regPhoneCat').value.trim();
+    const fullName = (firstName + ' ' + lastName).trim();
+    const role = (document.querySelector('input[name="userRoleCat"]:checked') || { value: 'comprador' }).value;
+    const email = document.getElementById('regEmailCat').value.trim();
+    const password = document.getElementById('regPasswordCat').value;
+    if (!firstName || !lastName) return fail('Escribe tu nombre y apellido.');
+    if (!phone) return fail('Escribe tu número de teléfono.');
+    if (!regAvatarFileCat) return fail('Por favor tómate una selfie para tu foto de perfil.');
+    if (password.length < 6) return fail('La contraseña debe tener al menos 6 caracteres.');
+    btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Creando…';
+    try { await supabaseClient.auth.signOut(); } catch (signOutErr) { console.warn(signOutErr); }
+    const { data: authData, error: authError } = await supabaseClient.auth.signUp({ email, password });
+    if (authError || !authData.user) return fail(authError ? authError.message : 'Error al registrar usuario.');
+    if (authData.user.identities && authData.user.identities.length === 0) return fail('Este correo ya tiene una cuenta registrada. Inicia sesión para continuar.');
+    const userId = authData.user.id;
+    if (!authData.session) {
+      const { data: signInData, error: signInError } = await supabaseClient.auth.signInWithPassword({ email, password });
+      if (signInError || !signInData.user) {
+        btn.disabled = false; btn.textContent = 'Crear Cuenta';
+        toast('Cuenta creada. Revisa tu correo para confirmar e iniciar sesión.', '📩');
+        switchAuthTabCat('login');
+        return;
+      }
+    }
+    const fileExt = (regAvatarFileCat.name.split('.').pop() || 'jpg');
+    const avatarName = `${userId}-${Date.now()}.${fileExt}`;
+    const { error: uploadError } = await supabaseClient.storage.from('avatars').upload(avatarName, regAvatarFileCat, { upsert: true });
+    let avatarUrl = '';
+    if (!uploadError) {
+      const { data: pubUrlData } = supabaseClient.storage.from('avatars').getPublicUrl(avatarName);
+      avatarUrl = pubUrlData.publicUrl;
+    }
+    const { error: profileError } = await supabaseClient.from('profiles').upsert([{ id: userId, full_name: fullName, first_name: firstName, last_name: lastName, phone: phone, role: role, avatar_url: avatarUrl }]);
+    if (profileError) return fail('Error al guardar perfil: ' + profileError.message);
+    await checkAuthAndLoadUser();
+    btn.disabled = false; btn.textContent = 'Crear Cuenta';
+    document.getElementById('registerFormCat').reset();
+    document.getElementById('regAvatarPreviewCat').src = DEFAULT_AVATAR_SVG_CAT;
+    regAvatarFileCat = null;
+    closeModal('authModalCat');
+    toast('¡Cuenta creada con éxito!', '✅');
+    runPendingAuthCat();
+  };
+
   const params = new URLSearchParams(window.location.search);
   const shopId = params.get('id');
+  const productParam = params.get('producto');
   const SQL_HINT = `create table if not exists shop_categories (
   id uuid primary key default gen_random_uuid(),
   business_id text not null,
@@ -1216,6 +1415,8 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
   /* Lightbox y reseñas */
   let lightboxProductId = null;
   let reviewStars = 5;
+  /* Producto a abrir automáticamente al llegar desde index.html (?producto=) */
+  let pendingProductId = productParam || null;
   /* Utilidades */
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -1401,6 +1602,14 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     } catch (e) { cart = []; }
     bindHeroSwipe();
     await loadAll(true);
+    /* Si llegamos desde index.html con ?producto=ID, abrimos ese producto automáticamente */
+    if (pendingProductId) {
+      const p = productsList.find((x) => String(x.id) === String(pendingProductId));
+      if (p) {
+        setTimeout(() => openCustomerProduct(p.id), 150);
+      }
+      pendingProductId = null;
+    }
     $('searchInput').addEventListener('input', onSearchInput);
     $('pinInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); verifyAdminPin(); } });
     $('orderName').addEventListener('input', () => { order.customerName = $('orderName').value; $('errName').style.display = 'none'; $('orderName').classList.remove('error'); });
@@ -2158,6 +2367,10 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
   }
   /* (9) Al presionar "Confirmar y enviar" → modal de políticas */
   async function openOrderConfirm() {
+    if (!currentUserProfile) {
+      openAuthModal('login', openOrderConfirm);
+      return;
+    }
     let ok = true;
     $('errName').style.display = 'none'; $('orderName').classList.remove('error');
     $('errAddress').style.display = 'none'; $('orderAddress').classList.remove('error');
@@ -2337,6 +2550,10 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
      ACCESO ADMINISTRADOR — contraseña de registro
      ============================================================ */
   function openPinModal() {
+    if (!currentUserProfile) {
+      openAuthModal('login', openPinModal);
+      return;
+    }
     $('pinInput').value = '';
     $('pinError').style.visibility = 'hidden';
     $('pinError').textContent = 'Contraseña incorrecta. Inténtalo de nuevo.';
@@ -2355,7 +2572,7 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     const { data: { session } } = await supabaseClient.auth.getSession();
     if (!session || !session.user || !session.user.email) {
       closeModal('pinModal');
-      window.location.href = 'index.html';
+      openAuthModal('login', openPinModal);
       return;
     }
     const btn = $('pinSubmitBtn');
