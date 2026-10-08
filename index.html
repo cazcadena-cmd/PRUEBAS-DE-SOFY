@@ -8,12 +8,27 @@
 <link rel="preconnect" href="https://i.imgur.com">
 <style>
 :root{color-scheme:light;--bg:#f2f9ff;--surface:#fff;--soft:#e4f3ff;--text:#10243a;--muted:#61778c;--line:rgba(20,103,158,.14);--accent:#29b6f6;--deep:#087fd1;--shadow:0 24px 70px rgba(21,112,174,.15)}:root[data-theme=dark]{color-scheme:dark;--bg:#06111d;--surface:#0d1d2d;--soft:#132a3d;--text:#f3faff;--muted:#91aabe;--line:rgba(126,211,255,.13);--shadow:0 26px 80px rgba(0,8,18,.46)}*{box-sizing:border-box}html{scroll-behavior:smooth;background:var(--bg)}body{margin:0;min-width:320px;background:var(--bg);color:var(--text);font-family:Arial,"Segoe UI",sans-serif;transition:.3s}button,input,select{font:inherit}button{color:inherit}a{text-decoration:none;color:inherit}svg{width:20px;height:20px}.hidden{display:none!important}.app{min-height:100vh;overflow:hidden;background:radial-gradient(circle at 75% 6%,rgba(41,182,246,.14),transparent 28%),var(--bg)}
-.topbar{width:min(1160px,calc(100% - 40px));height:92px;margin:auto;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:20}.brand,.actions{display:flex;align-items:center}.brand{gap:12px;margin-left:30px}.brand-mark{width:42px;height:42px;display:grid;place-items:center;color:#fff;border-radius:13px;background:linear-gradient(145deg,#55ceff,#087fd1);box-shadow:0 9px 22px rgba(8,127,209,.28);transform:rotate(-3deg)}.brand-copy{display:flex;flex-direction:column}.brand small{color:var(--muted);font-size:10px}.brand img{max-height:104px;width:auto;display:block}.actions{gap:12px}.theme{border:1px solid var(--line);background:var(--surface);padding:4px;display:flex;border-radius:30px;cursor:pointer;flex-shrink:0}.theme span{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}.theme span.active{color:#fff;background:var(--accent)}.theme svg{width:16px}.primary{min-height:46px;border:0;padding:0 21px;border-radius:14px;background:linear-gradient(135deg,#4dccff,var(--deep));color:#fff;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;box-shadow:0 12px 26px rgba(8,127,209,.25);transition:.2s}.primary:hover{transform:translateY(-2px)}
-.hero{height:min(420px,calc(100vh - 112px));min-height:320px;position:relative;background:#06111d;overflow:hidden}.slides,.slide,.slide video,.shade{position:absolute;inset:0;width:100%;height:100%}.slide{opacity:0;pointer-events:none;transition:opacity .7s,transform 1s;transform:scale(1.025)}.slide.active{opacity:1;pointer-events:auto;transform:scale(1)}.slide video{object-fit:contain;object-position:center 0%}.shade{z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(4,17,31,.9),rgba(4,26,44,.6) 43%,rgba(4,31,53,.16) 78%),linear-gradient(0deg,rgba(2,17,31,.62),transparent 45%)}.hero-copy{position:relative;z-index:2;width:min(1160px,calc(100% - 40px));height:100%;margin:auto;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;color:#fff;pointer-events:none;animation:up .8s;transform:translateY(35px)}
+.topbar{width:min(1160px,calc(100% - 40px));height:58px;margin:auto;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:20}
+.actions{position:relative}
+.actions .user-profile-badge{display:none!important}
+/* Perfil dentro del menú lateral */
+.drawer-user{display:flex;align-items:center;gap:12px;margin:auto 12px 10px;padding:12px;border:1px solid var(--line);border-radius:18px;background:var(--soft);cursor:pointer;transition:.2s}
+.drawer-user:hover{border-color:var(--accent)}
+.drawer-user img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);background:var(--surface);flex-shrink:0}
+.drawer-user .du-txt{display:flex;flex-direction:column;gap:4px;min-width:0}
+.drawer-user .du-name{font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drawer-user .du-role{font-size:10px;padding:3px 8px;border-radius:10px;background:var(--surface);color:var(--accent);text-transform:uppercase;font-weight:800;letter-spacing:.06em;align-self:flex-start}
+.drawer-user .du-hint{font-size:11px;color:var(--muted)}
+.drawer-foot{margin-top:0}.brand,.actions{display:flex;align-items:center}.brand{gap:12px;margin-left:44px}.brand-mark{width:42px;height:42px;display:grid;place-items:center;color:#fff;border-radius:13px;background:linear-gradient(145deg,#55ceff,#087fd1);box-shadow:0 9px 22px rgba(8,127,209,.28);transform:rotate(-3deg)}.brand-copy{display:flex;flex-direction:column}.brand small{color:var(--muted);font-size:10px}.brand img{max-height:66px;width:auto;display:block}
+.brand-tagline{display:flex;flex-direction:column;justify-content:center;line-height:1.05;min-width:0;margin-left:10px}
+.brand-tagline .eyebrow{margin:0 0 2px;font-size:8.5px;white-space:nowrap}
+.brand-tagline strong{font-size:15px;letter-spacing:-.03em;white-space:nowrap}
+.brand-tagline strong span{color:var(--accent)}.actions{gap:12px}.theme{border:1px solid var(--line);background:var(--surface);padding:4px;display:flex;border-radius:30px;cursor:pointer;flex-shrink:0}.theme span{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:var(--muted)}.theme span.active{color:#fff;background:var(--accent)}.theme svg{width:16px}.primary{min-height:46px;border:0;padding:0 21px;border-radius:14px;background:linear-gradient(135deg,#4dccff,var(--deep));color:#fff;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;box-shadow:0 12px 26px rgba(8,127,209,.25);transition:.2s}.primary:hover{transform:translateY(-2px)}
+.hero{height:min(300px,calc(100vh - 112px));min-height:230px;position:relative;background:#06111d;overflow:hidden}.slides,.slide,.slide video,.shade{position:absolute;inset:0;width:100%;height:100%}.slide{opacity:0;pointer-events:none;transition:opacity .7s,transform 1s;transform:scale(1.025)}.slide.active{opacity:1;pointer-events:auto;transform:scale(1)}.slide video{object-fit:contain;object-position:center 0%}.shade{z-index:1;pointer-events:none;background:linear-gradient(0deg,rgba(2,17,31,.45),transparent 40%)}.hero-copy{position:relative;z-index:2;width:min(1160px,calc(100% - 40px));height:100%;margin:auto;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;color:#fff;pointer-events:none;animation:up .8s;transform:translateY(35px)}
 .eyebrow{margin:0 0 8px;color:var(--accent);font-weight:800;font-size:10px;text-transform:uppercase;letter-spacing:.16em}
 .hero-copy .eyebrow{position:relative;top:2px;margin-bottom:-10px}
-.hero h1{max-width:680px;margin:14px 0 34px;font-size:clamp(24px,3.5vw,36px);line-height:.98;letter-spacing:-.055em}.hero h1 span{color:var(--accent)} .hero-copy>p:last-child{max-width:480px;margin:8px 0;color:rgba(255,255,255,.76);font-size:clamp(12px,1.4vw,14px);line-height:1.4;transform:translateY(-30px)}.slider-controls{position:absolute;z-index:5;width:min(1160px,calc(100% - 40px));left:50%;bottom:15px;transform:translateX(-50%);display:flex;justify-content:space-between;align-items:center}.dots,.arrows{display:flex;gap:8px;align-items:center}.dots button{width:8px;height:8px;padding:0;border:0;border-radius:10px;background:rgba(255,255,255,.42);cursor:pointer}.dots button.active{width:30px;background:var(--accent)}.arrows button{width:46px;height:46px;border:1px solid rgba(174,226,255,.4);border-radius:50%;color:#fff;background:rgba(5,38,61,.72);font-size:29px;cursor:pointer}.arrows button:hover{background:var(--accent)}
-.content{width:min(1060px,calc(100% - 40px));margin:auto;padding:15px 0 30px}.heading{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:27px}.heading h2,.modal h2{margin:0;font-size:clamp(31px,4vw,44px);line-height:1.05}.search{max-width:540px;height:52px;margin-bottom:34px;padding:0 18px;display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:15px;background:var(--surface);color:var(--muted)}.search:focus-within{border-color:var(--accent)}.search input{width:100%;border:0;outline:0;background:transparent;color:var(--text)}.empty{min-height:310px;border-block:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px}.empty-icon{width:58px;height:58px;display:grid;place-items:center;border-radius:18px;color:var(--accent);background:rgba(41,182,246,.12)}.empty h3{font-size:22px;margin:17px 0 8px}.empty p{color:var(--muted);line-height:1.6;max-width:470px;margin:0 0 22px}.shop{min-width:0;animation:up .5s}.shop img{width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:24px;background:var(--soft);transition:.35s}.shop:hover img{transform:translateY(-6px);box-shadow:var(--shadow)}.shop h3{margin:14px 0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.shop p{color:var(--muted);margin:0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.no-results{text-align:center;color:var(--muted);padding:70px}
+.hero h1{max-width:680px;margin:10px 0 22px;font-size:clamp(22px,3.2vw,32px);line-height:.98;letter-spacing:-.055em}.hero h1 span{color:var(--accent)} .hero-copy>p:last-child{max-width:480px;margin:4px 0;color:rgba(255,255,255,.76);font-size:clamp(12px,1.4vw,14px);line-height:1.4;transform:translateY(-20px)}.slider-controls{position:absolute;z-index:5;width:min(1160px,calc(100% - 40px));left:50%;bottom:8px;transform:translateX(-50%);display:flex;justify-content:space-between;align-items:center}.dots,.arrows{display:flex;gap:6px;align-items:center}.dots button{width:6px;height:6px;padding:0;border:0;border-radius:10px;background:rgba(255,255,255,.42);cursor:pointer}.dots button.active{width:22px;background:var(--accent)}.arrows button{width:30px;height:30px;border:1px solid rgba(174,226,255,.4);border-radius:50%;color:#fff;background:rgba(5,38,61,.72);font-size:19px;line-height:1;padding:0 0 2px;cursor:pointer}.arrows button:hover{background:var(--accent)}
+.content{width:min(1060px,calc(100% - 40px));margin:auto;padding:8px 0 30px}.heading{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:27px}.heading h2,.modal h2{margin:0;font-size:clamp(31px,4vw,44px);line-height:1.05}.search{max-width:540px;height:52px;margin-bottom:34px;padding:0 18px;display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:15px;background:var(--surface);color:var(--muted)}.search:focus-within{border-color:var(--accent)}.search input{width:100%;border:0;outline:0;background:transparent;color:var(--text)}.empty{min-height:310px;border-block:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 20px}.empty-icon{width:58px;height:58px;display:grid;place-items:center;border-radius:18px;color:var(--accent);background:rgba(41,182,246,.12)}.empty h3{font-size:22px;margin:17px 0 8px}.empty p{color:var(--muted);line-height:1.6;max-width:470px;margin:0 0 22px}.shop{min-width:0;animation:up .5s}.shop img{width:100%;aspect-ratio:1;object-fit:cover;display:block;border-radius:24px;background:var(--soft);transition:.35s}.shop:hover img{transform:translateY(-6px);box-shadow:var(--shadow)}.shop h3{margin:14px 0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.shop p{color:var(--muted);margin:0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.no-results{text-align:center;color:var(--muted);padding:70px}
 .categories{padding-top:110px;padding-bottom:100px}.count{color:var(--muted);font-size:14px}.category-empty{min-height:220px;display:grid;place-items:center;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:24px}.category{height:255px;padding:0;border:0;border-radius:22px;overflow:hidden;position:relative;text-align:left;color:#fff;cursor:pointer;background:var(--soft)}.category>img,.category-shade{position:absolute;inset:0;width:100%;height:100%}.category>img{object-fit:cover;transition:.55s}.category:hover>img{transform:scale(1.07)}.category-shade{background:linear-gradient(0deg,rgba(3,20,35,.9),transparent 80%)}.category-label{position:absolute;left:20px;bottom:19px;display:flex;flex-direction:column}.category-label strong{font-size:18px}.category-label small{color:#c6eafa;margin-top:3px}.category i{position:absolute;right:17px;top:17px;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;background:rgba(4,34,55,.6)}footer{min-height:150px;border-top:1px solid var(--line);width:min(1160px,calc(100% - 40px));margin:auto;display:flex;align-items:center;justify-content:space-between;color:var(--muted)}footer span{font-weight:800;color:var(--text);letter-spacing:.14em}
 .backdrop{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:rgba(2,14,26,.72);backdrop-filter:blur(14px);animation:fade .22s}.modal{width:min(550px,100%);max-height:calc(100vh - 40px);overflow:auto;position:relative;border:1px solid var(--line);border-radius:28px;background:var(--surface);padding:36px;box-shadow:0 35px 100px #0007;animation:pop .35s}.modal.small{width:min(440px,100%)}.close{position:absolute;top:22px;right:22px;width:38px;height:38px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--line);background:var(--soft);cursor:pointer;z-index:3}.intro{color:var(--muted);line-height:1.55;margin:13px 50px 26px 0}form,form label{display:flex;flex-direction:column}form{gap:17px}form label{gap:8px;font-size:13px;font-weight:700}form input,form select{width:100%;height:50px;border:1px solid var(--line);border-radius:13px;padding:0 14px;outline:0;background:var(--soft);color:var(--text)}.upload{width:100%;min-height:130px;border:1.5px dashed rgba(41,182,246,.55);border-radius:16px;color:var(--text);background:rgba(41,182,246,.07);cursor:pointer;overflow:hidden}.upload span{display:flex;flex-direction:column;align-items:center;gap:4px}.upload small,.storage{color:var(--muted);font-weight:400}.upload img{width:100%;height:145px;object-fit:contain}.file{position:absolute;width:1px;height:1px;opacity:0}.error{color:#ff5e76;font-size:12px}.notice{color:var(--accent);font-size:12px;font-weight:700;line-height:1.5}.submit{width:100%}.storage{text-align:center;font-size:10px}.list{border-top:1px solid var(--line);margin-top:25px}.list a{min-height:55px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);font-weight:600;cursor:pointer}.category-shops{display:flex;flex-direction:column;gap:10px;margin-top:22px}.category-shop{display:flex;align-items:center;gap:13px;border-bottom:1px solid var(--line);padding-bottom:10px}.category-shop img{width:54px;height:54px;object-fit:cover;border-radius:14px}.category-shop span{display:flex;flex-direction:column}.category-shop small{color:var(--muted)}.toast{position:fixed;z-index:2000;left:50%;bottom:24px;transform:translateX(-50%);background:var(--surface);border:1px solid var(--line);padding:13px 20px;border-radius:14px;box-shadow:var(--shadow);font-weight:700}
 
@@ -24,7 +39,7 @@
 .logout-actions button{flex:1}
 .danger{background:linear-gradient(135deg,#ff7b8f,#e5384d)!important;box-shadow:0 12px 26px rgba(229,56,77,.28)!important}
 
-@keyframes up{from{opacity:0;transform:translateY(18px)}}@keyframes fade{from{opacity:0}}@keyframes pop{from{opacity:0;transform:translateY(20px) scale(.97)}}@media(max-width:760px){.topbar{width:calc(100% - 28px);height:78px}.brand small{display:none}.hero{min-height:300px;height:360px}.hero-copy{width:calc(100% - 38px);justify-content:flex-end;padding-bottom:50px}.hero h1{font-size:clamp(28px, 8vw, 40px)}.shade{background:linear-gradient(0deg,rgba(2,16,29,.95),rgba(3,27,47,.45) 63%,transparent)}.slider-controls{width:calc(100% - 38px);bottom:10px}.content{width:calc(100% - 32px);padding-top:20px}.heading{align-items:center}.heading h2{font-size:33px}.category{height:220px}footer{width:calc(100% - 32px);flex-direction:column;justify-content:center}.modal{padding:30px 22px 24px}}
+@keyframes up{from{opacity:0;transform:translateY(18px)}}@keyframes fade{from{opacity:0}}@keyframes pop{from{opacity:0;transform:translateY(20px) scale(.97)}}@media(max-width:760px){.topbar{width:calc(100% - 28px);height:52px}.brand small{display:none}.brand-tagline .eyebrow{display:none}.brand-tagline strong{font-size:12px}.hero{min-height:210px;height:240px}.hero-copy{width:calc(100% - 38px);justify-content:flex-end;padding-bottom:30px}.hero h1{font-size:clamp(22px, 6.5vw, 30px);margin-bottom:14px}.shade{background:linear-gradient(0deg,rgba(2,16,29,.95),rgba(3,27,47,.45) 63%,transparent)}.slider-controls{width:calc(100% - 38px);bottom:6px}.content{width:calc(100% - 32px);padding-top:10px}.heading{align-items:center}.heading h2{font-size:33px}.category{height:220px}footer{width:calc(100% - 32px);flex-direction:column;justify-content:center}.modal{padding:30px 22px 24px}}
 
 .settings-top{width:46px;padding:0}
 .settings-top svg{width:21px;height:21px;color:#fff;transition:transform .6s ease}
@@ -53,7 +68,12 @@ form label.logo-field{height:100%}
 
 .shops-panel{position:relative;max-width:760px;padding:18px 22px 22px;border:1px solid var(--line);border-radius:26px;background:linear-gradient(145deg,rgba(41,182,246,.11),rgba(41,182,246,.03));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 18px 50px rgba(8,60,110,.12),inset 0 1px 0 rgba(255,255,255,.06)}
 :root[data-theme=light] .shops-panel{background:linear-gradient(145deg,rgba(255,255,255,.75),rgba(228,243,255,.5))}
-.shops-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.shops-panel{overflow:hidden}
+.shops-head{display:flex;align-items:center;justify-content:flex-start;flex-wrap:nowrap;gap:8px;margin-bottom:8px;min-width:0}
+.shops-head .shops-tools{margin-left:0}
+.shops-head .shops-nav{margin-left:auto}
+.shops-tools{min-width:0;max-width:100%}
+.swipe-hint{max-width:100%;overflow:hidden}
 .shops-total{font-size:13px;color:var(--muted);display:inline-flex;align-items:center;gap:8px}
 .shops-total b{color:var(--text)}
 .live-dot{width:8px;height:8px;border-radius:50%;background:#2ee59d;box-shadow:0 0 0 0 rgba(46,229,157,.6);animation:live 1.8s infinite}
@@ -86,6 +106,18 @@ form label.logo-field{height:100%}
 .price-tag{position:absolute;right:10px;top:10px;z-index:2;padding:6px 11px;border-radius:30px;font-size:13px;font-weight:800;color:#fff;background:linear-gradient(135deg,#4dccff,#087fd1);box-shadow:0 8px 18px rgba(8,127,209,.35);letter-spacing:.02em}
 .shop .ref-tag{display:inline-block;color:var(--accent);font-weight:800;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
 .shop .shop-name{color:var(--muted)}
+
+/* (1) ICONO DE LUPA JUNTO AL CONTADOR + MODAL DE BÚSQUEDA */
+.shops-left{display:inline-flex;align-items:center;gap:10px}
+.search-trigger{width:34px;height:34px;display:grid;place-items:center;padding:0;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--accent);cursor:pointer;transition:.2s;flex-shrink:0}
+.search-trigger:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.search-trigger svg{width:17px;height:17px}
+.search-trigger.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+#searchModal{z-index:900}
+#searchModal .search{max-width:100%;margin:18px 0 0}
+.search-count{margin:12px 0 0;color:var(--muted);font-size:12px;font-weight:700}
+.search-results{margin-top:6px;max-height:300px;overflow:auto;display:flex;flex-direction:column}
+.no-results .search-trigger{display:inline-grid;vertical-align:middle;margin-left:8px}
 
 .category-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:760px}
 .category-grid .category{height:165px;border-radius:20px}
@@ -135,7 +167,8 @@ a.category-shop:hover{background:var(--soft);padding-left:8px}
   .shops-panel{padding:14px 12px 20px;border-radius:22px}
   .shops-progress{left:12px;right:12px;bottom:8px}
   .shops-nav{display:none}
-  .swipe-hint{font-size:11px;padding:5px 10px}
+  .swipe-hint{font-size:10px;padding:4px 8px;gap:5px}
+  .swipe-track{width:16px}
   .shops{gap:12px}
   .shops .shop img{border-radius:15px}
   .shops .shop h3{font-size:13px;margin-top:9px}
@@ -178,18 +211,38 @@ a.category-shop:hover{background:var(--soft);padding-left:8px}
 .btn-logout{background:transparent;border:0;color:var(--muted);cursor:pointer;padding:4px;display:flex;align-items:center}
 .btn-logout:hover{color:#ff5e76}
 
-/* (10) Botón de iniciar sesión más compacto */
-#loginTopBtn{min-height:38px;padding:0 14px;font-size:13px;border-radius:12px;gap:6px;white-space:nowrap;flex-shrink:0}
-#loginTopBtn svg{width:16px;height:16px}
+/* (4) MENÚ HAMBURGUESA + PANEL LATERAL */
+.brand-wrap{display:flex;align-items:center;min-width:0}
+.menu-btn{width:44px;height:44px;flex-shrink:0;display:grid;place-items:center;padding:0;border:0;border-radius:12px;background:transparent;color:var(--deep);cursor:pointer;transition:.25s}
+:root[data-theme=dark] .menu-btn{color:#fff}
+.menu-btn:hover{background:rgba(41,182,246,.12)}
+.menu-btn svg{width:26px;height:26px}
+.drawer-backdrop{position:fixed;inset:0;z-index:940;background:rgba(2,14,26,.18);opacity:0;pointer-events:none;transition:opacity .3s}
+.drawer-backdrop.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;left:0;bottom:0;z-index:950;width:min(250px,72vw);display:flex;flex-direction:column;background:rgba(255,255,255,.72);color:var(--text);border-right:1px solid var(--line);box-shadow:0 30px 90px rgba(0,8,18,.3);transform:translateX(-105%);transition:transform .38s cubic-bezier(.2,.8,.2,1),background .3s,color .3s}
+:root[data-theme=dark] .drawer{background:rgba(13,29,45,.72)}
+.drawer-item:hover{background:rgba(41,182,246,.14)}
+.drawer.open{transform:translateX(0)}
+.drawer-head{position:relative;display:flex;align-items:center;gap:12px;padding:18px 70px 16px 20px;border-bottom:1px solid var(--line)}
+.drawer-head img{max-height:56px;width:auto;display:block}
+.drawer-head .close{top:50%;transform:translateY(-50%);right:16px}
+.drawer-nav{display:flex;flex-direction:column;gap:6px;padding:16px 14px}
+.drawer-item{display:flex;align-items:center;gap:13px;width:100%;min-height:52px;padding:0 14px;border:1px solid transparent;border-radius:14px;background:transparent;color:var(--text);font-weight:700;font-size:14px;text-align:left;cursor:pointer;transition:.2s}
+.drawer-item:hover{background:var(--soft);border-color:var(--line);color:var(--accent)}
+.drawer-item i{width:38px;height:38px;flex-shrink:0;display:grid;place-items:center;border-radius:11px;color:#fff;background:linear-gradient(135deg,#4dccff,var(--deep));font-style:normal}
+.drawer-item i svg{width:18px;height:18px}
+.drawer-foot{margin-top:auto;padding:16px 20px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}
+.drawer-sep{height:1px;background:var(--line);margin:8px 4px}
 
 /* (7) Botón ¿Quieres vender? */
 .sell-btn{white-space:nowrap}
 @media(max-width:760px){
   .actions{gap:8px}
-  .brand{margin-left:0}
-  .brand img{max-height:70px}
-  #loginTopBtn{min-height:34px;padding:0 11px;font-size:12px;border-radius:11px}
-  #loginTopBtn svg{width:14px;height:14px}
+  .brand{margin-left:6px}
+  .brand img{max-height:50px}
+  .brand{gap:8px}
+  .brand-tagline{margin-left:6px}
+  .menu-btn{width:40px;height:40px}
   .theme{padding:3px}
   .theme span{width:28px;height:28px}
   .user-profile-badge{padding:3px 8px 3px 3px;gap:6px}
@@ -211,6 +264,8 @@ a.category-shop:hover{background:var(--soft);padding-left:8px}
 .role-option input{display:none}
 .role-option.selected{border-color:var(--accent);background:rgba(41,182,246,0.15);color:var(--accent)}
 .avatar-upload-preview{width:70px;height:70px;border-radius:50%;object-fit:cover;margin:8px auto;display:block;border:2px dashed var(--accent);background:var(--soft)}
+/* (3) Nombre y apellido en dos columnas */
+.name-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
 .admin-top{width:46px;padding:0}
 .admin-top svg{width:21px;height:21px;color:#fff;transition:transform .6s ease}
@@ -264,11 +319,26 @@ a.category-shop:hover{background:var(--soft);padding-left:8px}
     <button id="pwaCloseBtn" class="pwa-close" aria-label="Cerrar">&times;</button>
   </div>
 </div>
+<!-- (4) PANEL LATERAL -->
+<div class="drawer-backdrop" id="menuBackdrop"></div>
+<aside class="drawer" id="sideMenu" aria-label="Menú principal">
+  <div class="drawer-head"><img id="drawerLogo" src="https://i.imgur.com/HuC4TzS.gif" alt="Madelena"><button class="close" id="menuClose" type="button" aria-label="Cerrar menú"><span data-icon="close"></span></button></div>
+  <nav class="drawer-nav">
+    <button class="drawer-item" id="loginTopBtn" type="button"><i data-icon="user"></i>Iniciar sesión o registrarse</button>
+    <button class="drawer-item hidden" id="menuProfileBtn" type="button"><i data-icon="user"></i>Mi perfil</button>
+    <div class="drawer-sep"></div>
+    <a class="drawer-item" href="#productos" data-menu-link><i data-icon="box"></i>Ver productos</a>
+    <a class="drawer-item" href="#categorias" data-menu-link><i data-icon="store"></i>Ver categorías</a>
+    <button class="drawer-item hidden" id="menuSellBtn" type="button"><i data-icon="store"></i>¿Quieres vender?</button>
+  </nav>
+  <div class="drawer-user hidden" id="drawerUser" title="Ver mi perfil"><img id="drawerAvatar" src="" alt="Avatar"><div class="du-txt"><span class="du-name" id="drawerName">Usuario</span><span class="du-role" id="drawerRole">COMPRADOR</span><span class="du-hint">Toca para ver tu perfil</span></div></div>
+  <div class="drawer-foot">Compra, Vende, lo que  quieras!.</div>
+</aside>
 <main class="app">
-<header class="topbar"><a class="brand" href="#inicio"><img id="brandLogo" src="https://i.imgur.com/HuC4TzS.gif" alt="Madelena"><span class="brand-copy"><small>Tu barrio, mas cerca</small></span></a><div class="actions"><button class="primary" id="loginTopBtn"><span data-icon="user"></span>Iniciar sesión</button><div id="userProfileBadge" class="user-profile-badge hidden" title="Ver mi perfil">
+<header class="topbar"><div class="brand-wrap"><button class="menu-btn" id="menuBtn" type="button" aria-label="Abrir menú"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><a class="brand" href="#inicio"><img id="brandLogo" src="https://i.imgur.com/HuC4TzS.gif" alt="Madelena"><span class="brand-tagline"><span class="eyebrow">Descubre lo que tienes cerca</span><strong>Lo mejor de <span>RD</span></strong></span></a></div><div class="actions"><div id="userProfileBadge" class="user-profile-badge hidden" title="Ver mi perfil">
   <img id="userAvatarImg" src="" alt="Avatar">
   <div class="badge-txt"><span id="userNameTxt">Usuario</span><small id="userRoleTxt" class="role-tag">COMPRADOR</small></div>
-</div><button class="theme" id="themeBtn" aria-label="Cambiar tema"><span id="sun" data-icon="sun"></span><span id="moon" data-icon="moon"></span></button><button class="primary sell-btn hidden" id="sellBtn" data-open-create><span data-icon="store"></span>¿Quieres vender?</button></div></header>
+</div><button class="theme" id="themeBtn" aria-label="Cambiar tema"><span id="sun" data-icon="sun"></span><span id="moon" data-icon="moon"></span></button><button class="primary sell-btn hidden" id="sellBtn" data-open-create style="display:none!important"><span data-icon="store"></span>¿Quieres vender?</button></div></header>
 <section class="hero" id="inicio">
   <div class="slides" id="slidesContainer">
     <div class="shade"></div>
@@ -277,16 +347,13 @@ a.category-shop:hover{background:var(--soft);padding-left:8px}
       <div class="arrows"><button type="button" id="prev">&#8249;</button><button type="button" id="next">&#8250;</button></div>
     </div>
   </div>
-  <div class="hero-copy">
-    <p class="eyebrow">Descubre lo que tienes cerca</p>
-    <h1>Lo mejor de <span>RD</span></h1>
-    <p>Comercios locales, sabores y servicios que hacen grande a nuestro país.</p>
-  </div>
 </section>
-<section class="content"><label class="search"><span data-icon="search"></span><input id="search" placeholder="Buscar producto, referencia o comercio"></label><div id="shopContent"></div></section>
+<section class="content" id="productos"><div id="shopContent"></div></section>
 <section class="content categories" id="categorias"><div class="heading"><div><p class="eyebrow">Explora a tu manera</p><h2>Categorias</h2></div><span class="count" id="categoryCount"></span></div>
 <div class="cat-search" id="catSearchBox"><label class="search"><span data-icon="search"></span><input id="catSearch" placeholder="Buscar categoría..." autocomplete="off"><button type="button" class="cat-clear hidden" id="catClear" aria-label="Limpiar">&times;</button></label><div class="cat-suggest hidden" id="catSuggest"></div></div>
 <div id="categoryContent"></div></section><footer><p>Hecho para impulsar el comercio local.</p></footer></main>
+<!-- (1) MODAL DE BÚSQUEDA DE PRODUCTOS -->
+<div class="backdrop hidden" id="searchModal"><section class="modal small"><button class="close" data-close><span data-icon="close"></span></button><p class="eyebrow">Buscar</p><h2 style="font-size:26px">Encuentra productos</h2><label class="search"><span data-icon="search"></span><input id="search" placeholder="Buscar producto, referencia o comercio" autocomplete="off"></label><p class="search-count" id="searchCount"></p><div class="search-results" id="searchResults"></div></section></div>
 <div class="backdrop hidden" id="createModal"><section class="modal wide"><button class="close" data-close-create><span data-icon="close"></span></button><p class="eyebrow">Unete al directorio</p><h2>Crea tu comercio</h2><p class="notice hidden" id="onboardNote">Paso 1 de 2 · Registra los datos de tu comercio. Al continuar completarás tu cuenta.</p><p class="intro">¡Tu tienda estará en el directorio!
 Registra tu página, sube tus productos y servicios, y conecta con millones de clientes.</p><form id="shopForm"><div class="form-grid"><div class="form-col"><label>Nombre del comercio<input id="shopName" maxlength="60" required></label><label>Categoría
   <select id="shopCategory" class="form-control" required>
@@ -329,7 +396,11 @@ Registra tu página, sube tus productos y servicios, y conecta con millones de c
       <p class="eyebrow">Únete a Sofy</p>
       <h2 style="margin-bottom:10px;">Crea tu cuenta</h2>
       <p class="notice hidden" id="regNotice"></p>
-      <label>Nombre Completo<input type="text" id="regFullName" required placeholder="Ej. Maria Pérez"></label>
+      <div class="name-row">
+        <label>Nombre<input type="text" id="regFirstName" required placeholder="Ej. Maria" autocomplete="given-name"></label>
+        <label>Apellido<input type="text" id="regLastName" required placeholder="Ej. Pérez" autocomplete="family-name"></label>
+      </div>
+      <label>Número de Teléfono<input type="tel" id="regPhone" required placeholder="Ej. 300 123 4567" autocomplete="tel" inputmode="tel"></label>
       <label>Selecciona tu Rol
         <div class="role-selector">
           <label class="role-option selected" id="roleCompradorLbl"><input type="radio" name="userRole" value="comprador" checked onchange="selectRole('comprador')">🛍️ Comprador</label>
@@ -410,8 +481,20 @@ function runPendingAuth(){const fn = pendingAuthAction;pendingAuthAction = null;
 
 $('tabLoginBtn').onclick = () => switchAuthTab('login');
 $('tabRegisterBtn').onclick = () => switchAuthTab('register');
-$('loginTopBtn').onclick = () => { pendingAuthAction = null; openAuth('login'); };
+$('loginTopBtn').onclick = () => { closeMenu(); pendingAuthAction = null; openAuth('login'); };
 $('authCloseBtn').onclick = dismissAuth; // (11) X para cerrar el panel
+
+/* (4) Menú lateral */
+function openMenu(){$('sideMenu').classList.add('open');$('menuBackdrop').classList.add('open')}
+function closeMenu(){$('sideMenu').classList.remove('open');$('menuBackdrop').classList.remove('open')}
+$('menuBtn').onclick=openMenu;
+$('menuClose').onclick=closeMenu;
+$('menuBackdrop').onclick=closeMenu;
+document.querySelectorAll('[data-menu-link]').forEach(a=>a.addEventListener('click',closeMenu));
+$('menuProfileBtn').onclick=()=>{closeMenu();openProfileModal()};
+$('menuSellBtn').onclick=()=>{closeMenu();openCreateFlow()};
+$('drawerUser').onclick=()=>{closeMenu();openProfileModal()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenu()});
 
 window.selectRole = function(role) {
   $('roleCompradorLbl').classList.toggle('selected', role === 'comprador');
@@ -432,13 +515,20 @@ window.previewAuthAvatar = function(e) {
 function applyRoleUI() {
   const logged = !!currentUserProfile;
   $('loginTopBtn').classList.toggle('hidden', logged);
+  $('menuProfileBtn').classList.toggle('hidden', !logged);
   $('userProfileBadge').classList.toggle('hidden', !logged);
-  $('sellBtn').classList.toggle('hidden', !(logged && (currentUserProfile.role || 'comprador') === 'comprador'));
+  const canSell = logged && (currentUserProfile.role || 'comprador') === 'comprador';
+  $('sellBtn').classList.toggle('hidden', !canSell);
+  $('menuSellBtn').classList.toggle('hidden', !canSell);
   if (logged) {
     $('userAvatarImg').src = currentUserProfile.avatar_url || '';
     $('userNameTxt').textContent = (currentUserProfile.full_name || 'Usuario').split(' ')[0];
     $('userRoleTxt').textContent = (currentUserProfile.role || 'comprador').toUpperCase();
+    $('drawerAvatar').src = currentUserProfile.avatar_url || '';
+    $('drawerName').textContent = currentUserProfile.full_name || 'Usuario';
+    $('drawerRole').textContent = (currentUserProfile.role || 'comprador').toUpperCase();
   }
+  $('drawerUser').classList.toggle('hidden', !logged);
 }
 
 async function loadUserProfile(userId) {
@@ -487,7 +577,10 @@ $('loginForm').onsubmit = async (e) => {
 $('registerForm').onsubmit = async (e) => {
   e.preventDefault();
   $('regError').classList.add('hidden');
-  const fullName = $('regFullName').value.trim();
+  const firstName = $('regFirstName').value.trim();
+  const lastName = $('regLastName').value.trim();
+  const phone = $('regPhone').value.trim();
+  const fullName = (firstName + ' ' + lastName).trim();
   const role = (document.querySelector('input[name="userRole"]:checked') || { value: 'comprador' }).value;
   const email = $('regEmail').value.trim();
   const password = $('regPassword').value;
@@ -497,7 +590,9 @@ $('registerForm').onsubmit = async (e) => {
     $('regSubmitBtn').disabled = false;
     $('regSubmitBtn').textContent = 'Crear Cuenta';
   };
-  if (!fullName) return regFail('Escribe tu nombre completo.');
+  if (!firstName) return regFail('Escribe tu nombre.');
+  if (!lastName) return regFail('Escribe tu apellido.');
+  if (!phone) return regFail('Escribe tu número de teléfono.');
   if (!regAvatarFile) return regFail('Por favor tómate una selfie para tu foto de perfil.');
   if (password.length < 6) return regFail('La contraseña debe tener al menos 6 caracteres.');
   if (role === 'vendedor' && !commerceDraft) {
@@ -521,7 +616,7 @@ $('registerForm').onsubmit = async (e) => {
     if (signInError || !signInData.user) {
       $('regSubmitBtn').disabled = false;
       $('regSubmitBtn').textContent = 'Crear Cuenta';
-      sendFormspree('Nueva inscripción en Sofy · ' + role.toUpperCase(), {tipo_registro:'Cuenta de usuario (pendiente de confirmar)',nombre_completo:fullName,correo:email,email_registrado:email,rol:role,id_usuario:userId});
+      sendFormspree('Nueva inscripción en Sofy · ' + role.toUpperCase(), {tipo_registro:'Cuenta de usuario (pendiente de confirmar)',nombre:firstName,apellido:lastName,nombre_completo:fullName,telefono:phone,correo:email,email_registrado:email,rol:role,id_usuario:userId});
       showToast('Cuenta creada. Revisa tu correo ' + email + ' para confirmar e iniciar sesión.');
       switchAuthTab('login');
       return;
@@ -546,7 +641,7 @@ $('registerForm').onsubmit = async (e) => {
     const { data: pubUrlData } = _supabase.storage.from('avatars').getPublicUrl(avatarName);
     avatarUrl = pubUrlData.publicUrl;
   }
-  const { error: profileError } = await _supabase.from('profiles').upsert([{ id: userId, full_name: fullName, role: role, avatar_url: avatarUrl }]);
+  const { error: profileError } = await _supabase.from('profiles').upsert([{ id: userId, full_name: fullName, first_name: firstName, last_name: lastName, phone: phone, role: role, avatar_url: avatarUrl }]);
   if (profileError) return regFail('Error al guardar perfil: ' + profileError.message);
 
   let shopInfo = null;
@@ -554,7 +649,10 @@ $('registerForm').onsubmit = async (e) => {
 
   sendFormspree('Nueva inscripción en Sofy · ' + role.toUpperCase(), {
     tipo_registro: 'Cuenta de usuario',
+    nombre: firstName,
+    apellido: lastName,
     nombre_completo: fullName,
+    telefono: phone,
     correo: email,
     email_registrado: email,
     rol: role,
@@ -599,7 +697,7 @@ checkAuthSession();
 let shops=[], products=[], previewFile=null, current=0, timer;
 const FALLBACK_IMG="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Crect width='300' height='300' fill='%23132a3d'/%3E%3Cpath d='M55 215 L125 140 L175 190 L245 110' stroke='%2329b6f6' stroke-width='12' fill='none'/%3E%3C/svg%3E";
 
-function theme(t){document.documentElement.dataset.theme=t;localStorage.setItem('madelena-theme',t);$('sun').classList.toggle('active',t==='light');$('moon').classList.toggle('active',t==='dark');$('brandLogo').src=t==='dark'?'https://i.imgur.com/HuC4TzS.gif':'https://i.imgur.com/Gn2AtJq.gif'}
+function theme(t){document.documentElement.dataset.theme=t;localStorage.setItem('madelena-theme',t);$('sun').classList.toggle('active',t==='light');$('moon').classList.toggle('active',t==='dark');$('brandLogo').src=t==='dark'?'https://i.imgur.com/HuC4TzS.gif':'https://i.imgur.com/Gn2AtJq.gif';$('drawerLogo').src=$('brandLogo').src}
 theme(localStorage.getItem('madelena-theme')||'dark');
 $('themeBtn').onclick=()=>theme(document.documentElement.dataset.theme==='dark'?'light':'dark');
 
@@ -691,7 +789,8 @@ function mapProductRow(r,cfg,shopMap){
     _img:cfg.image?(r[cfg.image]||''):'',
     _bid:cfg.bid?String(r[cfg.bid]||''):'',
     _cat:cfg.cat?(r[cfg.cat]||''):'',
-    _shop:cfg.bid?shopMap[String(r[cfg.bid]||'')]||'':''
+    _shop:cfg.bid?shopMap[String(r[cfg.bid]||'')]||'':'',
+    _raw:r
   };
 }
 async function fetchProducts(){
@@ -730,38 +829,66 @@ async function fetchSellerProducts(bids){
 
 function visibleProductsCount(){return window.matchMedia('(min-width:761px)').matches?8:4}
 
+/* Enlace a la página del producto / tienda (catalogo.html?id=<negocio>) */
+function productBid(p){
+  let bid=p._bid||'';
+  if(!bid&&p._shop){const s=shops.find(x=>x.name===p._shop);if(s)bid=shopKey(s)}
+  if(!bid&&p._raw){
+    const k=Object.keys(p._raw).find(k=>/(business|shop|store|negocio|tienda|seller|vendedor)/i.test(k)&&p._raw[k]);
+    if(k)bid=String(p._raw[k]);
+  }
+  /* catalogo.html busca por business_id: si el valor coincide con una tienda, usar su business_id */
+  if(bid){const s=shops.find(x=>shopKeys(x).includes(String(bid)));if(s&&s.business_id)bid=String(s.business_id)}
+  return bid;
+}
+function productHref(p){
+  const bid=productBid(p);
+  return bid?'catalogo.html?id='+encodeURIComponent(bid):'catalogo.html';
+}
+
+/* (1) Modal de búsqueda */
+const SEARCH_BTN='<button type="button" class="search-trigger" data-open-search aria-label="Buscar producto, referencia o comercio" title="Buscar">'+icons.search+'</button>';
+function openSearchModal(){open('searchModal');setTimeout(()=>$('search').focus(),120)}
+function bindSearchTriggers(){document.querySelectorAll('[data-open-search]').forEach(b=>{b.onclick=openSearchModal;b.classList.toggle('on',!!$('search').value.trim())})}
+function renderSearchResults(list){
+  const q=$('search').value.trim();
+  $('searchCount').textContent=q?(list.length?list.length+' '+(list.length===1?'resultado':'resultados')+' para "'+q+'"':'Sin resultados para "'+q+'"'):'Escribe para filtrar los productos.';
+  $('searchResults').innerHTML=q?list.slice(0,8).map(p=>'<a class="pf-item product-card" href="'+productHref(p)+'" data-pid="'+esc(p._id)+'"><img src="'+(p._img?esc(p._img):FALLBACK_IMG)+'" alt="" loading="lazy"><span><b>'+esc(p._name)+'</b><small>'+esc((p._ref?'REF '+p._ref+' · ':'')+(p._shop||''))+'</small></span><span class="pf-price">'+formatPrice(p._price)+'</span></a>').join(''):'';
+}
+
 function renderProducts(){
   const q=$('search').value.toLowerCase().trim();
   const list=products.filter(p=>!q||[p._name,p._ref,p._shop,p._cat].join(' ').toLowerCase().includes(q));
   const more=list.length>visibleProductsCount();
+  renderSearchResults(list);
   if(!products.length){
     $('shopContent').innerHTML='<div class="empty"><span class="empty-icon">'+icons.box+'</span><h3>Pronto veras productos aqui</h3><p>Cuando los comercios publiquen su catalogo, sus productos apareceran en este espacio para que puedas comprarlos.</p><a class="primary" href="#categorias" style="text-decoration:none">Explorar comercios</a></div>';
     return;
   }
-  if(!list.length){$('shopContent').innerHTML='<p class="no-results">No encontramos productos con esa busqueda.</p>';return}
-  $('shopContent').innerHTML='<div class="shops-panel grid-panel"><div class="shops-head"><span class="shops-total"><span class="live-dot"></span><b>'+list.length+'</b> '+(list.length===1?'producto':'productos')+'</span>'+
+  if(!list.length){$('shopContent').innerHTML='<p class="no-results">No encontramos productos con esa busqueda.'+SEARCH_BTN+'</p>';bindSearchTriggers();bindProducts();return}
+  $('shopContent').innerHTML='<div class="shops-panel grid-panel"><div class="shops-head"><span class="shops-left"><span class="shops-total"><span class="live-dot"></span><b>'+list.length+'</b> '+(list.length===1?'producto':'productos')+'</span>'+SEARCH_BTN+'</span>'+
     (more?'<div class="shops-tools"><span class="swipe-hint"><span class="swipe-track"></span>Desliza para ver más<span class="swipe-arrows"><i>&#8250;</i><i>&#8250;</i><i>&#8250;</i></span></span><div class="shops-nav"><button type="button" data-shops-prev aria-label="Anterior">&#8249;</button><button type="button" data-shops-next aria-label="Siguiente">&#8250;</button></div></div>':'')+
     '</div><div class="shops" id="shopsTrack">'+list.map(p=>{
-      const href='catalogo.html'+(p._bid?'?id='+encodeURIComponent(p._bid):'');
+      const href=productHref(p);
       return '<a class="shop product-card" href="'+href+'" data-pid="'+esc(p._id)+'"><img src="'+(p._img?esc(p._img):FALLBACK_IMG)+'" alt="'+esc(p._name)+'" loading="lazy" decoding="async">'+
       '<span class="price-tag">'+formatPrice(p._price)+'</span><h3>'+esc(p._name)+'</h3><p>'+(p._ref?'<b class="ref-tag">REF '+esc(p._ref)+'</b>':'')+(p._shop?(p._ref?' · ':'')+'<span class="shop-name">'+esc(p._shop)+'</span>':'')+'</p></a>';
     }).join('')+'</div>'+
     (list.length>1?'<div class="shops-progress"><i></i></div>':'')+'</div>';
+  bindSearchTriggers();
   bindProducts();
   bindShopsSlider();
   restartShopsProgress();
 }
 
+/* (2) Las tarjetas siguen su flujo normal (sin pedir inicio de sesión) */
 function bindProducts(){
   document.querySelectorAll('.product-card').forEach(a=>{
-    a.addEventListener('click',ev=>{
+    a.onclick=ev=>{
+      ev.stopPropagation();
       const p=products.find(x=>String(x._id)===String(a.dataset.pid));
       if(p)trackProductView(p);
-      if(!currentUserProfile){
-        ev.preventDefault();
-        openAuth('register',()=>{window.location.href=a.getAttribute('href')});
-      }
-    });
+      /* Navegación nativa del enlace: catalogo.html?id=<negocio> */
+    };
   });
 }
 
