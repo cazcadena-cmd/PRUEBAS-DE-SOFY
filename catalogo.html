@@ -485,6 +485,18 @@
        BOTÓN PERFIL DE TIENDA Y SIN TITILACIÓN AL REABRIR
        ============================================================ */
     a.icon-btn { text-decoration: none; }
+    /* (2) El fondo de la imagen ampliada (lightbox) se adapta al tema */
+    [data-theme="light"] .lightbox { background: rgba(236,241,248,.95); }
+    [data-theme="light"] .lightbox img, [data-theme="light"] .lightbox video { background: #ffffff; box-shadow: 0 24px 60px rgba(15,23,42,.22); }
+    [data-theme="light"] .lightbox .lb-ph { background: var(--card-2); color: var(--muted); }
+    [data-theme="light"] .lb-bar { background: rgba(255,255,255,.93); border-color: rgba(15,23,42,.14); color: var(--text); }
+    [data-theme="light"] .lb-bar .lb-name, [data-theme="light"] .lb-bar .lb-price { color: var(--text); }
+    [data-theme="light"] .lb-close, [data-theme="light"] .lb-nav { background: rgba(255,255,255,.95); color: var(--text); border-color: rgba(15,23,42,.2); }
+    [data-theme="light"] .lb-close:hover { background: linear-gradient(135deg, var(--primary), var(--primary-bright)); color: #fff; border-color: transparent; }
+    [data-theme="light"] .lb-nav:hover { background: linear-gradient(135deg, var(--primary), var(--primary-bright)); color: #fff; border-color: transparent; }
+    [data-theme="light"] .lb-thumbs img { border-color: rgba(15,23,42,.14); }
+    [data-theme="light"] .lb-thumbs img.on { border-color: var(--primary-bright); }
+    [data-theme="light"] .zoom-hint { background: rgba(15,23,42,.72); }
     /* (2) Icono de tienda con animación "ring ring" SOLO en el icono */
     .store-ico { width: 18px; height: 18px; display: block; flex: 0 0 auto; transform-origin: 50% 14%; animation: ringRing 2.8s ease-in-out infinite; }
     .icon-btn:hover .store-ico { animation-duration: 1.1s; }
@@ -593,7 +605,7 @@
           </button>
         </div>
         <div class="hdr-row hdr-back">
-          <a id="btnBackToShop" href="#" class="back-link">&#8592; Volver al Comercio</a>
+          <a id="btnBackToShop" href="#" class="back-link">&#8592; Volver al Home</a>
           <div class="hdr-tools">
             <button class="icon-btn" id="themeToggleBtn" title="Cambiar tema" aria-label="Cambiar tema" onclick="toggleTheme()">🌙<span class="btn-label">Modo</span></button>
             <a class="icon-btn" id="storeProfileBtn" href="#" title="Ver el perfil de la tienda" aria-label="Ver el perfil de la tienda"><svg class="store-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4.6h18l1.1 4.5H1.9z"/><path d="M4.6 9.1V19.6h14.8V9.1"/><path d="M9.4 19.6v-5.6h5.2v5.6"/><path d="M7.6 12.4h1.6M14.8 12.4h1.6"/></svg><span class="btn-label">Tienda</span></a>
@@ -1620,7 +1632,14 @@ alter table shop_products add column if not exists home_service text;
   let activeType = 'all';
   let activeCat = 'all';
   let searchTerm = '';
-  let themeOverride = null;
+  /* El modo claro/oscuro elegido por el usuario se recuerda al volver */
+  let themeOverride = (function () {
+    try {
+      const t = localStorage.getItem('sofy_theme');
+      return (t === 'light' || t === 'dark') ? t : null;
+    } catch (e) { return null; }
+  })();
+  if (themeOverride) document.documentElement.setAttribute('data-theme', themeOverride);
   let heroIndex = 0;
   let heroTimer = null;
   let heroSignature = null;
@@ -2013,6 +2032,8 @@ alter table shop_products add column if not exists home_service text;
   function toggleTheme() {
     const current = document.documentElement.getAttribute('data-theme') || 'dark';
     themeOverride = current === 'dark' ? 'light' : 'dark';
+    /* Se guarda para que al salir y volver siga igual (oscuro ↔ claro) */
+    try { localStorage.setItem('sofy_theme', themeOverride); } catch (e) {}
     applyShopTheme();
   }
   function renderAll() {
@@ -2408,7 +2429,7 @@ alter table shop_products add column if not exists home_service text;
       const t = e.target && e.target.closest ? e.target.closest('.gal-track') : null;
       if (t) pauseGallery(t, 8000);
     };
-    ['wheel', 'touchstart', 'mousedown', 'pointerover'].forEach((ev) =>
+    ['wheel', 'touchstart', 'mousedown'].forEach((ev) =>
       document.addEventListener(ev, mark, { passive: true, capture: true }));
   }
   function openLightbox(prodId, idx) {
@@ -2731,8 +2752,8 @@ alter table shop_products add column if not exists home_service text;
     if (test(/(petshop|pet ?shop|mascota|animal|adopt|perr|gat)/)) return 'petshop';
     if (test(/(calzad|zapat|tenis|sneaker)/)) return 'calzado';
     if (test(/(ropa|moda|boutique|textil|uniform|lencer|pijam|sastrer|jean|camiser|infantil|bebe|maternid|deportiv|deporte|gym)/)) return 'moda';
+    if (test(/(tecnolog|electro|celular|telefon|smartphone|computad|informatic|iphone|android|repuesto celular)/)) return 'tecnologia';
     if (test(/(joyer|bisuter|accesori|relojer|optic|gafas|lentes)/)) return 'joyeria';
-    if (test(/(tecnolog|electro|celular|computad|informatic)/)) return 'tecnologia';
     if (test(/(hogar|mueble|decorac|ferreter|construc|hardware)/)) return 'hogar';
     if (test(/(bellez|cosmetic|peluquer|barber|spa|estetic|uñas|unas)/)) return 'belleza';
     if (test(/(papeler|libreria|jugueter|artesan|floris|planta|vivero|regalo)/)) return 'papeleria';
@@ -2786,43 +2807,34 @@ alter table shop_products add column if not exists home_service text;
     const adv = $('advancedSummary');
     if (adv) adv.textContent = '🧰 Herramientas avanzadas de ' + (shopData.name || 'tu comercio');
   }
+  /* ============================================================
+     (1) VARIANTES POR GREMIO — cada tipo de negocio decide su propia
+     lógica de colores y tallas, según lo que realmente vende.
+     ============================================================ */
+  const VARIANT_PROFILE = {
+    restaurante:  { colors: false, sizes: false, note: 'Tu comercio es un <b>restaurante</b>: se venden platos preparados, por eso <b>no aplican colores ni tallas</b>.' },
+    panaderia:    { colors: false, sizes: false, note: 'Tu comercio es una <b>panadería</b>: se pide por sabor y cantidad, por eso <b>no aplican colores ni tallas</b>.' },
+    bar:          { colors: false, sizes: false, note: 'Tu comercio es un <b>bar</b>: las bebidas se piden por presentación, por eso <b>no aplican colores ni tallas</b>.' },
+    barberia:     { colors: false, sizes: false, note: 'Tu comercio es una <b>barbería</b>: son <b>servicios</b>, por eso <b>no aplican colores ni tallas</b>.' },
+    supermercado: { colors: false, sizes: false, note: 'Tu comercio es un <b>supermercado</b>: lo que varía es la marca y la presentación, <b>no el color ni la talla</b>.' },
+    farmacia:     { colors: false, sizes: false, note: 'Tu comercio es una <b>farmacia</b>: lo que varía es la presentación y el laboratorio, <b>no el color ni la talla</b>.' },
+    veterinaria:  { colors: true,  sizes: false, note: 'Tu comercio es una <b>veterinaria</b>: se habilitan los <b>colores</b> (collares, camas, transportadoras); <b>las tallas no aplican</b>.' },
+    petshop:      { colors: true,  sizes: false, note: 'Tu comercio es una <b>tienda de mascotas</b>: colores para accesorios y camas; <b>las tallas no aplican</b>.' },
+    calzado:      { colors: true,  sizes: true,  note: 'Tu comercio vende <b>calzado</b>: se habilitan <b>colores y tallas</b>, son indispensables para vender.' },
+    moda:         { colors: true,  sizes: true,  note: 'Tu comercio vende <b>ropa</b>: se habilitan <b>colores y tallas</b>, son indispensables para vender.' },
+    joyeria:      { colors: true,  sizes: true,  note: 'Tu comercio es una <b>joyería</b>: <b>colores</b> (material o acabado) y <b>tallas</b> de anillo o pulsera.' },
+    tecnologia:   { colors: true,  sizes: false, note: 'Tu comercio vende <b>celulares y tecnología</b>: el <b>color sí importa</b> pero <b>no existen tallas</b> (la capacidad o compatibilidad va en la descripción).' },
+    hogar:        { colors: true,  sizes: false, note: 'Tu comercio es de <b>hogar</b>: el <b>color sí importa</b>; las medidas van en la descripción, <b>no como talla</b>.' },
+    belleza:      { colors: true,  sizes: false, note: 'Tu comercio es de <b>belleza</b>: el <b>color o tono sí importa</b>; <b>las tallas no aplican</b>.' },
+    papeleria:    { colors: true,  sizes: false, note: 'Tu comercio es una <b>papelería o librería</b>: el <b>color sí importa</b>; <b>las tallas no aplican</b>.' },
+    automotriz:   { colors: true,  sizes: false, note: 'Tu comercio es <b>automotriz</b>: el <b>color sí importa</b>; la medida del repuesto va en la descripción, <b>no como talla</b>.' },
+    servicios:    { colors: false, sizes: false, note: 'Tu comercio ofrece <b>servicios</b>: <b>no aplican colores ni tallas</b>.' },
+    retail:       { colors: true,  sizes: true,  note: 'Comercio general: puedes usar <b>colores y tallas</b> si tus productos lo requieren (son opcionales).' }
+  };
   function bizVariantProfile() {
-    const txt = normTxt((shopData && shopData.category) + ' ' + (shopData && shopData.name));
-    const test = (re) => re.test(txt);
-    /* Barbería → servicios, sin variantes */
-    if (test(/(barber|barberia|corte de cabello|fade|perfilado|afeit|barba)/)) {
-      return { colors: false, sizes: false, label: 'barbería', note: 'Tu comercio es una <b>barbería</b>: son <b>servicios</b>, por eso <b>los colores y las tallas no son necesarios</b> y se ocultan automáticamente.' };
-    }
-    /* Veterinaria → colores para accesorios, sin tallas */
-    if (test(/(veterinar|agroveterinar|vet ?clinic|hospital animal|clinica animal)/)) {
-      return { colors: true, sizes: false, label: 'veterinaria', note: 'Tu comercio es una <b>veterinaria</b>: se habilitan los <b>colores</b> (collares, camas, transportadoras). <b>Las tallas no son necesarias</b> para este gremio.' };
-    }
-    /* Alimentos, bebidas y proveeduría → sin colores ni tallas */
-    if (test(/(restaur|comida|cafeter|\bcafe\b|gastro|pizz|hamburg|burger|asader|parrill|food|panader|pasteler|reposter|helader|sushi|marisc|bistro|pollo|broaster|arepa|empanad|taquer|tacos|brunch|coctel|cervec|jugos|juguer|fruteria|fruver|verduler|postre|donas|grill|steak|pescad|cevich|kebab|shawarma|crepe|waffle|snack|almuerzo|fonda|hot ?dog|\bbar\b|\bpub\b|discotec|licorer|cocina|salsamentar|charcuter|fritanga|picada|supermercad|minimercad|colmad|abarrot|bodeg[oó]n|carnicer|pescader|deposito|agua|bebida|proveedur|catering|dulcer|vinos|farmac|botica|drogueria)/)) {
-      return { colors: false, sizes: false, label: 'alimentos, bebidas y proveeduría', note: 'Tu comercio pertenece al gremio de <b>alimentos, bebidas y proveeduría</b>, por eso <b>los campos de colores y tallas no son necesarios</b> y se ocultan automáticamente.' };
-    }
-    /* Mascotas → colores sí, tallas no */
-    if (test(/(petshop|pet ?shop|mascota|veterinar|animal|canin|felin|agroveterinar)/)) {
-      return { colors: true, sizes: false, label: 'mascotas', note: 'Tu comercio es de <b>mascotas</b>: se habilitan los <b>colores disponibles</b> (collares, camas, juguetes) y <b>las tallas no son necesarias</b>.' };
-    }
-    /* Moda, calzado y deportes → colores y tallas */
-    if (test(/(ropa|moda|boutique|textil|calzad|zapat|tenis|sneaker|deportiv|deporte|gym|uniform|lencer|pijam|infantil|bebe|maternid|sastrer|jean|camiser)/)) {
-      return { colors: true, sizes: true, label: 'moda y calzado', note: 'Tu comercio es de <b>moda y calzado</b>: se habilitan <b>colores y tallas</b> para que el cliente elija su variante.' };
-    }
-    /* Joyería y accesorios → colores y tallas (anillos) */
-    if (test(/(joyer|bisuter|accesori|relojer|optic|gafas|lentes)/)) {
-      return { colors: true, sizes: true, label: 'joyería y accesorios', note: 'Tu comercio es de <b>joyería y accesorios</b>: se habilitan <b>colores</b> y <b>tallas</b> (útil para anillos y pulseras).' };
-    }
-    /* Tecnología, hogar, ferretería, belleza, papelería → solo colores */
-    if (test(/(tecnolog|electro|celular|computad|informatic|hogar|mueble|decorac|ferreter|construc|hardware|bellez|cosmetic|peluquer|barber|spa|papeler|libreria|jugueter|bicicle|repuesto|auto|moto|llanter|planta|vivero|floris|artesan)/)) {
-      return { colors: true, sizes: false, label: 'retail y hogar', note: 'Según tu categoría se habilitan los <b>colores disponibles</b>. <b>Las tallas no son necesarias</b> para este tipo de comercio.' };
-    }
-    /* Servicios profesionales, salud, educación → ninguno */
-    if (test(/(servicio|consultor|asesor|abogad|contab|salud|clinic|medic|odontolog|laborator|educac|academ|curso|escuela|instituto|transporte|mudanza|limpiez|lavander|inmobil|seguro|turism|viaje|hotel|evento|fotograf|publicid|imprenta|tecnic|reparacion|mantenimiento)/)) {
-      return { colors: false, sizes: false, label: 'servicios', note: 'Tu comercio ofrece <b>servicios</b>: <b>los colores y las tallas no son necesarios</b>, por eso se ocultan.' };
-    }
-    /* Comercio y retail general → ambos */
-    return { colors: true, sizes: true, label: 'comercio y retail', note: 'Tu comercio pertenece a <b>comercio y retail</b>: puedes usar <b>colores y tallas</b> si tus productos lo requieren (son opcionales).' };
+    const kind = bizKind();
+    const p = VARIANT_PROFILE[kind] || VARIANT_PROFILE.retail;
+    return { colors: p.colors, sizes: p.sizes, label: kind, note: p.note };
   }
   function applyVariantFields() {
     const prof = bizVariantProfile();
