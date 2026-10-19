@@ -1,6 +1,8 @@
 {
+  "id": "https://cazcadena-cmd.github.io/PRUEBAS-DE-SOFY/",
   "short_name": "SofyApp",
   "name": "Sofy-Shop",
+  "description": "SofyApp es la plataforma donde los emprendedores publican sus productos y los compradores los descubren. Sube tu inventario, muestra tu marca y conecta con clientes interesados.",
   "icons": [
     {
       "src": "icon-192.png",
