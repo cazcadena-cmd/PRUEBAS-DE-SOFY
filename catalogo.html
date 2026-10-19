@@ -55,7 +55,10 @@
   alter table shop_products add column if not exists stock integer;
   -- 4) OPCIONES DE ENVÍO POR PRODUCTO (movidas de Ajustes a Ítems)
   alter table shop_products add column if not exists shipping_options text;
-  -- 5) Asigna tu comercio a ti mismo (copia tu UUID desde auth.users):
+  -- 5) VALOR DEL DOMICILIO POR ÍTEM + SERVICIO A DOMICILIO (check sí/no)
+  alter table shop_products add column if not exists delivery_fee numeric default 0;
+  alter table shop_products add column if not exists home_service text;
+  -- 6) Asigna tu comercio a ti mismo (copia tu UUID desde auth.users):
   -- select id, email from auth.users;
   -- update shops set owner_id = 'COLOCA_AQUI_EL_UUID' where business_id = 'TU_BUSINESS_ID';
   ============================================================
@@ -482,6 +485,51 @@
        BOTÓN PERFIL DE TIENDA Y SIN TITILACIÓN AL REABRIR
        ============================================================ */
     a.icon-btn { text-decoration: none; }
+    /* (2) Icono de tienda con animación "ring ring" SOLO en el icono */
+    .store-ico { width: 18px; height: 18px; display: block; flex: 0 0 auto; transform-origin: 50% 14%; animation: ringRing 2.8s ease-in-out infinite; }
+    .icon-btn:hover .store-ico { animation-duration: 1.1s; }
+    @keyframes ringRing {
+      0%, 54%, 100% { transform: rotate(0deg); }
+      57% { transform: rotate(-17deg); }
+      60% { transform: rotate(15deg); }
+      63% { transform: rotate(-12deg); }
+      66% { transform: rotate(10deg); }
+      69% { transform: rotate(-7deg); }
+      72% { transform: rotate(5deg); }
+      75% { transform: rotate(-3deg); }
+      79% { transform: rotate(0deg); }
+    }
+    /* (1) Tappable del logo/nombre + MODAL DE IDENTIDAD DEL COMERCIO */
+    .brand-tap { cursor: pointer; transition: opacity .18s ease; }
+    .brand-tap:hover { opacity: .85; }
+    .shop-id-modal { max-width: 362px; overflow: hidden; }
+    .shop-id-x { width: 38px; height: 38px; font-size: 1.05rem; animation: idPop .38s .1s cubic-bezier(.2,.9,.3,1.45) both; transition: transform .3s cubic-bezier(.2,.9,.3,1.45), background .2s, color .2s, border-color .2s; }
+    .shop-id-x:hover, .shop-id-x:focus-visible { transform: rotate(90deg) scale(1.08); background: linear-gradient(135deg, var(--primary), var(--primary-bright)); color: #fff; border-color: transparent; outline: none; }
+    .shop-id-body { position: relative; padding: 48px 24px 26px; text-align: center; overflow: hidden; }
+    .shop-id-glow { position: absolute; top: -96px; left: 50%; transform: translateX(-50%); width: 340px; height: 250px; background: radial-gradient(closest-side, color-mix(in srgb, var(--primary) 55%, transparent), transparent 72%); pointer-events: none; }
+    .shop-id-ring { position: relative; width: 120px; height: 120px; margin: 0 auto 15px; border-radius: 50%; padding: 5px; background: linear-gradient(135deg, var(--primary), var(--primary-bright)); box-shadow: 0 18px 42px var(--primary-soft), 0 0 0 7px color-mix(in srgb, var(--primary) 14%, transparent); animation: idPop .5s cubic-bezier(.2,.9,.3,1.35) both; }
+    .shop-id-ring::after { content: ""; position: absolute; inset: -15px; border-radius: 50%; border: 1px dashed color-mix(in srgb, var(--primary) 48%, transparent); animation: idSpin 24s linear infinite; }
+    .shop-id-ring .inner { position: relative; width: 100%; height: 100%; border-radius: 50%; overflow: hidden; background: var(--card-2); display: grid; place-items: center; border: 3px solid var(--card); }
+    .shop-id-ring .inner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .shop-id-ring .inner .ph { font-size: 2.8rem; line-height: 1; }
+    .shop-id-kicker { position: relative; font-size: .62rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--primary-bright); margin-bottom: 7px; }
+    .shop-id-name { position: relative; font-size: clamp(1.25rem, 5.4vw, 1.7rem); font-weight: 700; line-height: 1.14; margin: 0; word-break: break-word; overflow-wrap: anywhere; }
+    .shop-id-cat { position: relative; color: var(--muted); font-size: .86rem; margin-top: 7px; overflow-wrap: anywhere; }
+    .shop-id-rev { position: relative; display: inline-flex; align-items: center; gap: 6px; margin-top: 13px; font-size: .8rem; font-weight: 800; color: #f5b301; background: var(--bg-soft); border: 1px solid var(--border); padding: 6px 13px; border-radius: 999px; }
+    .shop-id-rev .muted { color: var(--muted); font-weight: 600; }
+    .shop-id-rule { position: relative; display: flex; align-items: center; justify-content: center; gap: 9px; margin: 19px 0 13px; }
+    .shop-id-rule::before, .shop-id-rule::after { content: ""; height: 1px; width: 58px; background: linear-gradient(90deg, transparent, var(--border-strong)); }
+    .shop-id-rule::after { background: linear-gradient(90deg, var(--border-strong), transparent); }
+    .shop-id-rule span { width: 7px; height: 7px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-bright)); box-shadow: 0 0 0 4px var(--primary-soft); }
+    .shop-id-note { position: relative; font-size: .78rem; color: var(--muted); line-height: 1.55; margin: 0 0 16px; overflow-wrap: anywhere; }
+    .shop-id-go { position: relative; width: 100%; }
+    /* (6) Check sí/no de servicio a domicilio */
+    .check-row { display: flex; align-items: center; gap: 11px; background: var(--bg-soft); border: 1.5px solid var(--border-strong); border-radius: 13px; padding: 12px 13px; cursor: pointer; font-size: .85rem; font-weight: 700; line-height: 1.3; transition: border-color .15s, background .15s; }
+    .check-row:hover { border-color: var(--primary-line); }
+    .check-row input { width: 21px; height: 21px; accent-color: var(--primary-bright); flex: 0 0 auto; cursor: pointer; }
+    .check-row:has(input:checked) { border-color: var(--primary-bright); background: var(--primary-soft); }
+    @keyframes idPop { from { opacity: 0; transform: scale(.55) rotate(-9deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+    @keyframes idSpin { to { transform: rotate(360deg); } }
     .gal-track { position: absolute; inset: 0; display: flex; width: 100%; height: 100%; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
     .gal-track::-webkit-scrollbar { display: none; }
     .gal-slide { flex: 0 0 100%; width: 100%; height: 100%; scroll-snap-align: center; scroll-snap-stop: always; cursor: zoom-in; }
@@ -520,9 +568,9 @@
       <div class="topbar-inner">
         <div class="hdr-row hdr-main">
           <div class="brand">
-            <div id="shopLogoWrap"></div>
+            <div id="shopLogoWrap" class="brand-tap" title="Ver logo y nombre completos" onclick="openShopIdentity()"></div>
             <div>
-              <div class="brand-name" id="shopHeaderName">Cargando…</div>
+              <div class="brand-name brand-tap" id="shopHeaderName" title="Ver logo y nombre completos" onclick="openShopIdentity()">Cargando…</div>
               <div class="brand-cat" id="shopHeaderCategory">Menú &amp; Catálogo</div>
               <div class="rating-badge" id="shopRatingBadge" onclick="scrollToReviews()"></div>
             </div>
@@ -548,7 +596,7 @@
           <a id="btnBackToShop" href="#" class="back-link">&#8592; Volver al Comercio</a>
           <div class="hdr-tools">
             <button class="icon-btn" id="themeToggleBtn" title="Cambiar tema" aria-label="Cambiar tema" onclick="toggleTheme()">🌙<span class="btn-label">Modo</span></button>
-            <a class="icon-btn" id="storeProfileBtn" href="#" title="Ver el perfil de la tienda" aria-label="Ver el perfil de la tienda">🏪<span class="btn-label">Tienda</span></a>
+            <a class="icon-btn" id="storeProfileBtn" href="#" title="Ver el perfil de la tienda" aria-label="Ver el perfil de la tienda"><svg class="store-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4.6h18l1.1 4.5H1.9z"/><path d="M4.6 9.1V19.6h14.8V9.1"/><path d="M9.4 19.6v-5.6h5.2v5.6"/><path d="M7.6 12.4h1.6M14.8 12.4h1.6"/></svg><span class="btn-label">Tienda</span></a>
             <button class="icon-btn" id="adminGearBtn" title="Editar catálogo" aria-label="Editar catálogo" style="display:none" onclick="openPinModal()">⚙️<span class="btn-label">Administrador</span></button>
           </div>
         </div>
@@ -569,8 +617,8 @@
       </div>
       <div class="pills" id="typePills">
         <button class="pill active" data-type="all" onclick="setTypeFilter('all')">✨ Todos</button>
-        <button class="pill" data-type="producto" onclick="setTypeFilter('producto')">🛍️ Productos</button>
-        <button class="pill" data-type="servicio" onclick="setTypeFilter('servicio')">🛠️ Servicios</button>
+        <button class="pill" data-type="producto" style="display:none" onclick="setTypeFilter('producto')">🛍️ Productos</button>
+        <button class="pill" data-type="servicio" style="display:none" onclick="setTypeFilter('servicio')">🛠️ Servicios</button>
       </div>
       <div class="cat-rail" id="categoriesRail"></div>
       <div id="productsContainer"></div>
@@ -662,11 +710,7 @@
               <input type="text" class="input" id="setPhone">
             </div>
           </div>
-          <div class="field">
-            <label>🛵 Valor del domicilio (0 = gratis)</label>
-            <input type="number" min="0" class="input" id="setDelivery" placeholder="0">
-            <div class="obs-hint">Se suma al total solo cuando el cliente elige “Domicilio”. En “Servicio en mesa” no se cobra.</div>
-          </div>
+          <div class="obs-hint" style="margin:-2px 0 6px">🛵 El <b>valor del domicilio</b> y la opción de <b>servicio a domicilio</b> ahora se configuran por ítem: ve a <b>Ítems → Agregar producto / servicio</b>.</div>
           <!-- (5) LAS OPCIONES DE ENVÍO SE MOVIERON A: Ítems → Agregar producto / servicio -->
           <div class="field">
             <label>Color de la interfaz</label>
@@ -725,6 +769,17 @@
             <label>📦 Cantidad disponible (inventario)</label>
             <input type="number" min="0" step="1" class="input" id="prodStock" placeholder="Ej: 25 — deja vacío si no controlas inventario">
             <div class="obs-hint">Se muestra en la tarjeta. Si es 0 el ítem aparece como AGOTADO y el cliente no podrá pedirlo.</div>
+          </div>
+          <!-- (5)(6) SERVICIO A DOMICILIO + VALOR DEL DOMICILIO (antes en Ajustes) -->
+          <div class="field" id="homeServiceField" style="display:none">
+            <label>🛵 ¿Prestas este servicio a domicilio?</label>
+            <label class="check-row"><input type="checkbox" id="prodHomeService" checked onchange="updateItemConditionalFields()"> <span>Sí, voy al domicilio del cliente</span></label>
+            <div class="obs-hint">Si está en <b>No</b>, el cliente <b>no verá la opción “Domicilio”</b> en su pedido.</div>
+          </div>
+          <div class="field" id="deliveryFeeField">
+            <label>🛵 Valor del domicilio (0 = gratis)</label>
+            <input type="number" min="0" step="0.01" class="input" id="prodDelivery" placeholder="0">
+            <div class="obs-hint">Se suma al total solo cuando el cliente elige “Domicilio”. En “Servicio en mesa” o recogida no se cobra.</div>
           </div>
           <!-- (7) Aviso adaptado a la categoría del comercio -->
           <div class="variant-note" id="variantNote" style="display:none"></div>
@@ -896,8 +951,16 @@
         </div>
         <div class="field" id="addressField">
           <label>📍 Dirección de entrega *</label>
-          <textarea class="textarea" id="orderAddress" placeholder="Ej: Calle 45 #12-30, barrio, apartamento/casa, referencias…"></textarea>
-          <div class="field-error" id="errAddress">La dirección es obligatoria para domicilios</div>
+          <div class="row-2">
+            <div class="field" style="margin-bottom:10px"><label style="font-size:.72rem">Calle</label><input type="text" class="input" id="orderStreet" placeholder="Ej: Calle 45"></div>
+            <div class="field" style="margin-bottom:10px"><label style="font-size:.72rem">Número de casa *</label><input type="text" class="input" id="orderNumber" placeholder="Ej: 12-30"></div>
+          </div>
+          <div class="row-2">
+            <div class="field" style="margin-bottom:10px"><label style="font-size:.72rem">Ciudad</label><input type="text" class="input" id="orderCity" placeholder="Ej: Santo Domingo"></div>
+            <div class="field" style="margin-bottom:10px"><label style="font-size:.72rem">Municipio</label><input type="text" class="input" id="orderMunicipality" placeholder="Ej: Distrito Nacional"></div>
+          </div>
+          <div class="field" style="margin-bottom:6px"><label style="font-size:.72rem">Barrio</label><input type="text" class="input" id="orderBarrio" placeholder="Ej: Bella Vista, edificio azul"></div>
+          <div class="field-error" id="errAddress">Escribe la calle y el número de casa para el domicilio</div>
         </div>
         <div class="field" id="tableField" style="display:none">
           <label>🍽️ Número de mesa *</label>
@@ -905,9 +968,12 @@
           <div class="field-error" id="errTable">Indica el número de mesa</div>
         </div>
         <div class="field">
-          <label>👤 Tu nombre *</label>
-          <input type="text" class="input" id="orderName" placeholder="¿Para quién es el pedido?">
-          <div class="field-error" id="errName">Escribe tu nombre</div>
+          <label>👤 Tus nombres y apellidos *</label>
+          <div class="row-2">
+            <div class="field" style="margin-bottom:10px"><label style="font-size:.72rem">Nombres</label><input type="text" class="input" id="orderFirstName" placeholder="Ej: María"></div>
+            <div class="field" style="margin-bottom:10px"><label style="font-size:.72rem">Apellidos</label><input type="text" class="input" id="orderLastName" placeholder="Ej: Pérez"></div>
+          </div>
+          <div class="field-error" id="errName">Escribe tus nombres y apellidos</div>
         </div>
         <div class="field">
           <label>📱 Tu teléfono / WhatsApp (opcional)</label>
@@ -916,15 +982,15 @@
         <div class="field">
           <label>💳 Medio de pago</label>
           <div class="pay-cards">
-            <button type="button" class="option-card active" id="payEfectivo" onclick="setPayMethod('efectivo')">💵 Efectivo</button>
-            <button type="button" class="option-card" id="payTarjeta" onclick="setPayMethod('tarjeta')">💳 Tarjeta</button>
+            <button type="button" class="option-card" id="payEfectivo" disabled style="opacity:.45;cursor:not-allowed" title="Próximamente disponible">💵 Efectivo<span style="display:block;font-size:.6rem;opacity:.85">Próximamente</span></button>
+            <button type="button" class="option-card active" id="payTarjeta" onclick="setPayMethod('tarjeta')">💳 Tarjeta</button>
             <button type="button" class="option-card" id="payBilletera" onclick="setPayMethod('billetera')">👛 Billetera</button>
           </div>
         </div>
         <div class="field" id="walletField" style="display:none">
           <label>¿Cuál billetera digital? *</label>
-          <input type="text" class="input" id="orderWallet" placeholder="Ej: Nequi, Daviplata, tPago, Bancolombia a la mano…">
-          <div class="field-error" id="errWallet">Escribe cuál billetera (Nequi, tPago…)</div>
+          <input type="text" class="input" id="orderWallet" placeholder="Escribe el nombre de tu billetera digital">
+          <div class="field-error" id="errWallet">Escribe el nombre de tu billetera digital</div>
         </div>
         <div class="field">
           <label>🗒️ Nota general para el comercio (opcional)</label>
@@ -1086,6 +1152,23 @@
       </div>
     </div>
   </div>
+  <!-- (1) MODAL DE IDENTIDAD DEL COMERCIO: logo + nombre completos -->
+  <div class="modal-overlay" id="shopIdentityModal" onclick="if(event.target.id==='shopIdentityModal')closeShopIdentity()">
+    <div class="modal shop-id-modal">
+      <button class="modal-close shop-id-x" onclick="closeShopIdentity()" aria-label="Cerrar">✕</button>
+      <div class="shop-id-body">
+        <div class="shop-id-glow"></div>
+        <div class="shop-id-ring"><div class="inner" id="shopIdLogo"></div></div>
+        <div class="shop-id-kicker">Comercio en Sofy</div>
+        <h3 class="serif shop-id-name" id="shopIdName"></h3>
+        <div class="shop-id-cat" id="shopIdCat"></div>
+        <div class="shop-id-rev" id="shopIdRev"></div>
+        <div class="shop-id-rule"><span></span></div>
+        <p class="shop-id-note" id="shopIdNote">Desliza el catálogo para ver todos los productos y servicios de este comercio.</p>
+        <button class="btn btn-primary shop-id-go" onclick="closeShopIdentity()">🔥 Ver el catálogo</button>
+      </div>
+    </div>
+  </div>
   <!-- MODAL DE AUTENTICACIÓN (Iniciar sesión / Registrarse) -->
   <div class="modal-overlay" id="authModalCat">
     <div class="modal" style="max-width:440px">
@@ -1232,10 +1315,18 @@
     if (roleTxt) roleTxt.textContent = (data.role || '').toUpperCase();
     if (profileBadge) profileBadge.style.display = 'flex';
 
-    /* Autocompletar nombre del pedido y de la reseña */
+    /* Autocompletar nombres del pedido y de la reseña */
     if (data.full_name) {
-      const on = document.getElementById('orderName');
-      if (on && !on.value) { on.value = data.full_name; order.customerName = data.full_name; }
+      const fn = document.getElementById('orderFirstName');
+      const ln = document.getElementById('orderLastName');
+      if (fn && ln && !fn.value && !ln.value) {
+        const parts = String(data.full_name).trim().split(/\s+/);
+        fn.value = parts.shift() || '';
+        ln.value = parts.join(' ');
+        order.firstName = fn.value;
+        order.lastName = ln.value;
+        order.customerName = data.full_name;
+      }
       const rn = document.getElementById('reviewName');
       if (rn && !rn.value) rn.value = data.full_name;
     }
@@ -1451,6 +1542,10 @@ alter table shop_products add column if not exists stock integer;
 -- OPCIONES DE ENVIO POR PRODUCTO (ahora viven en Agregar ítem)
 alter table shop_products add column if not exists shipping_options text;
 
+-- VALOR DEL DOMICILIO POR ÍTEM y SERVICIO A DOMICILIO (check si/no)
+alter table shop_products add column if not exists delivery_fee numeric default 0;
+alter table shop_products add column if not exists home_service text;
+
 -- Asigna tu comercio a ti mismo (copia tu UUID desde auth.users):
 -- select id, email from auth.users;
 -- update shops set owner_id = 'COLOCA_AQUI_EL_UUID' where business_id = 'TU_BUSINESS_ID';
@@ -1546,7 +1641,7 @@ alter table shop_products add column if not exists shipping_options text;
   /* Carrito y checkout */
   let cart = [];
   let cartBtnMinimized = false;
-  const order = { mode: 'domicilio', customerName: '', phone: '', address: '', tableNumber: '', pay: 'efectivo', walletName: '', carrier: '', note: '' };
+  const order = { mode: 'domicilio', customerName: '', firstName: '', lastName: '', phone: '', address: '', tableNumber: '', pay: 'tarjeta', walletName: '', carrier: '', note: '' };
   /* Modal de producto del cliente */
   let custProduct = null;
   let custQty = 1;
@@ -1705,9 +1800,24 @@ alter table shop_products add column if not exists shipping_options text;
   function productById(id) { return productsList.find((x) => String(x.id) === String(id)) || null; }
   function productColors(p) { return parseColors(p && p.colors); }
   function productSizes(p) { return parseSizes(p && p.sizes); }
+  /* (2) Variantes VISIBLES solo en comercios de calzado/ropa/joyería etc.
+     Un servicio NUNCA muestra colores ni tallas, aunque el registro
+     guarde datos antiguos. */
+  function allowedColors(p) {
+    if (!p) return [];
+    if ((p.item_type || 'producto') === 'servicio') return [];
+    if (!bizVariantProfile().colors) return [];
+    return productColors(p);
+  }
+  function allowedSizes(p) {
+    if (!p) return [];
+    if ((p.item_type || 'producto') === 'servicio') return [];
+    if (!bizVariantProfile().sizes) return [];
+    return productSizes(p);
+  }
   function getSel(p) {
-    const colors = productColors(p);
-    const sizes = productSizes(p);
+    const colors = allowedColors(p);
+    const sizes = allowedSizes(p);
     const id = String(p.id);
     const cur = productSelections[id] || {};
     if (!colors.length) delete cur.color;
@@ -1718,8 +1828,8 @@ alter table shop_products add column if not exists shipping_options text;
     return cur;
   }
   function optionsInner(p) {
-    const colors = productColors(p);
-    const sizes = productSizes(p);
+    const colors = allowedColors(p);
+    const sizes = allowedSizes(p);
     if (!colors.length && !sizes.length) return '';
     const sel = getSel(p);
     const pid = esc(String(p.id));
@@ -1806,8 +1916,17 @@ alter table shop_products add column if not exists shipping_options text;
     }
     $('searchInput').addEventListener('input', onSearchInput);
     $('pinInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); verifyAdminPin(); } });
-    $('orderName').addEventListener('input', () => { order.customerName = $('orderName').value; $('errName').style.display = 'none'; $('orderName').classList.remove('error'); });
-    $('orderAddress').addEventListener('input', () => { order.address = $('orderAddress').value; $('errAddress').style.display = 'none'; $('orderAddress').classList.remove('error'); });
+    ['orderFirstName', 'orderLastName'].forEach((id) => $(id).addEventListener('input', () => {
+      order.firstName = $('orderFirstName').value.trim();
+      order.lastName = $('orderLastName').value.trim();
+      order.customerName = (order.firstName + ' ' + order.lastName).trim();
+      $('errName').style.display = 'none';
+    }));
+    ['orderStreet', 'orderNumber', 'orderCity', 'orderMunicipality', 'orderBarrio'].forEach((id) => $(id).addEventListener('input', () => {
+      order.address = composeAddress();
+      $('errAddress').style.display = 'none';
+      ['orderStreet', 'orderNumber'].forEach((x) => $(x).classList.remove('error'));
+    }));
     $('orderTable').addEventListener('input', () => { order.tableNumber = $('orderTable').value; $('errTable').style.display = 'none'; $('orderTable').classList.remove('error'); });
     $('orderWallet').addEventListener('input', () => { order.walletName = $('orderWallet').value; $('errWallet').style.display = 'none'; $('orderWallet').classList.remove('error'); });
     $('orderPhone').addEventListener('input', () => { order.phone = $('orderPhone').value; });
@@ -1815,6 +1934,7 @@ alter table shop_products add column if not exists shipping_options text;
     $('newColorName').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addColorOption(); } });
     $('newSizeValue').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addSizeOption(); } });
     $('newCarrierName').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addCustomCarrier(); } });
+    $('prodType').addEventListener('change', () => { applyVariantFields(); updateItemConditionalFields(); });
     document.addEventListener('keydown', (e) => {
       if ($('imageLightbox').style.display === 'flex') {
         if (e.key === 'Escape') closeLightbox();
@@ -1835,6 +1955,8 @@ alter table shop_products add column if not exists shipping_options text;
     }, true);
     renderQuickSizes();
     renderStarPick();
+    bindGalleryPause();            /* (7) pausa la rotación cuando el usuario desliza */
+    setInterval(galleryTick, 3000); /* (7) rota imagen en imagen cada 3 s */
     updateCartUI();
     setInterval(() => { if (!anyModalOpen()) loadAll(false); }, 5000);
     window.addEventListener('focus', () => { if (!anyModalOpen()) loadAll(false); });
@@ -1899,6 +2021,7 @@ alter table shop_products add column if not exists shipping_options text;
     renderCategoriesRail();
     renderProducts();
     renderReviews();
+    updateTypePills();
     updateCartUI();
   }
   function renderHeader() {
@@ -1918,13 +2041,41 @@ alter table shop_products add column if not exists shipping_options text;
     $('greetTitle').textContent = activeType === 'servicio'
       ? ((shopData.services_title || '').trim() || DEFAULT_SERVICES_TITLE)
       : ((shopData.products_title || '').trim() || DEFAULT_PRODUCTS_TITLE);
-    $('domicilioHint').textContent = Number(shopData.delivery_fee || 0) === 0
-      ? 'Envío gratis' : 'Envío ' + money(Number(shopData.delivery_fee));
+    $('domicilioHint').textContent = deliveryFee() === 0
+      ? 'Envío gratis' : 'Envío ' + money(deliveryFee());
     renderRatingBadge();
     applyBizCopy();
     applyDeliveryAvailability();
     updateAdminGearVisibility();
   }
+  /* ============================================================
+     (1) MODAL DE IDENTIDAD: toca el LOGO o el NOMBRE del comercio
+     y se abre un modal pequeño con el logo grande + nombre completo
+     (sin los "…" del encabezado) y su botón ✕ para cerrarlo.
+     ============================================================ */
+  function openShopIdentity() {
+    if (!shopData) return;
+    const logo = shopData.logo || '';
+    $('shopIdLogo').innerHTML = logo
+      ? `<img src="${esc(logo)}" alt="${esc(shopData.name || 'Logo')}">`
+      : '<span class="ph">🍔</span>';
+    $('shopIdName').textContent = shopData.name || 'Comercio';
+    $('shopIdCat').textContent = shopData.category || 'Menú & Catálogo';
+    const rev = $('shopIdRev');
+    if (reviewsList.length) {
+      const avg = avgRating();
+      rev.innerHTML = `★ ${avg.toFixed(1)} <span class="muted">· ${reviewsList.length} ${reviewsList.length === 1 ? 'reseña' : 'reseñas'}</span>`;
+    } else {
+      rev.innerHTML = `☆ <span class="muted">Este comercio aún no tiene reseñas</span>`;
+    }
+    const n = productsList.length;
+    const c = categoryNames().length;
+    $('shopIdNote').textContent = n
+      ? `${n} ${n === 1 ? 'ítem disponible' : 'ítems disponibles'} en ${c} ${c === 1 ? 'categoría' : 'categorías'}. Desliza el catálogo para verlos todos.`
+      : 'Este comercio aún no publica productos ni servicios. ¡Vuelve pronto!';
+    openModal('shopIdentityModal');
+  }
+  function closeShopIdentity() { closeModal('shopIdentityModal'); }
   /* ============================================================
      HERO / BANNERS
      ============================================================ */
@@ -2038,6 +2189,21 @@ alter table shop_products add column if not exists shipping_options text;
     document.querySelectorAll('#typePills .pill').forEach((b) => b.classList.toggle('active', b.dataset.type === type));
     renderHeader();
     renderProducts();
+  }
+  /* (2) Los botones PRODUCTOS / SERVICIOS solo aparecen cuando
+     la tienda ya tiene algo creado (y por tanto su categoría). */
+  function updateTypePills() {
+    const hasCat = categoryNames().length > 0;
+    const hasProd = hasCat && shopHasProducts();
+    const hasServ = hasCat && shopHasServices();
+    document.querySelectorAll('#typePills .pill').forEach((b) => {
+      const t = b.dataset.type;
+      if (t === 'all') { b.style.display = ''; return; }
+      if (t === 'producto') { b.style.display = hasProd ? '' : 'none'; return; }
+      if (t === 'servicio') { b.style.display = hasServ ? '' : 'none'; return; }
+    });
+    if (activeType === 'producto' && !hasProd) setTypeFilter('all');
+    if (activeType === 'servicio' && !hasServ) setTypeFilter('all');
   }
   function setCatFilter(name) {
     activeCat = name;
@@ -2193,14 +2359,58 @@ alter table shop_products add column if not exists shipping_options text;
       ${multi ? `<div class="lb-thumbs">${lightboxImages.map((s, i) =>
         `<img src="${s}" class="${i === lightboxIndex ? 'on' : ''}" onclick="lbGo(${i})" alt="">`).join('')}</div>` : ''}`;
   }
-  function lbGo(i) {
+  let lbPauseUntil = 0;
+  function lbGo(i, auto) {
     const n = lightboxImages.length;
     if (!n) return;
     lightboxIndex = ((i % n) + n) % n;
+    if (!auto) lbPauseUntil = Date.now() + 6500; /* el usuario tomó el control */
     renderLightboxMedia();
   }
-  function lbNext() { lbGo(lightboxIndex + 1); }
-  function lbPrev() { lbGo(lightboxIndex - 1); }
+  function lbNext(auto) { lbGo(lightboxIndex + 1, auto); }
+  function lbPrev(auto) { lbGo(lightboxIndex - 1, auto); }
+  /* ============================================================
+     (7) ROTACIÓN AUTOMÁTICA DE IMÁGENES (cada 3 segundos)
+     Rige la tarjeta y la imagen ampliada; el usuario puede hacer
+     scroll/deslizar en cualquier momento y la rotación se pausa.
+     ============================================================ */
+  function pauseGallery(el, ms) {
+    if (el && el.dataset) el.dataset.pause = String(Date.now() + (ms || 7000));
+  }
+  function galleryTick() {
+    if (document.hidden) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const lb = $('imageLightbox');
+    if (lb && lb.style.display === 'flex') {
+      if (lightboxImages.length > 1 && Date.now() > lbPauseUntil) lbNext(true);
+      return;
+    }
+    if (anyModalOpen()) return;
+    const tracks = document.querySelectorAll('#productsContainer .gal-track, #custProdMedia .gal-track');
+    tracks.forEach((t) => {
+      const slides = t.querySelectorAll('.gal-slide');
+      if (slides.length < 2) return;
+      const r = t.getBoundingClientRect();
+      if (!r.width || r.height) return;
+      if (r.bottom < 60 || r.top > window.innerHeight - 60) return;   /* solo visibles */
+      if (Date.now() < Number(t.dataset.pause || 0)) return;          /* usuario controlando */
+      const w = t.clientWidth;
+      if (!w) return;
+      const idx = Math.round(t.scrollLeft / w);
+      const next = (idx + 1) % slides.length;
+      if (next === idx) return;
+      try { t.scrollTo({ left: next * w, behavior: 'smooth' }); }
+      catch (e) { t.scrollLeft = next * w; }
+    });
+  }
+  function bindGalleryPause() {
+    const mark = (e) => {
+      const t = e.target && e.target.closest ? e.target.closest('.gal-track') : null;
+      if (t) pauseGallery(t, 8000);
+    };
+    ['wheel', 'touchstart', 'mousedown', 'pointerover'].forEach((ev) =>
+      document.addEventListener(ev, mark, { passive: true, capture: true }));
+  }
   function openLightbox(prodId, idx) {
     const p = productById(prodId);
     if (!p) return;
@@ -2470,7 +2680,31 @@ alter table shop_products add column if not exists shipping_options text;
     }
     renderTotals();
   }
-  function deliveryFee() { return Number((shopData && shopData.delivery_fee) || 0); }
+  /* (5) Valor del domicilio: se toma del ítem con el valor más alto del carrito;
+     si ningún ítem trae valor, se usa el del comercio (columna legacy). */
+  function deliveryFee() {
+    let max = 0;
+    cart.forEach((l) => {
+      const p = productById(l.productId);
+      if (!p) return;
+      const f = Number(p.delivery_fee || 0);
+      if (f > max) max = f;
+    });
+    if (max > 0) return max;
+    return Number((shopData && shopData.delivery_fee) || 0);
+  }
+  /* (6) ¿El carrito permite domicilio? (servicio con check "No" lo prohibe) */
+  function itemAllowsDomicilio(p) {
+    if (!p) return true;
+    if ((p.item_type || 'producto') !== 'servicio') return true;
+    const hs = String(p.home_service == null ? '' : p.home_service).toLowerCase().trim();
+    if (hs === '') return true;
+    return hs === 'si' || hs === 'sí' || hs === 'true' || hs === '1' || hs === 'yes';
+  }
+  function cartAllowsDomicilio() {
+    if (!cart.length) return true;
+    return cart.some((l) => itemAllowsDomicilio(productById(l.productId)));
+  }
   function isFoodBusiness() {
     if (!shopData) return false;
     const txt = ((shopData.category || '') + ' ' + (shopData.name || ''))
@@ -2489,10 +2723,12 @@ alter table shop_products add column if not exists shipping_options text;
     const test = (re) => re.test(txt);
     if (test(/(restaur|comida|cafeter|\bcafe\b|gastro|pizz|hamburg|burger|asader|parrill|food|sushi|marisc|bistro|pollo|broaster|arepa|empanad|taquer|tacos|brunch|almuerzo|fonda|hot ?dog|grill|steak|cevich|kebab|shawarma|crepe|waffle|cocina|catering)/)) return 'restaurante';
     if (test(/(panader|pasteler|reposter|dulcer|helader|postre|donas)/)) return 'panaderia';
+    if (test(/(barber|barberia|corte de cabello|cortes|fade|perfilado|afeit|barba)/)) return 'barberia';
     if (test(/(\bbar\b|\bpub\b|discotec|licorer|cervec|vinos|coctel)/)) return 'bar';
     if (test(/(supermercad|minimercad|colmad|abarrot|bodeg[oó]n|proveedur|deposito|viver|carnicer|pescader|fruteria|fruver|verduler|salsamentar|charcuter|agua|bebida)/)) return 'supermercado';
     if (test(/(farmac|botica|drogueria|naturista|suplement)/)) return 'farmacia';
-    if (test(/(petshop|pet ?shop|mascota|veterinar|canin|felin|agroveterinar)/)) return 'petshop';
+    if (test(/(veterinar|agroveterinar|vet ?clinic|hospital animal|clinica animal)/)) return 'veterinaria';
+    if (test(/(petshop|pet ?shop|mascota|animal|adopt|perr|gat)/)) return 'petshop';
     if (test(/(calzad|zapat|tenis|sneaker)/)) return 'calzado';
     if (test(/(ropa|moda|boutique|textil|uniform|lencer|pijam|sastrer|jean|camiser|infantil|bebe|maternid|deportiv|deporte|gym)/)) return 'moda';
     if (test(/(joyer|bisuter|accesori|relojer|optic|gafas|lentes)/)) return 'joyeria';
@@ -2520,6 +2756,8 @@ alter table shop_products add column if not exists shipping_options text;
     papeleria: { search: 'Buscar artículos, útiles o regalos…', notesLabel: '📝 Observaciones / personalización', notes: 'Ej: personalizar con nombre, empaque de regalo, color azul…', hint: 'Indícanos personalización, colores o presentación del regalo.', prodName: 'Ej: Set escolar 12 piezas', prodDesc: 'Contenido del set, materiales, tamaño y edad recomendada…', cat: 'Ej: Útiles, Oficina, Regalos, Juguetes…', banner: 'Ej: Temporada escolar con 30% off', note: 'Ej: envolver para regalo con lazo rojo…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos de la variedad, los precios y la atención…' },
     automotriz: { search: 'Buscar repuestos, llantas o servicios…', notesLabel: '📝 Datos del vehículo / observaciones', notes: 'Ej: Toyota Corolla 2018, motor 1.8, medida 195/65 R15…', hint: 'Indícanos marca, modelo y año del vehículo para asegurar compatibilidad.', prodName: 'Ej: Filtro de aceite original', prodDesc: 'Compatibilidad, marca, referencia y garantía…', cat: 'Ej: Repuestos, Llantas, Lubricantes, Servicios…', banner: 'Ej: Cambio de aceite con 15% off', note: 'Ej: necesito instalación el sábado en la mañana…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos de la calidad del repuesto y el servicio técnico…' },
     servicios: { search: 'Buscar servicios disponibles…', notesLabel: '📝 Detalles de tu solicitud', notes: 'Ej: disponibilidad los sábados, el trabajo es en un apartamento, urgencia…', hint: 'Cuéntanos qué necesitas, para cuándo y cualquier detalle importante.', prodName: 'Ej: Asesoría profesional por hora', prodDesc: 'Qué incluye el servicio, duración, alcance y requisitos…', cat: 'Ej: Consultoría, Mantenimiento, Instalación, Asesorías…', banner: 'Ej: Primera consulta gratis este mes', note: 'Ej: agendar para el próximo lunes en la mañana…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos de la puntualidad, el profesionalismo y el resultado…' },
+    barberia: { search: 'Buscar cortes, barba o tratamientos…', notesLabel: '📝 Detalles de tu cita / preferencias', notes: 'Ej: corte fade, barba perfilada, cita después de las 5pm, atender a domicilio…', hint: 'Dinos el servicio que quieres, la duración aproximada y el horario que prefieres.', prodName: 'Ej: Corte de cabello + barba', prodDesc: 'Qué incluye el servicio, duración aproximada, si incluye lavado y quién lo atiende…', cat: 'Ej: Cortes, Barba, Tratamientos, Cuidado capilar…', banner: 'Ej: Corte + barba con 20% los miércoles', note: 'Ej: reservar para el sábado a las 10am, llego 10 minutos antes…', address: 'Ej: Calle 45 #12-30, sector, barrio, punto de referencia…', review: 'Cuéntanos del corte, la atención, la limpieza y la puntualidad…' },
+    veterinaria: { search: 'Buscar medicamentos, alimento o citas…', notesLabel: '📝 Datos de tu mascota / observaciones', notes: 'Ej: canino de 8kg, alergias, cita en la mañana, llevar cartilla de vacunas…', hint: 'Dinos especie, peso y edad de tu mascota o el producto exacto para atenderte mejor.', prodName: 'Ej: Vacuna antirrábica perro (dosis)', prodDesc: 'Especie, indicación, presentación, laboratorio y si requiere cita o receta…', cat: 'Ej: Medicamentos, Vacunas, Alimento, Consultas…', banner: 'Ej: Desparasitación con 25% este mes', note: 'Ej: mi mascota es mansa, llamar antes de subir…', address: 'Ej: Calle 45 #12-30, sector, barrio, punto de referencia…', review: 'Cuéntanos de la atención veterinaria, la claridad y los resultados…' },
     retail: { search: 'Buscar productos o servicios…', notesLabel: '📝 Observaciones / preferencias', notes: 'Ej: color preferido, presentación, es para regalo, entrega en la tarde…', hint: 'Cuéntanos cómo lo prefieres; tus observaciones llegan en el pedido.', prodName: 'Ej: Nombre del producto o servicio', prodDesc: 'Detalles, características o información del servicio…', cat: 'Ej: Novedades, Ofertas, Más vendidos…', banner: 'Ej: Promoción especial de la semana', note: 'Ej: entregar después de las 6pm, llamar al llegar…', address: 'Ej: Calle 45 #12-30, sector, edificio/apto, punto de referencia…', review: 'Cuéntanos cómo fue tu experiencia: atención, calidad y entrega…' }
   };
   function bizCopy() { return BIZ_COPY[bizKind()] || BIZ_COPY.retail; }
@@ -2537,7 +2775,11 @@ alter table shop_products add column if not exists shipping_options text;
     setPh('catName', c.cat);
     setPh('bannerTitle', c.banner);
     setPh('orderNote', c.note);
-    setPh('orderAddress', c.address);
+    setPh('orderStreet', 'Ej: Calle 45');
+    setPh('orderBarrio', 'Ej: barrio o sector');
+    setPh('orderNumber', 'Ej: 12-30');
+    setPh('orderCity', 'Ej: ciudad');
+    setPh('orderMunicipality', 'Ej: municipio');
     setPh('reviewText', c.review);
     setPh('setProductsTitle', 'Ej: ' + ((shopData.products_title || '').trim() || 'Nuestros productos destacados'));
     setPh('setServicesTitle', 'Ej: ' + ((shopData.services_title || '').trim() || 'Nuestros servicios'));
@@ -2547,6 +2789,14 @@ alter table shop_products add column if not exists shipping_options text;
   function bizVariantProfile() {
     const txt = normTxt((shopData && shopData.category) + ' ' + (shopData && shopData.name));
     const test = (re) => re.test(txt);
+    /* Barbería → servicios, sin variantes */
+    if (test(/(barber|barberia|corte de cabello|fade|perfilado|afeit|barba)/)) {
+      return { colors: false, sizes: false, label: 'barbería', note: 'Tu comercio es una <b>barbería</b>: son <b>servicios</b>, por eso <b>los colores y las tallas no son necesarios</b> y se ocultan automáticamente.' };
+    }
+    /* Veterinaria → colores para accesorios, sin tallas */
+    if (test(/(veterinar|agroveterinar|vet ?clinic|hospital animal|clinica animal)/)) {
+      return { colors: true, sizes: false, label: 'veterinaria', note: 'Tu comercio es una <b>veterinaria</b>: se habilitan los <b>colores</b> (collares, camas, transportadoras). <b>Las tallas no son necesarias</b> para este gremio.' };
+    }
     /* Alimentos, bebidas y proveeduría → sin colores ni tallas */
     if (test(/(restaur|comida|cafeter|\bcafe\b|gastro|pizz|hamburg|burger|asader|parrill|food|panader|pasteler|reposter|helader|sushi|marisc|bistro|pollo|broaster|arepa|empanad|taquer|tacos|brunch|coctel|cervec|jugos|juguer|fruteria|fruver|verduler|postre|donas|grill|steak|pescad|cevich|kebab|shawarma|crepe|waffle|snack|almuerzo|fonda|hot ?dog|\bbar\b|\bpub\b|discotec|licorer|cocina|salsamentar|charcuter|fritanga|picada|supermercad|minimercad|colmad|abarrot|bodeg[oó]n|carnicer|pescader|deposito|agua|bebida|proveedur|catering|dulcer|vinos|farmac|botica|drogueria)/)) {
       return { colors: false, sizes: false, label: 'alimentos, bebidas y proveeduría', note: 'Tu comercio pertenece al gremio de <b>alimentos, bebidas y proveeduría</b>, por eso <b>los campos de colores y tallas no son necesarios</b> y se ocultan automáticamente.' };
@@ -2576,19 +2826,40 @@ alter table shop_products add column if not exists shipping_options text;
   }
   function applyVariantFields() {
     const prof = bizVariantProfile();
-    $('colorsField').style.display = prof.colors ? '' : 'none';
-    $('sizesField').style.display = prof.sizes ? '' : 'none';
+    const typeEl = $('prodType');
+    const isServ = !!typeEl && typeEl.value === 'servicio';
+    /* (2) Un SERVICIO nunca lleva colores ni tallas */
+    const showColors = prof.colors && !isServ;
+    const showSizes = prof.sizes && !isServ;
+    $('colorsField').style.display = showColors ? '' : 'none';
+    $('sizesField').style.display = showSizes ? '' : 'none';
     const note = $('variantNote');
-    note.innerHTML = '🧾 ' + prof.note;
+    note.innerHTML = isServ
+      ? '🧾 Este ítem es un <b>servicio</b>: <b>no lleva colores ni tallas</b> (solo aplica en productos de calzado, ropa, joyería, etc.).'
+      : '🧾 ' + prof.note;
     note.style.display = 'block';
-    if (!prof.colors) formColors = [];
-    if (!prof.sizes) formSizes = [];
+    if (!showColors) formColors = [];
+    if (!showSizes) formSizes = [];
   }
   function applyDeliveryAvailability() {
     const food = isFoodBusiness();
-    $('modeMesa').style.display = food ? '' : 'none';
-    $('deliveryOptions').classList.toggle('single', !food);
-    if (!food && order.mode === 'mesa') setDeliveryMode('domicilio');
+    const canDomicilio = cartAllowsDomicilio();   /* (6) check Sí/No del servicio */
+    const canMesa = food;
+    $('modeDomicilio').style.display = canDomicilio ? '' : 'none';
+    $('modeMesa').style.display = canMesa ? '' : 'none';
+    $('deliveryOptions').classList.toggle('single', !(canDomicilio && canMesa));
+    const anyMode = canDomicilio || canMesa;
+    $('deliveryField').style.display = anyMode ? '' : 'none';
+    if (!anyMode) {
+      if (order.mode !== 'recogida') setDeliveryMode('recogida');
+    } else if (order.mode === 'recogida') {
+      setDeliveryMode(canDomicilio ? 'domicilio' : 'mesa');
+    } else if (order.mode === 'mesa' && !canMesa) {
+      setDeliveryMode(canDomicilio ? 'domicilio' : 'recogida');
+    } else if (order.mode === 'domicilio' && !canDomicilio) {
+      setDeliveryMode(canMesa ? 'mesa' : 'recogida');
+    }
+    renderCarrierOptions();
   }
   /* (6) Opciones de envío: ahora configuradas por PRODUCTO (antes en Ajustes) */
   function parseShipping(raw) {
@@ -2606,14 +2877,18 @@ alter table shop_products add column if not exists shipping_options text;
   }
   function shopCarrierOptions() {
     /* Une las transportadoras de los productos que están en el carrito.
-       Si ninguno define opciones, usa las del comercio (columna legacy). */
+       Si ninguno define opciones, usa las del comercio (columna legacy).
+       Si el carrito es SOLO servicios → no se ofrecen opciones de envío. */
     const set = [];
+    let hasProduct = false;
     cart.forEach((l) => {
       const p = productById(l.productId);
       if (!p) return;
+      if ((p.item_type || 'producto') !== 'servicio') hasProduct = true;
       parseShipping(p.shipping_options).forEach((s) => { if (s && set.indexOf(s) < 0) set.push(s); });
     });
     if (set.length) return set;
+    if (!hasProduct && cart.length) return [];
     return parseShipping(shopData && shopData.shipping_options);
   }
   function renderCarrierOptions() {
@@ -2636,7 +2911,11 @@ alter table shop_products add column if not exists shipping_options text;
     const fee = order.mode === 'domicilio' ? deliveryFee() : 0;
     $('subLabel').textContent = `Subtotal (${count} ${count === 1 ? 'ítem' : 'ítems'})`;
     $('subTotal').textContent = money(subtotal);
-    $('feeLabel').textContent = order.mode === 'domicilio' ? '🛵 Domicilio' : '🍽️ Servicio en mesa';
+    const feeNow = deliveryFee();
+    const hintEl = $('domicilioHint');
+    if (hintEl) hintEl.textContent = feeNow === 0 ? 'Envío gratis' : 'Envío ' + money(feeNow);
+    $('feeLabel').textContent = order.mode === 'domicilio' ? '🛵 Domicilio'
+      : order.mode === 'mesa' ? '🍽️ Servicio en mesa' : '🏪 Recogida en el comercio';
     if (order.mode === 'domicilio') {
       $('feeTotal').textContent = fee === 0 ? 'Gratis' : money(fee);
       $('feeTotal').className = fee === 0 ? 'free' : '';
@@ -2657,10 +2936,23 @@ alter table shop_products add column if not exists shipping_options text;
     renderTotals();
   }
   function setPayMethod(pay) {
+    if (pay === 'efectivo') { toast('Este medio de pago estará disponible próximamente', '💳'); return; }
     order.pay = pay;
     ['Efectivo', 'Tarjeta', 'Billetera'].forEach((m) => $('pay' + m).classList.remove('active'));
     $('pay' + (pay.charAt(0).toUpperCase() + pay.slice(1))).classList.add('active');
     $('walletField').style.display = pay === 'billetera' ? '' : 'none';
+  }
+  /* (4) Dirección armada con sus campos separados */
+  function addrVal(id) { const el = $(id); return el ? String(el.value || '').trim() : ''; }
+  function composeAddress() {
+    const st = addrVal('orderStreet'), nu = addrVal('orderNumber');
+    const ci = addrVal('orderCity'), mu = addrVal('orderMunicipality'), ba = addrVal('orderBarrio');
+    const parts = [];
+    if (st || nu) parts.push('Calle ' + (st || '—') + (nu ? ' # ' + nu : ''));
+    if (ba) parts.push('Barrio ' + ba);
+    if (mu) parts.push('Municipio ' + mu);
+    if (ci) parts.push('Ciudad ' + ci);
+    return parts.join(' · ');
   }
   function variantLines(c) {
     let t = '';
@@ -2688,10 +2980,17 @@ alter table shop_products add column if not exists shipping_options text;
     if (order.phone) t += '📱 *Teléfono / WhatsApp:* ' + order.phone + '\n';
     if (order.mode === 'domicilio') {
       t += '🛵 *Tipo de entrega:* Domicilio\n';
-      t += '📍 *Dirección de entrega:* ' + order.address + '\n';
+      t += '📍 *Dirección de entrega:*\n';
+      if (addrVal('orderStreet') || addrVal('orderNumber')) t += '   • Calle: ' + (addrVal('orderStreet') || '—') + '\n';
+      if (addrVal('orderNumber')) t += '   • Número de casa: ' + addrVal('orderNumber') + '\n';
+      if (addrVal('orderBarrio')) t += '   • Barrio: ' + addrVal('orderBarrio') + '\n';
+      if (addrVal('orderMunicipality')) t += '   • Municipio: ' + addrVal('orderMunicipality') + '\n';
+      if (addrVal('orderCity')) t += '   • Ciudad: ' + addrVal('orderCity') + '\n';
       if (order.carrier) t += '🚚 *Transportadora / opción de envío:* ' + order.carrier + '\n';
-    } else {
+    } else if (order.mode === 'mesa') {
       t += '🍽️ *Tipo de entrega:* Servicio en mesa' + (order.tableNumber ? ' — Mesa #' + order.tableNumber : '') + '\n';
+    } else {
+      t += '🏪 *Tipo de entrega:* Recogida en el comercio\n';
     }
     t += '\n🍔 *DETALLE DEL PEDIDO* (' + count + (count === 1 ? ' ítem' : ' ítems') + ')\n' + d + '\n';
     cart.forEach((c, i) => {
@@ -2706,7 +3005,8 @@ alter table shop_products add column if not exists shipping_options text;
     t += '\n' + d + '\n';
     t += '🧾 *Subtotal:* ' + money(subtotal) + '\n';
     if (order.mode === 'domicilio') t += '🛵 *Domicilio:* ' + (fee === 0 ? '✨ Gratis' : money(fee)) + '\n';
-    else t += '🍽️ *Servicio en mesa:* Sin costo de domicilio\n';
+    else if (order.mode === 'mesa') t += '🍽️ *Servicio en mesa:* Sin costo de domicilio\n';
+    else t += '🏪 *Recogida en el comercio:* Sin costo de domicilio\n';
     t += '💵 *TOTAL A PAGAR:* ' + money(total) + '\n\n';
     t += '💳 *Medio de pago:* ' + payLabel + '\n';
     if (order.pay === 'billetera' && order.walletName) t += '👛 *Billetera indicada:* ' + order.walletName + '\n';
@@ -2724,14 +3024,18 @@ alter table shop_products add column if not exists shipping_options text;
       return;
     }
     let ok = true;
-    $('errName').style.display = 'none'; $('orderName').classList.remove('error');
-    $('errAddress').style.display = 'none'; $('orderAddress').classList.remove('error');
+    $('errName').style.display = 'none';
+    ['orderFirstName', 'orderLastName'].forEach((id) => $(id).classList.remove('error'));
+    $('errAddress').style.display = 'none';
+    ['orderStreet', 'orderNumber', 'orderCity', 'orderMunicipality', 'orderBarrio'].forEach((id) => $(id).classList.remove('error'));
     $('errTable').style.display = 'none'; $('orderTable').classList.remove('error');
     $('errWallet').style.display = 'none'; $('orderWallet').classList.remove('error');
     $('errCarrier').style.display = 'none';
-    order.customerName = $('orderName').value.trim();
+    order.firstName = addrVal('orderFirstName');
+    order.lastName = addrVal('orderLastName');
+    order.customerName = (order.firstName + ' ' + order.lastName).trim();
     order.phone = $('orderPhone').value.trim();
-    order.address = $('orderAddress').value.trim();
+    order.address = composeAddress();
     order.tableNumber = $('orderTable').value.trim();
     order.walletName = $('orderWallet').value.trim();
     order.note = $('orderNote').value.trim();
@@ -2745,8 +3049,14 @@ alter table shop_products add column if not exists shipping_options text;
         return;
       }
     }
-    if (!order.customerName) { $('errName').style.display = 'block'; $('orderName').classList.add('error'); ok = false; }
-    if (order.mode === 'domicilio' && !order.address) { $('errAddress').style.display = 'block'; $('orderAddress').classList.add('error'); ok = false; }
+    if (!order.firstName) { $('errName').style.display = 'block'; $('orderFirstName').classList.add('error'); ok = false; }
+    if (!order.lastName) { $('errName').style.display = 'block'; $('orderLastName').classList.add('error'); ok = false; }
+    if (order.mode === 'domicilio' && (!addrVal('orderStreet') || !addrVal('orderNumber'))) {
+      $('errAddress').style.display = 'block';
+      if (!addrVal('orderStreet')) $('orderStreet').classList.add('error');
+      if (!addrVal('orderNumber')) $('orderNumber').classList.add('error');
+      ok = false;
+    }
     if (order.mode === 'mesa' && !order.tableNumber) { $('errTable').style.display = 'block'; $('orderTable').classList.add('error'); ok = false; }
     if (order.pay === 'billetera' && !order.walletName) { $('errWallet').style.display = 'block'; $('orderWallet').classList.add('error'); ok = false; }
     if (order.mode === 'domicilio' && carrierOpts.length && !order.carrier) {
@@ -2764,11 +3074,22 @@ alter table shop_products add column if not exists shipping_options text;
     const subtotal = cart.reduce((a, c) => a + c.price * c.qty, 0);
     const fee = order.mode === 'domicilio' ? deliveryFee() : 0;
     const count = cart.reduce((a, c) => a + c.qty, 0);
+    const modeLabel = order.mode === 'domicilio' ? '🛵 Domicilio'
+      : order.mode === 'mesa' ? '🍽️ Servicio en mesa' : '🏪 Recogida en el comercio';
     let rows = `<div class="s-row" style="font-weight:800;margin-bottom:4px">
-        <span>${order.mode === 'domicilio' ? '🛵 Domicilio' : '🍽️ Servicio en mesa'}</span><span>${count} ítems</span></div>`;
-    rows += order.mode === 'domicilio'
-      ? `<div class="s-row"><span>📍 Dirección</span><span style="max-width:60%;text-align:right">${esc(order.address)}</span></div>`
-      : `<div class="s-row"><span>🍽️ Mesa</span><span>#${esc(order.tableNumber)}</span></div>`;
+        <span>${modeLabel}</span><span>${count} ítems</span></div>`;
+    if (order.mode === 'domicilio') {
+      rows += `<div class="s-row"><span>📍 Dirección</span><span style="max-width:60%;text-align:right">${esc(order.address)}</span></div>`;
+      if (addrVal('orderStreet')) rows += `<div class="s-note">Calle: ${esc(addrVal('orderStreet'))}</div>`;
+      if (addrVal('orderNumber')) rows += `<div class="s-note">Número de casa: ${esc(addrVal('orderNumber'))}</div>`;
+      if (addrVal('orderBarrio')) rows += `<div class="s-note">Barrio: ${esc(addrVal('orderBarrio'))}</div>`;
+      if (addrVal('orderMunicipality')) rows += `<div class="s-note">Municipio: ${esc(addrVal('orderMunicipality'))}</div>`;
+      if (addrVal('orderCity')) rows += `<div class="s-note">Ciudad: ${esc(addrVal('orderCity'))}</div>`;
+    } else if (order.mode === 'mesa') {
+      rows += `<div class="s-row"><span>🍽️ Mesa</span><span>#${esc(order.tableNumber)}</span></div>`;
+    } else {
+      rows += `<div class="s-row"><span>🏪 Entrega</span><span>Recogida en el comercio</span></div>`;
+    }
     if (order.mode === 'domicilio' && order.carrier) {
       rows += `<div class="s-row"><span>🚚 Envío por</span><span style="max-width:60%;text-align:right">${esc(order.carrier)}</span></div>`;
     }
@@ -3015,7 +3336,6 @@ alter table shop_products add column if not exists shipping_options text;
     $('setPhone').value = shopData.phone || '';
     $('setColorHex').value = shopData.primary_color || '#134989';
     $('setColorPicker').value = (shopData.primary_color || '#134989').length === 7 ? shopData.primary_color : '#134989';
-    $('setDelivery').value = Number(shopData.delivery_fee || 0);
   }
   /* ---------------- (2) Colores y tallas: editor del formulario ---------------- */
   function renderVariantEditors() {
@@ -3135,14 +3455,83 @@ alter table shop_products add column if not exists shipping_options text;
     });
   }
   /* ---------------- Productos / servicios ---------------- */
+  /* (CAMBIO 1) El selector "Tipo de ítem" solo ofrece lo que la tienda maneja:
+     - Tienda solo de productos  → únicamente 🛍️ Producto
+     - Tienda solo de servicios  → únicamente 🛍️ Servicio  (viceversa)
+     - Tienda nueva (sin ítems)  → las dos opciones                            */
+  function shopHasServices() {
+    return productsList.some((p) => (p.item_type || 'producto') === 'servicio');
+  }
+  function shopHasProducts() {
+    return productsList.some((p) => (p.item_type || 'producto') !== 'servicio');
+  }
+  function itemTypeInfo() {
+    const empty = productsList.length === 0;
+    const hasServ = shopHasServices();
+    const hasProd = shopHasProducts();
+    return {
+      empty,
+      onlyProducts: !empty && hasProd && !hasServ,
+      onlyServices: !empty && hasServ && !hasProd
+    };
+  }
+  function defaultItemType() {
+    const info = itemTypeInfo();
+    return info.onlyServices ? 'servicio' : 'producto';
+  }
+  function fillItemTypeSelect(selected) {
+    const info = itemTypeInfo();
+    let sel = selected || defaultItemType();
+    if (info.onlyServices && sel !== 'servicio') sel = 'servicio';
+    if (info.onlyProducts && sel !== 'producto') sel = 'producto';
+    const showProduct = info.empty || !info.onlyServices;
+    const showService = info.empty || !info.onlyProducts;
+    let opts = '';
+    if (showProduct) opts += '<option value="producto">🛍️ Producto</option>';
+    if (showService) opts += '<option value="servicio">🛠️ Servicio</option>';
+    $('prodType').innerHTML = opts;
+    $('prodType').value = sel;
+    const field = $('prodType').closest ? $('prodType').closest('.field') : null;
+    if (field) field.style.display = '';
+    const lbl = field ? field.querySelector('label') : null;
+    if (lbl) {
+      if (!showService) lbl.textContent = 'Tipo de ítem (esta tienda sube productos)';
+      else if (!showProduct) lbl.textContent = 'Tipo de ítem (esta tienda solo da servicios)';
+      else lbl.textContent = 'Tipo de ítem';
+    }
+    updateItemConditionalFields();
+  }
+  /* (CAMBIO 3) Servicio → sin opciones de envío ni inventario.
+     (CAMBIO 5) Restaurante (platos preparados) → sin inventario. */
+  function updateItemConditionalFields() {
+    const typeEl = $('prodType');
+    const isServ = !!typeEl && typeEl.value === 'servicio';
+    const food = isFoodBusiness();
+    const shipField = $('carrierList') ? $('carrierList').closest('.field') : null;
+    const shipTitle = $('productModal') ? $('productModal').querySelector('.sub-title') : null;
+    if (shipField) shipField.style.display = isServ ? 'none' : '';
+    if (shipTitle) shipTitle.style.display = isServ ? 'none' : '';
+    const stockField = $('prodStock') ? $('prodStock').closest('.field') : null;
+    if (stockField) stockField.style.display = (isServ || food) ? 'none' : '';
+    /* (6) Check "servicio a domicilio" solo para servicios */
+    const homeField = $('homeServiceField');
+    if (homeField) homeField.style.display = isServ ? '' : 'none';
+    const chk = $('prodHomeService');
+    const homeYes = !isServ || !chk || chk.checked;
+    /* (5) Valor del domicilio: siempre en productos; en servicios solo si el check está en Sí */
+    const feeField = $('deliveryFeeField');
+    if (feeField) feeField.style.display = homeYes ? '' : 'none';
+  }
   function resetProductForm() {
     $('editProductId').value = '';
-    $('prodType').value = 'producto';
+    fillItemTypeSelect();
     fillCategorySelect('');
     $('prodName').value = '';
     $('prodPrice').value = '';
     $('prodDesc').value = '';
     $('prodStock').value = '';
+    $('prodHomeService').checked = true;
+    $('prodDelivery').value = '';
     formColors = [];
     formSizes = [];
     formImages = [];
@@ -3172,13 +3561,16 @@ alter table shop_products add column if not exists shipping_options text;
     $('editProductId').value = p.id;
     $('productModalTitle').textContent = 'Editar ítem';
     $('saveProductBtn').textContent = 'Guardar cambios';
-    $('prodType').value = p.item_type || 'producto';
+    fillItemTypeSelect(p.item_type || 'producto');
     fillCategorySelect(p.category || '');
     $('prodName').value = p.name;
     $('prodPrice').value = p.price;
     $('prodDesc').value = p.description || '';
     const st = stockOf(p);
     $('prodStock').value = st === null ? '' : st;
+    const hs = String(p.home_service == null ? '' : p.home_service).toLowerCase().trim();
+    $('prodHomeService').checked = !(hs === 'no' || hs === 'false' || hs === '0');
+    $('prodDelivery').value = (p.delivery_fee === null || p.delivery_fee === undefined || p.delivery_fee === '') ? '' : Number(p.delivery_fee);
     formColors = productColors(p);
     formSizes = productSizes(p);
     formImages = productImages(p);
@@ -3186,17 +3578,21 @@ alter table shop_products add column if not exists shipping_options text;
     renderVariantEditors();
     syncProductImages();
     loadCarrierForm(p.shipping_options);
+    updateItemConditionalFields(); /* aplica el check de domicilio ya cargado */
     openModal('productModal');
   }
   async function saveProduct() {
     const name = $('prodName').value.trim();
     const price = $('prodPrice').value;
     if (!name || price === '') { toast('Nombre y precio son obligatorios', '⚠️'); return; }
+    const itemType = $('prodType').value;
     const stockRaw = $('prodStock').value;
-    const stockVal = stockRaw === '' ? null : Math.max(0, parseInt(stockRaw, 10) || 0);
+    /* (3)(5) Servicio o restaurante → sin inventario; servicio → sin envíos */
+    const hideStock = itemType === 'servicio' || isFoodBusiness();
+    const stockVal = hideStock ? null : (stockRaw === '' ? null : Math.max(0, parseInt(stockRaw, 10) || 0));
     const payload = {
       business_id: shopId,
-      item_type: $('prodType').value,
+      item_type: itemType,
       name,
       category: ($('prodCategory').value || '').trim() || 'General',
       price: parseFloat(price),
@@ -3204,16 +3600,20 @@ alter table shop_products add column if not exists shipping_options text;
       image_url: formImages[0] || '',
       images: JSON.stringify(formImages),
       stock: stockVal,
-      shipping_options: JSON.stringify(selectedCarriers),
-      colors: JSON.stringify(formColors),
-      sizes: JSON.stringify(formSizes)
+      shipping_options: itemType === 'servicio' ? '[]' : JSON.stringify(selectedCarriers),
+      /* (2) los servicios nunca guardan colores ni tallas */
+      colors: JSON.stringify(itemType === 'servicio' ? [] : formColors),
+      sizes: JSON.stringify(itemType === 'servicio' ? [] : formSizes),
+      /* (5)(6) domicilio por ítem */
+      delivery_fee: Number($('prodDelivery').value || 0),
+      home_service: itemType === 'servicio' ? ($('prodHomeService').checked ? 'si' : 'no') : null
     };
     const id = $('editProductId').value;
     const prevImg = id ? (productImage(productById(id)) || '') : '';
     const btn = $('saveProductBtn'); btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Guardando…';
 
     /* Columnas opcionales: si alguna no existe en la tabla, se reintenta sin ella */
-    const OPTIONAL_COLS = ['colors', 'sizes', 'images', 'stock', 'shipping_options'];
+    const OPTIONAL_COLS = ['colors', 'sizes', 'images', 'stock', 'shipping_options', 'delivery_fee', 'home_service'];
     const missing = [];
     let res = id
       ? await supabaseClient.from('shop_products').update(payload).eq('id', id)
@@ -3407,13 +3807,12 @@ alter table shop_products add column if not exists shipping_options text;
       whatsapp: $('setWhatsapp').value.trim(),
       phone: $('setPhone').value.trim(),
       primary_color: $('setColorHex').value.trim() || '#134989',
-      delivery_fee: Number($('setDelivery').value || 0),
       products_title: $('setProductsTitle').value.trim(),
       services_title: $('setServicesTitle').value.trim()
     };
     const btn = $('saveSettingsBtn'); btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Guardando…';
     let { error } = await supabaseClient.from('shops').update(payload).eq('business_id', shopId);
-    const optionalCols = ['delivery_fee', 'products_title', 'services_title'];
+    const optionalCols = ['products_title', 'services_title'];
     const missing = [];
     let guard = 0;
     while (error && guard < optionalCols.length) {
