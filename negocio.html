@@ -217,6 +217,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  width: fit-content;
+  margin-bottom: 12px;
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   padding: 4px 10px 4px 4px;
@@ -261,23 +263,25 @@
 </head>
 <body>
   <div class="container">
+    <!-- (1) Badge de perfil ubicado ENCIMA del botón Volver para no tapar el engrane -->
+    <div id="userProfileBadge" class="user-profile-badge" style="display: none;">
+      <img id="userAvatarImg" src="" alt="Avatar">
+      <div style="display:flex; flex-direction:column;">
+        <span id="userNameTxt">Usuario</span>
+        <small id="userRoleTxt" class="role-tag">COMPRADOR</small>
+      </div>
+      <button id="btnLogout" class="btn-logout" title="Cerrar sesión" onclick="logoutUser()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
+    </div>
+
     <!-- MOD 1 + MOD 2: Volver + engrane juntos a la izquierda / tema solo icono a la derecha -->
     <div class="top-bar">
       <div class="top-left">
-        <a href="index.html" class="btn-back">&#8592; Volver al directorio</a>
-        <button class="btn-gear" onclick="openPinModal()" title="Administrar negocio" aria-label="Administrar negocio">&#9881;</button>
+        <a href="index.html" class="btn-back">&#8592; Volver al home</a>
+        <!-- (2) Engrane oculto por defecto; solo lo muestra JS al propietario (owner_id) -->
+        <button id="btnGear" class="btn-gear" style="display: none;" onclick="openAdminDrawer()" title="Administrar negocio" aria-label="Administrar negocio">&#9881;</button>
       </div>
-      <!-- Badge de Perfil de Usuario -->
-<div id="userProfileBadge" class="user-profile-badge" style="display: none;">
-  <img id="userAvatarImg" src="" alt="Avatar">
-  <div style="display:flex; flex-direction:column;">
-    <span id="userNameTxt">Usuario</span>
-    <small id="userRoleTxt" class="role-tag">COMPRADOR</small>
-  </div>
-  <button id="btnLogout" class="btn-logout" title="Cerrar sesión" onclick="logoutUser()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-  </button>
-</div>
       <button id="btnThemeToggle" class="btn-theme-icon" onclick="toggleTheme()" title="Cambiar tema" aria-label="Cambiar tema">
         <span id="themeIcon">&#127769;</span>
       </button>
@@ -342,18 +346,6 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- (5) El PIN fue reemplazado: el acceso se hace con la contraseña de la cuenta -->
-  <div id="pinModal" class="modal-overlay">
-    <div class="modal-card">
-      <button class="btn-close-modal" onclick="closePinModal()">&times;</button>
-      <h3 style="font-size: 1.2rem; font-weight: 700;">Acceso Propietario</h3>
-      <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;">Ingresa la contraseña de tu cuenta para administrar tu página y tu catálogo</p>
-      <input type="password" id="pinInput" class="pin-input" autocomplete="current-password" placeholder="••••••••" style="letter-spacing:4px;" onkeydown="if(event.key==='Enter'){event.preventDefault();verifyPin();}">
-      <div id="pinError" class="pin-error">Contraseña incorrecta. Inténtalo de nuevo.</div>
-      <button class="btn-modal-submit" onclick="verifyPin()">ENTRAR</button>
     </div>
   </div>
 
@@ -535,20 +527,34 @@
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     /* ==========================================
    VERIFICACIÓN DE SESIÓN Y ROLES EN NEGOCIO
-   (2) La app siempre es navegable: si no hay sesión
-   solo se oculta el panel de administración.
    ========================================== */
 let currentUserProfile = null;
+let currentSession = null;
 
 function hideOwnerTools() {
-  const gearBtn = document.querySelector('.btn-gear');
+  const gearBtn = document.getElementById('btnGear');
   if (gearBtn) gearBtn.style.display = 'none';
   const badge = document.getElementById('userProfileBadge');
   if (badge) badge.style.display = 'none';
 }
 
+/* (2) El engrane solo aparece si la sesión activa pertenece al owner_id del comercio */
+function applyOwnerVisibility() {
+  const gearBtn = document.getElementById('btnGear');
+  if (!gearBtn) return;
+  const isOwner = !!(
+    currentSession &&
+    currentSession.user &&
+    currentShopData &&
+    currentShopData.owner_id &&
+    String(currentShopData.owner_id) === String(currentSession.user.id)
+  );
+  gearBtn.style.display = isOwner ? 'inline-flex' : 'none';
+}
+
 async function checkAuthAndLoadUser() {
   const { data: { session } } = await supabaseClient.auth.getSession();
+  currentSession = session;
   if (!session) {
     currentUserProfile = null;
     hideOwnerTools();
@@ -563,7 +569,9 @@ async function checkAuthAndLoadUser() {
 
   if (error || !data) {
     currentUserProfile = null;
-    hideOwnerTools();
+    const badge = document.getElementById('userProfileBadge');
+    if (badge) badge.style.display = 'none';
+    applyOwnerVisibility();
     return;
   }
 
@@ -580,11 +588,7 @@ async function checkAuthAndLoadUser() {
   if (roleTxt) roleTxt.textContent = (data.role || 'comprador').toUpperCase();
   if (profileBadge) profileBadge.style.display = 'flex';
 
-  // (4) Restricción: si el rol es 'comprador', no ve el panel de administración (engrane)
-  if (data.role === 'comprador') {
-    const gearBtn = document.querySelector('.btn-gear');
-    if (gearBtn) gearBtn.style.display = 'none';
-  }
+  applyOwnerVisibility();
 }
 
 async function logoutUser() {
@@ -599,6 +603,16 @@ checkAuthAndLoadUser();
     let currentShopData = null;
     let newLogoBase64 = null;
     let newVideoUrl = null;
+    let pendingVideoPath = null; // video subido en esta sesión aún no guardado
+
+    /* (4) Preferencia de tema persistente en el navegador */
+    const THEME_STORAGE_KEY = 'detalleComercioTheme';
+    function getSavedTheme() {
+      try { return localStorage.getItem(THEME_STORAGE_KEY); } catch (e) { return null; }
+    }
+    function saveTheme(theme) {
+      try { localStorage.setItem(THEME_STORAGE_KEY, theme); } catch (e) { /* sin acceso a storage */ }
+    }
 
     function applyThemeAndColor(theme, primaryColor) {
       if (theme) {
@@ -616,10 +630,14 @@ checkAuthAndLoadUser();
       }
     }
 
+    // Aplicar de inmediato el tema guardado por el usuario
+    applyThemeAndColor(getSavedTheme(), null);
+
     async function toggleTheme() {
       const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
       const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
       applyThemeAndColor(newTheme, null);
+      saveTheme(newTheme);
       if (currentShopData && shopId) {
         try {
           const { error } = await supabaseClient.from('shops').update({ theme: newTheme }).eq('business_id', shopId);
@@ -633,8 +651,27 @@ checkAuthAndLoadUser();
       const colorInput = document.getElementById('editPrimaryColor');
       const themeSelect = document.getElementById('editTheme');
       if (colorInput) { colorInput.addEventListener('input', (e) => applyThemeAndColor(null, e.target.value)); }
-      if (themeSelect) { themeSelect.addEventListener('change', (e) => applyThemeAndColor(e.target.value, null)); }
+      if (themeSelect) { themeSelect.addEventListener('change', (e) => { applyThemeAndColor(e.target.value, null); saveTheme(e.target.value); }); }
     });
+
+    /* ==========================================
+       UTILIDADES DE STORAGE (borrado de archivos reemplazados)
+       ========================================== */
+    function parseStorageUrl(url) {
+      if (!url || typeof url !== 'string') return null;
+      const match = url.match(/\/storage\/v1\/object\/(?:public|sign)\/([^/]+)\/([^?#]+)/);
+      if (!match) return null;
+      return { bucket: match[1], path: decodeURIComponent(match[2]) };
+    }
+
+    async function removeStorageObject(bucket, path) {
+      try {
+        const { error } = await supabaseClient.storage.from(bucket).remove([path]);
+        if (error) console.error('No se pudo borrar el archivo anterior de Storage:', error.message);
+      } catch (err) {
+        console.error('Error inesperado al borrar archivo de Storage:', err);
+      }
+    }
 
     async function loadShopDetail() {
       const loadingState = document.getElementById('loadingState');
@@ -651,6 +688,7 @@ checkAuthAndLoadUser();
         const { data: shop, error } = await supabaseClient.from('shops').select('*').eq('business_id', shopId).single();
         if (error || !shop) { throw new Error(error ? error.message : 'No se encontraron datos para este comercio.'); }
         currentShopData = shop;
+        applyOwnerVisibility();
         const catalogUrl = `catalogo.html?id=${shopId}`;
         const btnManagePage = document.getElementById('btnManagePage');
         const btnPublicCatalog = document.getElementById('btnPublicCatalog');
@@ -694,7 +732,7 @@ checkAuthAndLoadUser();
         if (btnIg) { if (shop.instagram_link) { btnIg.href = shop.instagram_link; btnIg.style.display = 'flex'; } else { btnIg.style.display = 'none'; } }
         const btnTt = document.getElementById('btnTikTok');
         if (btnTt) { if (shop.tiktok_link) { btnTt.href = shop.tiktok_link; btnTt.style.display = 'flex'; } else { btnTt.style.display = 'none'; } }
-        const theme = shop.theme || 'light';
+        const theme = getSavedTheme() || shop.theme || 'light';
         const primaryColor = shop.primary_color || '#134989';
         applyThemeAndColor(theme, primaryColor);
         const editCategory = document.getElementById('editCategory');
@@ -773,48 +811,15 @@ checkAuthAndLoadUser();
         if (videoStatus) { videoStatus.style.color = '#ef4444'; videoStatus.textContent = '❌ Error al subir el video: ' + (error.message || 'Verifica el Bucket.'); }
         return;
       }
+      // Si se subió otro video en esta sesión (aún sin guardar) con distinto nombre, se elimina para no ocupar espacio
+      const currentDbVideo = parseStorageUrl(currentShopData ? currentShopData.video : '');
+      if (pendingVideoPath && pendingVideoPath !== fileName && !(currentDbVideo && currentDbVideo.path === pendingVideoPath)) {
+        await removeStorageObject('videos', pendingVideoPath);
+      }
+      pendingVideoPath = fileName;
       const { data: publicUrlData } = supabaseClient.storage.from('videos').getPublicUrl(fileName);
       newVideoUrl = `${publicUrlData.publicUrl}?v=${Date.now()}`;
       if (videoStatus) { videoStatus.style.color = '#166534'; videoStatus.textContent = '✅ Video reemplazado correctamente sin duplicar espacio.'; }
-    }
-
-    function openPinModal() {
-      const pinInput = document.getElementById('pinInput');
-      const pinError = document.getElementById('pinError');
-      const pinModal = document.getElementById('pinModal');
-      if (pinInput) pinInput.value = '';
-      if (pinError) pinError.style.display = 'none';
-      if (pinModal) pinModal.style.display = 'flex';
-      if (pinInput) setTimeout(() => pinInput.focus(), 120);
-    }
-    function closePinModal() { const pinModal = document.getElementById('pinModal'); if (pinModal) pinModal.style.display = 'none'; }
-
-    /* (5) Acceso con la CONTRASEÑA de la cuenta (ya no con PIN) */
-    async function verifyPin() {
-      const pinInput = document.getElementById('pinInput');
-      const pinError = document.getElementById('pinError');
-      if (!pinInput) return;
-      const enteredPin = pinInput.value || '';
-      const fail = (msg) => { if (pinError) { pinError.textContent = msg; pinError.style.display = 'block'; } };
-
-      if (!currentUserProfile) { fail('Inicia sesión con tu cuenta de VENDEDOR para administrar.'); return; }
-      if (currentUserProfile.role !== 'vendedor') { fail('Solo las cuentas de VENDEDOR pueden administrar este negocio.'); return; }
-
-      const { data: { session } } = await supabaseClient.auth.getSession();
-      if (!session) { fail('Tu sesión expiró. Vuelve a iniciar sesión.'); return; }
-
-      if (pinError) pinError.style.display = 'none';
-      const { error } = await supabaseClient.auth.signInWithPassword({ email: session.user.email, password: enteredPin });
-      if (error) { fail('Contraseña incorrecta. Inténtalo de nuevo.'); return; }
-
-      // El propietario solo administra su propio negocio
-      if (currentShopData && currentShopData.owner_id && String(currentShopData.owner_id) !== String(session.user.id)) {
-        fail('Esta cuenta no administra este negocio.');
-        return;
-      }
-
-      closePinModal();
-      openAdminDrawer();
     }
 
     function openAdminDrawer() {
@@ -865,6 +870,20 @@ checkAuthAndLoadUser();
         };
         const { error } = await supabaseClient.from('shops').update(updatePayload).eq('business_id', shopId);
         if (error) throw error;
+
+        // (5) Borrar de Storage el video y logo anteriores que fueron reemplazados
+        const oldVideo = parseStorageUrl(currentShopData ? currentShopData.video : '');
+        const finalVideo = parseStorageUrl(videoToSave);
+        if (oldVideo && (!finalVideo || oldVideo.bucket !== finalVideo.bucket || oldVideo.path !== finalVideo.path)) {
+          await removeStorageObject(oldVideo.bucket, oldVideo.path);
+        }
+        const oldLogo = parseStorageUrl(currentShopData ? currentShopData.logo : '');
+        const finalLogo = parseStorageUrl(logoToSave);
+        if (oldLogo && (!finalLogo || oldLogo.bucket !== finalLogo.bucket || oldLogo.path !== finalLogo.path)) {
+          await removeStorageObject(oldLogo.bucket, oldLogo.path);
+        }
+        pendingVideoPath = null;
+
         if (saveStatus) {
           saveStatus.style.display = 'block';
           saveStatus.style.backgroundColor = '#dcfce7';
