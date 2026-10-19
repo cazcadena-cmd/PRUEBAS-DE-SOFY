@@ -4,11 +4,12 @@
   ============================================================
   CATÁLOGO & MENÚ DIGITAL — archivo HTML único y autónomo.
   Pega este archivo donde quieras (hosting, cPanel, Netlify…).
-  Solo necesitas el ?id=TU_BUSINESS_ID en la URL.
+  Solo neceszas el ?id=TU_BUSINESS_ID en la URL.
   TABLAS DE SUPABASE (el catálogo funciona con las tablas
   originales; para categorías con imagen, banners en video,
   valor del domicilio, títulos personalizados, COLORES Y TALLAS,
-  OPCIONES DE ENVÍO y RESEÑAS, ejecuta esto en el SQL Editor):
+  OPCIONES DE ENVÍO, RESEÑAS, DUEÑO (OWNER_ID), 4 IMÁGENES
+  POR PRODUCTO e INVENTARIO, ejecuta esto en el SQL Editor):
   create extension if not exists pgcrypto;
   create table if not exists shop_categories (
     id uuid primary key default gen_random_uuid(),
@@ -41,7 +42,22 @@
   );
   alter table shop_reviews enable row level security;
   drop policy if exists "rev_all" on shop_reviews;
-  create policy "rev_all" on shop_reviews for all using (true) with check (true);
+  create policy "rev_all" on shop_reviews for all
+  using (true) with check (true);
+  ------------------------------------------------------------
+  NUEVOS CAMBIOS (ejecútalos también en el SQL Editor):
+  -- 1) DUEÑO DEL COMERCIO (OWNER_ID): solo el dueño ve el ⚙️
+  alter table shops add column if not exists owner_id uuid;
+  create index if not exists shops_owner_id_idx on shops(owner_id);
+  -- 2) HASTA 4 IMÁGENES POR PRODUCTO
+  alter table shop_products add column if not exists images text;
+  -- 3) CANTIDAD DISPONIBLE / INVENTARIO
+  alter table shop_products add column if not exists stock integer;
+  -- 4) OPCIONES DE ENVÍO POR PRODUCTO (movidas de Ajustes a Ítems)
+  alter table shop_products add column if not exists shipping_options text;
+  -- 5) Asigna tu comercio a ti mismo (copia tu UUID desde auth.users):
+  -- select id, email from auth.users;
+  -- update shops set owner_id = 'COLOCA_AQUI_EL_UUID' where business_id = 'TU_BUSINESS_ID';
   ============================================================
 -->
 <head>
@@ -461,6 +477,41 @@
       .user-profile-badge span { max-width: 66px; }
       .user-profile-badge .role-tag { max-width: 66px; }
     }
+    /* ============================================================
+       CAMBIOS NUEVOS: GALERÍA (4 IMÁGENES), INVENTARIO,
+       BOTÓN PERFIL DE TIENDA Y SIN TITILACIÓN AL REABRIR
+       ============================================================ */
+    a.icon-btn { text-decoration: none; }
+    .gal-track { position: absolute; inset: 0; display: flex; width: 100%; height: 100%; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    .gal-track::-webkit-scrollbar { display: none; }
+    .gal-slide { flex: 0 0 100%; width: 100%; height: 100%; scroll-snap-align: center; scroll-snap-stop: always; cursor: zoom-in; }
+    .gal-slide img, .gal-slide video { width: 100%; height: 100%; object-fit: cover; display: block; -webkit-user-drag: none; pointer-events: none; }
+    .gal-count { position: absolute; right: 8px; top: 8px; z-index: 2; font-size: .6rem; font-weight: 800; color: #fff; background: rgba(10,14,22,.65); backdrop-filter: blur(6px); padding: 3px 9px; border-radius: 999px; pointer-events: none; letter-spacing: .03em; }
+    .badge-stock { position: absolute; left: 8px; bottom: 8px; z-index: 2; font-size: .6rem; font-weight: 800; padding: 3px 9px; border-radius: 999px; background: color-mix(in srgb, var(--whatsapp) 88%, black); color: #fff; pointer-events: none; }
+    .badge-stock.low { background: color-mix(in srgb, var(--warning) 90%, black); }
+    .badge-stock.out { background: color-mix(in srgb, var(--danger) 88%, black); }
+    .pcard.soldout .pcard-media > .gal-track { filter: grayscale(.75); opacity: .7; }
+    .stock-line { display: inline-flex; align-items: center; gap: 6px; font-size: .76rem; font-weight: 700; margin-top: 8px; padding: 5px 10px; border-radius: 999px; background: var(--primary-soft); color: var(--primary-bright); }
+    .stock-line.out { background: color-mix(in srgb, var(--danger) 16%, transparent); color: var(--danger); }
+    .lb-stage { position: relative; width: 100%; display: flex; justify-content: center; }
+    .lb-nav { position: absolute; top: 50%; margin-top: -18px; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,.35); background: rgba(10,14,22,.65); backdrop-filter: blur(6px); color: #fff; font-size: 1.3rem; line-height: 1; cursor: pointer; display: grid; place-items: center; z-index: 3; padding: 0 0 3px; }
+    .lb-nav:hover { background: rgba(10,14,22,.9); }
+    .lb-nav.prev { left: 8px; }
+    .lb-nav.next { right: 8px; }
+    .lb-thumbs { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; max-width: 100%; }
+    .lb-thumbs img { width: 56px; height: 56px; object-fit: cover; border-radius: 10px; border: 2px solid transparent; cursor: pointer; opacity: .6; box-shadow: none; }
+    .lb-thumbs img.on { border-color: var(--primary-bright); opacity: 1; }
+    .img-thumbs { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .img-thumbs .it { position: relative; width: 76px; height: 58px; border-radius: 10px; overflow: hidden; border: 1px solid var(--border-strong); background: var(--card-2); }
+    .img-thumbs .it img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .img-thumbs .it.main { border-color: var(--primary-bright); box-shadow: 0 0 0 3px var(--primary-soft); }
+    .img-thumbs .it .rm { position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; border-radius: 50%; border: 0; background: rgba(0,0,0,.7); color: #fff; font-size: .66rem; cursor: pointer; line-height: 1; display: grid; place-items: center; padding: 0; }
+    .img-thumbs .it .mv { position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 6px; border: 0; background: rgba(0,0,0,.6); color: #fff; cursor: pointer; font-size: .62rem; line-height: 1; display: grid; place-items: center; padding: 0; }
+    .img-thumbs .it .mk { position: absolute; left: 2px; bottom: 2px; font-size: .5rem; font-weight: 800; background: var(--primary); color: #fff; padding: 1px 5px; border-radius: 6px; letter-spacing: .04em; }
+    body.rendered .pcard { animation: none; }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -497,6 +548,7 @@
           <a id="btnBackToShop" href="#" class="back-link">&#8592; Volver al Comercio</a>
           <div class="hdr-tools">
             <button class="icon-btn" id="themeToggleBtn" title="Cambiar tema" aria-label="Cambiar tema" onclick="toggleTheme()">🌙<span class="btn-label">Modo</span></button>
+            <a class="icon-btn" id="storeProfileBtn" href="#" title="Ver el perfil de la tienda" aria-label="Ver el perfil de la tienda">🏪<span class="btn-label">Tienda</span></a>
             <button class="icon-btn" id="adminGearBtn" title="Editar catálogo" aria-label="Editar catálogo" style="display:none" onclick="openPinModal()">⚙️<span class="btn-label">Administrador</span></button>
           </div>
         </div>
@@ -615,21 +667,7 @@
             <input type="number" min="0" class="input" id="setDelivery" placeholder="0">
             <div class="obs-hint">Se suma al total solo cuando el cliente elige “Domicilio”. En “Servicio en mesa” no se cobra.</div>
           </div>
-          <!-- (5) OPCIONES DE ENVÍO / TRANSPORTADORAS DE RD -->
-          <div class="sub-title">🚚 Opciones de envío (República Dominicana)</div>
-          <div class="field">
-            <label>Toca las transportadoras que maneja tu comercio</label>
-            <div class="obs-hint" style="margin:0 0 9px">Se marcan al instante: lo que selecciones aparecerá en el panel “Tu pedido / consulta”.</div>
-            <div class="carrier-grid" id="carrierList"></div>
-            <div id="otherCarrierBox" style="display:none;margin-top:10px">
-              <div class="variant-stack">
-                <div class="variant-line">
-                  <input type="text" class="input" id="newCarrierName" placeholder="Escribe la otra opción (Ej: Delivery propio zona norte)">
-                </div>
-                <button type="button" class="btn btn-dark btn-add" onclick="addCustomCarrier()">＋ Agregar esta opción</button>
-              </div>
-            </div>
-          </div>
+          <!-- (5) LAS OPCIONES DE ENVÍO SE MOVIERON A: Ítems → Agregar producto / servicio -->
           <div class="field">
             <label>Color de la interfaz</label>
             <div class="color-row">
@@ -642,7 +680,8 @@
             <summary id="advancedSummary">🧰 Herramientas avanzadas de tu comercio</summary>
             <div class="obs-hint" style="margin:8px 0 6px">
               Activa funciones extra para tu negocio (categorías con foto, banners en video, colores y tallas,
-              opciones de envío y reseñas de clientes). Copia y ejecuta esta configuración una sola vez.
+              opciones de envío por ítem, reseñas de clientes, dueño del comercio, 4 imágenes y inventario).
+              Copia y ejecuta esta configuración una sola vez.
             </div>
             <pre id="sqlHint"></pre>
           </details>
@@ -681,6 +720,12 @@
             <label>Descripción</label>
             <textarea class="textarea" id="prodDesc" placeholder="Detalles, ingredientes o información del servicio…"></textarea>
           </div>
+          <!-- (4) CANTIDAD DISPONIBLE / INVENTARIO -->
+          <div class="field">
+            <label>📦 Cantidad disponible (inventario)</label>
+            <input type="number" min="0" step="1" class="input" id="prodStock" placeholder="Ej: 25 — deja vacío si no controlas inventario">
+            <div class="obs-hint">Se muestra en la tarjeta. Si es 0 el ítem aparece como AGOTADO y el cliente no podrá pedirlo.</div>
+          </div>
           <!-- (7) Aviso adaptado a la categoría del comercio -->
           <div class="variant-note" id="variantNote" style="display:none"></div>
           <!-- (2)(3) COLORES DISPONIBLES -->
@@ -709,13 +754,32 @@
             <div class="quick-opts" id="quickSizes"></div>
             <div class="obs-hint">Se muestran como botones de talla en la tarjeta y en el pedido.</div>
           </div>
+          <!-- (6) OPCIONES DE ENVÍO (antes estaban en Ajustes) -->
+          <div class="sub-title">🚚 Opciones de envío (República Dominicana)</div>
           <div class="field">
-            <label>Imagen</label>
-            <label class="upload-box">📁 Haz clic para subir una imagen
-              <input type="file" accept="image/*" style="display:none" onchange="handleProductImage(event)">
+            <label>Toca las transportadoras que manejas para este ítem</label>
+            <div class="obs-hint" style="margin:0 0 9px">Se marcan al instante: lo que selecciones aparecerá en el panel “Tu pedido / consulta” cuando el cliente lleve este producto.</div>
+            <div class="carrier-grid" id="carrierList"></div>
+            <div id="otherCarrierBox" style="display:none;margin-top:10px">
+              <div class="variant-stack">
+                <div class="variant-line">
+                  <input type="text" class="input" id="newCarrierName" placeholder="Escribe la otra opción (Ej: Delivery propio zona norte)">
+                </div>
+                <button type="button" class="btn btn-dark btn-add" onclick="addCustomCarrier()">＋ Agregar esta opción</button>
+              </div>
+            </div>
+          </div>
+          <!-- (3) IMÁGENES DEL PRODUCTO (HASTA 4) -->
+          <div class="field">
+            <label>🖼️ Imágenes del producto (hasta 4)</label>
+            <label class="upload-box">📁 Haz clic para elegir una o varias imágenes
+              <input type="file" accept="image/*" multiple style="display:none" onchange="handleProductImages(event)">
             </label>
             <input type="hidden" id="prodImgBase64">
+            <input type="hidden" id="prodImagesJson">
             <img id="prodImgPreview" class="upload-preview" style="display:none" alt="">
+            <div class="img-thumbs" id="prodImgThumbs"></div>
+            <div class="obs-hint">La primera es la principal (la que se ve en la tarjeta). Toca ⟲ para cambiarla y ✕ para quitarla. En la tarjeta se desliza para ver todas.</div>
           </div>
           <button type="submit" class="btn btn-primary" id="saveProductBtn">Guardar ítem</button>
         </form>
@@ -780,6 +844,7 @@
         <h3 class="serif" id="custProdName"></h3>
         <p class="desc" id="custProdDesc"></p>
         <div class="price-big" id="custProdPrice"></div>
+        <div id="custStockLine"></div>
       </div>
       <div class="modal-body" style="padding-top:6px">
         <div class="field" id="custOptsField" style="display:none">
@@ -1083,6 +1148,46 @@
      ========================================== */
   let currentUserProfile = null;
 
+  /* ============================================================
+     (CAMBIO 1 y 2) BOTÓN ⚙️ SOLO PARA EL DUEÑO DEL COMERCIO
+     - Debe tener el rol "vendedor".
+     - Debe ser el owner_id del comercio (shops.owner_id).
+     - Si el comercio todavía no tiene dueño, el primer vendedor
+       que entre lo reclama automáticamente.
+     El engranaje YA NO pide contraseña.
+     ============================================================ */
+  let ownerClaimTried = false;
+  function isShopOwner() {
+    if (!currentUserProfile) return false;
+    const role = String(currentUserProfile.role || '').toLowerCase();
+    if (role !== 'vendedor') return false;
+    if (!shopData) return false;
+    const owner = shopData.owner_id || shopData.ownerId || '';
+    if (!owner) return true; /* comercio sin dueño asignado */
+    return String(owner) === String(currentUserProfile.id);
+  }
+  function updateAdminGearVisibility() {
+    const btn = document.getElementById('adminGearBtn');
+    if (btn) btn.style.display = isShopOwner() ? '' : 'none';
+  }
+  async function ensureOwnerClaim() {
+    if (ownerClaimTried) return;
+    if (!shopData || !currentUserProfile) return;
+    if (String(currentUserProfile.role || '').toLowerCase() !== 'vendedor') return;
+    if (shopData.owner_id) { updateAdminGearVisibility(); return; }
+    ownerClaimTried = true;
+    try {
+      const { error } = await supabaseClient.from('shops')
+        .update({ owner_id: currentUserProfile.id })
+        .eq('business_id', shopId);
+      if (!error) {
+        shopData.owner_id = currentUserProfile.id;
+        toast('Ahora eres el dueño de ' + (shopData.name || 'este comercio'), '👑');
+        updateAdminGearVisibility();
+      }
+    } catch (e) { /* sin permisos: se ignora */ }
+  }
+
   async function checkAuthAndLoadUser() {
     const adminGearBtn = document.getElementById('adminGearBtn');
     const profileBadge = document.getElementById('userProfileBadge');
@@ -1135,8 +1240,11 @@
       if (rn && !rn.value) rn.value = data.full_name;
     }
 
-    // Solo los vendedores con sesión activa ven el botón de administración de catálogo (⚙️)
+    // Solo los vendedores con sesión activa ven el botón (se afinа con el dueño del comercio)
     if (adminGearBtn) adminGearBtn.style.display = (data.role === 'vendedor') ? '' : 'none';
+    /* (Cambio 2) filtrado por owner_id del comercio */
+    updateAdminGearVisibility();
+    await ensureOwnerClaim();
 
     /* (2) Solo el comprador puede calificar; las reseñas se ven para todos */
     applyReviewPermissions();
@@ -1327,10 +1435,34 @@ create table if not exists shop_reviews (
 );
 alter table shop_reviews enable row level security;
 drop policy if exists "rev_all" on shop_reviews;
-create policy "rev_all" on shop_reviews for all using (true) with check (true);`;
+create policy "rev_all" on shop_reviews for all using (true) with check (true);
+
+-- ============ NUEVOS CAMBIOS ============
+-- DUEÑO DEL COMERCIO (solo él ve el boton ⚙️)
+alter table shops add column if not exists owner_id uuid;
+create index if not exists shops_owner_id_idx on shops(owner_id);
+
+-- HASTA 4 IMAGENES POR PRODUCTO
+alter table shop_products add column if not exists images text;
+
+-- CANTIDAD DISPONIBLE / INVENTARIO
+alter table shop_products add column if not exists stock integer;
+
+-- OPCIONES DE ENVIO POR PRODUCTO (ahora viven en Agregar ítem)
+alter table shop_products add column if not exists shipping_options text;
+
+-- Asigna tu comercio a ti mismo (copia tu UUID desde auth.users):
+-- select id, email from auth.users;
+-- update shops set owner_id = 'COLOCA_AQUI_EL_UUID' where business_id = 'TU_BUSINESS_ID';
+
+-- Solo si tu tabla shops tiene RLS y no puedes guardar el owner_id:
+-- alter table shops enable row level security;
+-- drop policy if exists "shops_all" on shops;
+-- create policy "shops_all" on shops for all using (true) with check (true);`;
   const DEFAULT_PRODUCTS_TITLE = 'Pon aquí un título para tus productos';
   const DEFAULT_SERVICES_TITLE = 'Pon aquí un título para tus servicios';
   const HERO_IMAGE_MS = 4000;
+  const MAX_PRODUCT_IMAGES = 4;
   /* ============================================================
      (5)(6) TRANSPORTADORAS DE REPÚBLICA DOMINICANA CON ÍCONO REAL
      ============================================================ */
@@ -1397,11 +1529,18 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
   let heroIndex = 0;
   let heroTimer = null;
   let heroSignature = null;
+  /* Firmas para evitar titilación al reabrir / refrescar */
+  let productsSignature = null;
+  let categoriesSignature = null;
+  let reviewsSignature = null;
+  let headerLogoSignature = null;
+  let firstPaintDone = false;
   /* Variantes del formulario de ítem */
   let formColors = [];
   let formSizes = [];
+  let formImages = [];
   let productSelections = {};
-  /* Opciones de envío del comercio */
+  /* Opciones de envío del comercio / del ítem */
   let carrierCatalog = DR_CARRIERS.slice();
   let selectedCarriers = [];
   /* Carrito y checkout */
@@ -1414,6 +1553,8 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
   let custLineId = null;
   /* Lightbox y reseñas */
   let lightboxProductId = null;
+  let lightboxImages = [];
+  let lightboxIndex = 0;
   let reviewStars = 5;
   /* Producto a abrir automáticamente al llegar desde index.html (?producto=) */
   let pendingProductId = productParam || null;
@@ -1512,6 +1653,56 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     }
     return txt.split(',').map((s) => s.trim()).filter(Boolean);
   }
+  /* ============================================================
+     (3) HASTA 4 IMÁGENES POR PRODUCTO — utilidades
+     ============================================================ */
+  function parseImages(raw) {
+    if (!raw) return [];
+    if (Array.isArray(raw)) return raw.map(String).filter(Boolean);
+    const txt = String(raw).trim();
+    if (!txt) return [];
+    if (txt.charAt(0) === '[') {
+      try {
+        const j = JSON.parse(txt);
+        if (Array.isArray(j)) return j.map(String).filter(Boolean);
+      } catch (e) { /* no era JSON */ }
+    }
+    return [txt];
+  }
+  function productImages(p) {
+    if (!p) return [];
+    const arr = parseImages(p.images).slice(0, MAX_PRODUCT_IMAGES);
+    const first = p.image_url || '';
+    if (!arr.length) return first ? [first] : [];
+    if (first) {
+      const i = arr.indexOf(first);
+      if (i > 0) { arr.splice(i, 1); arr.unshift(first); }
+      else if (i < 0) { arr.unshift(first); }
+    }
+    return arr.slice(0, MAX_PRODUCT_IMAGES);
+  }
+  function productImage(p) { return productImages(p)[0] || ''; }
+  function isVideoUrl(url) {
+    return /\.mp4($|\?)/i.test(String(url || '')) || String(url || '').startsWith('data:video');
+  }
+  /* ============================================================
+     (4) INVENTARIO / CANTIDAD DISPONIBLE
+     ============================================================ */
+  function stockOf(p) {
+    if (!p) return null;
+    const v = p.stock;
+    if (v === null || v === undefined || v === '') return null;
+    const n = parseInt(v, 10);
+    return isNaN(n) ? null : n;
+  }
+  function usedStockInCart(productId, excludeLineId) {
+    let used = 0;
+    cart.forEach((l) => {
+      if (String(l.productId) === String(productId) && l.lineId !== excludeLineId) used += l.qty;
+    });
+    return used;
+  }
+  function productById(id) { return productsList.find((x) => String(x.id) === String(id)) || null; }
   function productColors(p) { return parseColors(p && p.colors); }
   function productSizes(p) { return parseSizes(p && p.sizes); }
   function getSel(p) {
@@ -1594,7 +1785,10 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
      ============================================================ */
   async function initCatalog() {
     if (!shopId) { showFatal('No se especificó un negocio.'); return; }
-    $('btnBackToShop').href = `negocio.html?id=${encodeURIComponent(shopId)}`;
+    /* (7) "Volver al Comercio" ahora lleva a index.html */
+    $('btnBackToShop').href = 'index.html' + (shopId ? '?id=' + encodeURIComponent(shopId) : '');
+    /* (8) Botón nuevo junto al modo claro/oscuro → perfil de la tienda */
+    $('storeProfileBtn').href = 'negocio.html' + (shopId ? '?id=' + encodeURIComponent(shopId) : '');
     $('sqlHint').textContent = SQL_HINT;
     try {
       const savedCart = localStorage.getItem('cart_' + shopId);
@@ -1621,7 +1815,24 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     $('newColorName').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addColorOption(); } });
     $('newSizeValue').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addSizeOption(); } });
     $('newCarrierName').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addCustomCarrier(); } });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && $('imageLightbox').style.display === 'flex') closeLightbox(); });
+    document.addEventListener('keydown', (e) => {
+      if ($('imageLightbox').style.display === 'flex') {
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') lbNext();
+        if (e.key === 'ArrowLeft') lbPrev();
+      }
+    });
+    /* Contador 1/4 al deslizar las imágenes de la tarjeta */
+    document.addEventListener('scroll', (e) => {
+      const t = e.target;
+      if (!t || !t.classList || !t.classList.contains('gal-track')) return;
+      const slides = t.querySelectorAll('.gal-slide');
+      if (!slides.length || !t.clientWidth) return;
+      const idx = Math.round(t.scrollLeft / t.clientWidth);
+      const wrap = t.closest('.pcard-media') || t.closest('.prod-hero');
+      const cnt = wrap ? wrap.querySelector('.gal-count') : null;
+      if (cnt) cnt.textContent = (idx + 1) + '/' + slides.length;
+    }, true);
     renderQuickSizes();
     renderStarPick();
     updateCartUI();
@@ -1631,7 +1842,7 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
   function normBanner(b) {
     const url = b.media_url || b.image_url || '';
     let type = b.media_type;
-    if (!type) type = (/\.mp4($|\?)/i.test(url) || url.startsWith('data:video')) ? 'video' : 'image';
+    if (!type) type = isVideoUrl(url) ? 'video' : 'image';
     return { id: b.id, title: b.title || '', mediaUrl: url, mediaType: type };
   }
   async function loadAll(initial) {
@@ -1641,6 +1852,9 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     if (shopErr || !shop) { if (initial) showFatal('Comercio no encontrado.'); return; }
     shopData = shop;
     applyShopTheme();
+    /* (Cambio 2) afinar el botón ⚙️ según el dueño */
+    updateAdminGearVisibility();
+    ensureOwnerClaim();
     /* Categorías */
     const catRes = await supabaseClient.from('shop_categories')
       .select('*').eq('business_id', shopId).order('sort_order', { ascending: true });
@@ -1689,10 +1903,14 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
   }
   function renderHeader() {
     const wrap = $('shopLogoWrap');
-    if (shopData.logo) {
-      wrap.innerHTML = `<img class="brand-logo" src="${shopData.logo}" alt="logo">`;
-    } else {
-      wrap.innerHTML = `<div class="brand-logo-ph">🍔</div>`;
+    const logoSig = shopData.logo || '';
+    if (logoSig !== headerLogoSignature) {
+      headerLogoSignature = logoSig;
+      if (shopData.logo) {
+        wrap.innerHTML = `<img class="brand-logo" src="${shopData.logo}" alt="logo">`;
+      } else {
+        wrap.innerHTML = `<div class="brand-logo-ph">🍔</div>`;
+      }
     }
     $('shopHeaderName').textContent = shopData.name;
     $('shopHeaderCategory').textContent = shopData.category || 'Menú & Catálogo';
@@ -1705,19 +1923,20 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     renderRatingBadge();
     applyBizCopy();
     applyDeliveryAvailability();
+    updateAdminGearVisibility();
   }
   /* ============================================================
      HERO / BANNERS
      ============================================================ */
   function mediaHtml(url, type, emoji, cls) {
     if (!url) return `<div class="${cls || ''} media-ph">${emoji || '🍽️'}</div>`;
-    const isVideo = type === 'video' || /\.mp4($|\?)/i.test(url) || url.startsWith('data:video');
+    const isVideo = type === 'video' || isVideoUrl(url);
     if (isVideo) return `<video class="${cls || ''}" src="${url}" autoplay muted loop playsinline></video>`;
     return `<img class="${cls || ''}" src="${url}" alt="">`;
   }
   function heroMediaHtml(url, type) {
     if (!url) return `<div class="media-ph">🎉</div>`;
-    const isVideo = type === 'video' || /\.mp4($|\?)/i.test(url) || url.startsWith('data:video');
+    const isVideo = type === 'video' || isVideoUrl(url);
     if (isVideo) return `<video src="${url}" muted playsinline preload="auto"></video>`;
     return `<img src="${url}" alt="" draggable="false">`;
   }
@@ -1831,6 +2050,9 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
   function cssId(name) { return 'c' + String(name).split('').reduce((a, ch) => a + ch.charCodeAt(0), ''); }
   function renderCategoriesRail() {
     const names = categoryNames();
+    const sig = JSON.stringify([names, names.map(categoryImage), activeCat]);
+    if (sig === categoriesSignature && $('categoriesRail').innerHTML) return;
+    categoriesSignature = sig;
     let html = `
       <button class="cat-chip all ${activeCat === 'all' ? 'active' : ''}" onclick="setCatFilter('all')">
         <span class="cat-tile">✦</span><span class="cat-name">Todos</span>
@@ -1866,16 +2088,42 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     });
     return [...map.entries()].filter(([, v]) => v.length).map(([name, items]) => ({ name, items, image: categoryImage(name) }));
   }
+  /* (3) Galería con scroll horizontal (hasta 4 imágenes) + (4) inventario */
+  function galleryHtml(p) {
+    const imgs = productImages(p);
+    const isServ = (p.item_type || 'producto') === 'servicio';
+    if (!imgs.length) return `<div class="media-ph">${isServ ? '🛠️' : '🍽️'}</div>`;
+    const pid = esc(String(p.id));
+    const slides = imgs.map((src, i) => `
+      <div class="gal-slide" onclick="event.stopPropagation(); openLightbox('${pid}',${i})">
+        ${mediaHtml(src, 'image', isServ ? '🛠️' : '🍽️')}
+      </div>`).join('');
+    const counter = imgs.length > 1 ? `<span class="gal-count">1/${imgs.length}</span>` : '';
+    return `<div class="gal-track">${slides}</div>${counter}`;
+  }
+  function stockBadgeHtml(p) {
+    const st = stockOf(p);
+    if (st === null) return '';
+    if (st <= 0) return `<span class="badge-stock out">Agotado</span>`;
+    if (st <= 5) return `<span class="badge-stock low">Quedan ${st}</span>`;
+    return `<span class="badge-stock">📦 ${st}</span>`;
+  }
   function productCardHtml(p) {
     const isServ = (p.item_type || 'producto') === 'servicio';
     const opts = optionsInner(p);
+    const st = stockOf(p);
+    const out = st !== null && st <= 0;
+    const addAction = out
+      ? `event.stopPropagation(); toast('Este producto está agotado', '🚫')`
+      : `event.stopPropagation(); openCustomerProduct('${p.id}')`;
     return `
-      <article class="pcard">
-        <div class="pcard-media" onclick="openLightbox('${p.id}')" title="Ver imagen completa">
+      <article class="pcard${out ? ' soldout' : ''}">
+        <div class="pcard-media" onclick="openLightbox('${p.id}',0)" title="Ver imagen completa">
           <span class="badge-type ${isServ ? 'servicio' : ''}">${isServ ? '🛠️ Servicio' : '🛍️ Producto'}</span>
-          ${mediaHtml(p.image_url, 'image', isServ ? '🛠️' : '🍽️')}
+          ${galleryHtml(p)}
           <span class="zoom-hint">🔍 Ver imagen</span>
-          <button class="plus-btn" onclick="event.stopPropagation(); openCustomerProduct('${p.id}')" title="Agregar con opciones">+</button>
+          ${stockBadgeHtml(p)}
+          <button class="plus-btn"${out ? ' style="opacity:.55"' : ''} onclick="${addAction}" title="Agregar con opciones">+</button>
         </div>
         <div class="pcard-body">
           <span class="chip-type">${isServ ? 'Servicio' : 'Producto'}</span>
@@ -1886,58 +2134,101 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
         </div>
       </article>`;
   }
+  function productsContentSignature() {
+    return JSON.stringify([
+      activeType, activeCat, searchTerm,
+      productsList.map((p) => [p.id, p.name, p.price, p.item_type, p.category, p.description, p.colors, p.sizes, p.images, p.image_url, p.stock])
+    ]);
+  }
   function renderProducts() {
+    /* (5) Evita el "titileo" al reabrir o al refrescar cada 5 s */
+    const sig = productsContentSignature();
+    if (sig === productsSignature && $('productsContainer').innerHTML) return;
+    productsSignature = sig;
+    let html = '';
     if (activeCat === 'all') {
       const items = getFiltered();
       if (!items.length) {
-        $('productsContainer').innerHTML = `<div class="empty-state"><span class="emoji">🔍</span>No se encontraron ítems disponibles.</div>`;
-        return;
+        html = `<div class="empty-state"><span class="emoji">🔍</span>No se encontraron ítems disponibles.</div>`;
+      } else {
+        html = `<section class="cat-section"><div class="pgrid">${items.map(productCardHtml).join('')}</div></section>`;
       }
-      $('productsContainer').innerHTML = `<section class="cat-section"><div class="pgrid">${items.map(productCardHtml).join('')}</div></section>`;
-      return;
+    } else {
+      const groups = sectionGroups();
+      if (!groups.length) {
+        html = `<div class="empty-state"><span class="emoji">🔍</span>No se encontraron ítems disponibles.</div>`;
+      } else {
+        html = groups.map((g) => `
+        <section class="cat-section" id="sec-${cssId(g.name)}">
+          <div class="cat-head">
+            <h3 class="serif">${esc(g.name)}</h3>
+            <span>${g.items.length} ${g.items.length === 1 ? 'ítem' : 'ítems'}</span>
+          </div>
+          <div class="pgrid">
+            ${g.items.map(productCardHtml).join('')}
+          </div>
+        </section>`).join('');
+      }
     }
-    const groups = sectionGroups();
-    if (!groups.length) {
-      $('productsContainer').innerHTML = `<div class="empty-state"><span class="emoji">🔍</span>No se encontraron ítems disponibles.</div>`;
-      return;
-    }
-    $('productsContainer').innerHTML = groups.map((g) => `
-      <section class="cat-section" id="sec-${cssId(g.name)}">
-        <div class="cat-head">
-          <h3 class="serif">${esc(g.name)}</h3>
-          <span>${g.items.length} ${g.items.length === 1 ? 'ítem' : 'ítems'}</span>
-        </div>
-        <div class="pgrid">
-          ${g.items.map(productCardHtml).join('')}
-        </div>
-      </section>`).join('');
+    $('productsContainer').innerHTML = html;
+    if (!firstPaintDone) { firstPaintDone = true; document.body.classList.add('rendered'); }
   }
   /* ============================================================
-     (3) LIGHTBOX DE IMAGEN
+     (3) LIGHTBOX DE IMAGEN (con galería)
      ============================================================ */
-  function openLightbox(prodId) {
-    const p = productsList.find((x) => x.id === prodId);
+  function renderLightboxMedia() {
+    const src = lightboxImages[lightboxIndex] || '';
+    const media = src
+      ? (isVideoUrl(src)
+        ? `<video src="${src}" controls autoplay muted loop playsinline></video>`
+        : `<img src="${src}" alt="">`)
+      : `<div class="lb-ph">🍽️</div>`;
+    const multi = lightboxImages.length > 1;
+    $('lbMedia').innerHTML = `
+      <div class="lb-stage">
+        ${multi ? `<button class="lb-nav prev" onclick="lbPrev()" aria-label="Anterior">‹</button>` : ''}
+        ${media}
+        ${multi ? `<button class="lb-nav next" onclick="lbNext()" aria-label="Siguiente">›</button>` : ''}
+      </div>
+      ${multi ? `<div class="lb-thumbs">${lightboxImages.map((s, i) =>
+        `<img src="${s}" class="${i === lightboxIndex ? 'on' : ''}" onclick="lbGo(${i})" alt="">`).join('')}</div>` : ''}`;
+  }
+  function lbGo(i) {
+    const n = lightboxImages.length;
+    if (!n) return;
+    lightboxIndex = ((i % n) + n) % n;
+    renderLightboxMedia();
+  }
+  function lbNext() { lbGo(lightboxIndex + 1); }
+  function lbPrev() { lbGo(lightboxIndex - 1); }
+  function openLightbox(prodId, idx) {
+    const p = productById(prodId);
     if (!p) return;
     lightboxProductId = prodId;
+    lightboxImages = productImages(p);
+    const raw = Number(idx);
+    lightboxIndex = isNaN(raw) ? 0 : Math.min(Math.max(0, raw), Math.max(0, lightboxImages.length - 1));
+    renderLightboxMedia();
     const isServ = (p.item_type || 'producto') === 'servicio';
-    $('lbMedia').innerHTML = p.image_url
-      ? (/\.mp4($|\?)/i.test(p.image_url) || String(p.image_url).startsWith('data:video')
-        ? `<video src="${p.image_url}" controls autoplay muted loop playsinline></video>`
-        : `<img src="${p.image_url}" alt="${esc(p.name)}">`)
-      : `<div class="lb-ph">${isServ ? '🛠️' : '🍽️'}</div>`;
+    if (!lightboxImages.length) $('lbMedia').innerHTML = `<div class="lb-ph">${isServ ? '🛠️' : '🍽️'}</div>`;
     $('lbName').textContent = p.name;
     $('lbPrice').textContent = money(p.price);
     $('lbAddBtn').onclick = () => { closeLightbox(); openCustomerProduct(prodId); };
     $('imageLightbox').style.display = 'flex';
   }
-  function closeLightbox() { $('imageLightbox').style.display = 'none'; $('lbMedia').innerHTML = ''; }
+  function closeLightbox() {
+    $('imageLightbox').style.display = 'none';
+    $('lbMedia').innerHTML = '';
+    lightboxImages = [];
+    lightboxIndex = 0;
+  }
   /* Ampliar la imagen desde el modal del producto */
-  function zoomCurrentProduct() { if (custProduct) openLightbox(custProduct.id); }
+  function zoomCurrentProduct() { if (custProduct) openLightbox(custProduct.id, 0); }
   /* ============================================================
      MODAL DE PRODUCTO PARA EL CLIENTE + OBSERVACIONES
      ============================================================ */
   function openCustomerProduct(prodId, lineId) {
-    const p = productsList.find((x) => x.id === prodId);
+    const p = productById(prodId);
     if (!p) return;
     custProduct = p;
     custLineId = lineId || null;
@@ -1959,17 +2250,49 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     $('custOpts').innerHTML = inner;
     $('custOptsField').style.display = inner ? '' : 'none';
     const isServ = (p.item_type || 'producto') === 'servicio';
-    $('custProdMedia').innerHTML = mediaHtml(p.image_url, 'image', isServ ? '🛠️' : '🍽️', '') +
-      '<span class="zoom-hint" style="left:10px;bottom:10px">🔍 Toca para ampliar</span>';
+    /* (3) Galería de hasta 4 imágenes en el modal del cliente */
+    const imgs = productImages(p);
+    if (imgs.length) {
+      const slides = imgs.map((src, i) => `
+        <div class="gal-slide" onclick="event.stopPropagation(); openLightbox('${esc(String(p.id))}',${i})">
+          ${mediaHtml(src, 'image', isServ ? '🛠️' : '🍽️')}
+        </div>`).join('');
+      $('custProdMedia').innerHTML = `<div class="gal-track">${slides}</div>` +
+        (imgs.length > 1 ? `<span class="gal-count">1/${imgs.length}</span>` : '') +
+        '<span class="zoom-hint" style="left:10px;bottom:10px">🔍 Toca para ampliar</span>';
+    } else {
+      $('custProdMedia').innerHTML = mediaHtml(p.image_url, 'image', isServ ? '🛠️' : '🍽️', '') +
+        '<span class="zoom-hint" style="left:10px;bottom:10px">🔍 Toca para ampliar</span>';
+    }
     $('custProdType').textContent = isServ ? '🛠️ Servicio' : '🛍️ Producto';
     $('custProdName').textContent = p.name;
     $('custProdDesc').textContent = p.description || '';
-    $('custAddBtn').textContent = lineId ? 'Guardar cambios' : '🛒 Agregar al pedido';
+    /* (4) Disponibilidad de inventario */
+    const st = stockOf(p);
+    const left = st === null ? null : Math.max(0, st - usedStockInCart(p.id, lineId));
+    const stockBox = $('custStockLine');
+    if (st === null) { stockBox.innerHTML = ''; }
+    else if (left <= 0) { stockBox.innerHTML = `<span class="stock-line out">🚫 Sin existencias disponibles</span>`; }
+    else if (st <= 5) { stockBox.innerHTML = `<span class="stock-line">📦 Solo quedan ${left} disponibles</span>`; }
+    else { stockBox.innerHTML = `<span class="stock-line">📦 ${left} disponibles</span>`; }
+    const addBtn = $('custAddBtn');
+    addBtn.disabled = (left === 0);
+    addBtn.textContent = left === 0 ? '🚫 Sin existencias' : (lineId ? 'Guardar cambios' : '🛒 Agregar al pedido');
     updateCustQtyUI();
     openModal('customerProductModal');
   }
   function changeCustQty(delta) {
-    custQty = Math.max(1, custQty + delta);
+    let next = custQty + delta;
+    const st = stockOf(custProduct);
+    if (st !== null) {
+      const used = usedStockInCart(custProduct.id, custLineId);
+      const maxAllowed = Math.max(1, st - used);
+      if (next > maxAllowed) {
+        next = maxAllowed;
+        if (delta > 0) toast('Solo quedan ' + Math.max(0, st - used) + ' disponibles', '📦');
+      }
+    }
+    custQty = Math.max(1, next);
     updateCustQtyUI();
   }
   function updateCustQtyUI() {
@@ -1978,6 +2301,18 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     $('custLineTotal').textContent = money(custProduct.price * custQty);
   }
   function saveCustomerProduct() {
+    /* (4) Nunca vender más de lo disponible */
+    const st = stockOf(custProduct);
+    if (st !== null) {
+      const used = usedStockInCart(custProduct.id, custLineId);
+      if (st - used <= 0) { toast('No quedan existencias de este producto', '🚫'); return; }
+      if (used + custQty > st) {
+        custQty = Math.max(1, st - used);
+        updateCustQtyUI();
+        toast('Ajustamos la cantidad a ' + custQty + ' (solo quedan ' + (st - used) + ')', '📦');
+        return;
+      }
+    }
     const notes = $('custNotes').value.trim();
     const sel = getSel(custProduct);
     const color = sel.color || '';
@@ -1997,7 +2332,7 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
           productId: custProduct.id,
           name: custProduct.name,
           price: Number(custProduct.price),
-          imageUrl: custProduct.image_url || null,
+          imageUrl: productImage(custProduct) || null,
           itemType: custProduct.item_type || 'producto',
           qty: custQty,
           notes,
@@ -2038,6 +2373,15 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     if ($('cartModal').style.display === 'flex') renderCartLines();
   }
   function changeCartQty(lineId, delta) {
+    const line = cart.find((l) => l.lineId === lineId);
+    if (line && delta > 0) {
+      const p = productById(line.productId);
+      const st = stockOf(p);
+      if (st !== null) {
+        const used = usedStockInCart(line.productId, lineId);
+        if (used + line.qty + 1 > st) { toast('Solo quedan ' + Math.max(0, st - used) + ' disponibles', '📦'); return; }
+      }
+    }
     const next = [];
     cart.forEach((l) => {
       if (l.lineId === lineId) { if (l.qty + delta > 0) next.push({ ...l, qty: l.qty + delta }); }
@@ -2080,6 +2424,9 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     const tags = [];
     if (c.color) tags.push(`<span class="vtag"><span class="dot" style="background:${safeHex(c.colorHex || guessColorHex(c.color))}"></span>${esc(c.color)}</span>`);
     if (c.size) tags.push(`<span class="vtag">📏 Talla ${esc(c.size)}</span>`);
+    const p = productById(c.productId);
+    const st = stockOf(p);
+    if (st !== null && st <= 0) tags.push(`<span class="vtag" style="color:var(--danger)">⚠️ Agotado</span>`);
     return tags.length ? `<div class="v">${tags.join('')}</div>` : '';
   }
   function guessColorHex(name) {
@@ -2232,16 +2579,8 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     $('colorsField').style.display = prof.colors ? '' : 'none';
     $('sizesField').style.display = prof.sizes ? '' : 'none';
     const note = $('variantNote');
-    if (!prof.colors && !prof.sizes) {
-      note.innerHTML = '🧾 ' + prof.note;
-      note.style.display = 'block';
-    } else if (!prof.colors || !prof.sizes) {
-      note.innerHTML = '🧾 ' + prof.note;
-      note.style.display = 'block';
-    } else {
-      note.innerHTML = '🧾 ' + prof.note;
-      note.style.display = 'block';
-    }
+    note.innerHTML = '🧾 ' + prof.note;
+    note.style.display = 'block';
     if (!prof.colors) formColors = [];
     if (!prof.sizes) formSizes = [];
   }
@@ -2251,7 +2590,7 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     $('deliveryOptions').classList.toggle('single', !food);
     if (!food && order.mode === 'mesa') setDeliveryMode('domicilio');
   }
-  /* (6) Opciones de envío configuradas por el comercio */
+  /* (6) Opciones de envío: ahora configuradas por PRODUCTO (antes en Ajustes) */
   function parseShipping(raw) {
     if (!raw) return [];
     if (Array.isArray(raw)) return raw.map((s) => String(s).trim()).filter(Boolean);
@@ -2265,7 +2604,18 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     }
     return txt.split(',').map((s) => s.trim()).filter(Boolean);
   }
-  function shopCarrierOptions() { return parseShipping(shopData && shopData.shipping_options); }
+  function shopCarrierOptions() {
+    /* Une las transportadoras de los productos que están en el carrito.
+       Si ninguno define opciones, usa las del comercio (columna legacy). */
+    const set = [];
+    cart.forEach((l) => {
+      const p = productById(l.productId);
+      if (!p) return;
+      parseShipping(p.shipping_options).forEach((s) => { if (s && set.indexOf(s) < 0) set.push(s); });
+    });
+    if (set.length) return set;
+    return parseShipping(shopData && shopData.shipping_options);
+  }
   function renderCarrierOptions() {
     const field = $('carrierField');
     if (!field) return;
@@ -2348,6 +2698,8 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
       t += (i + 1) + '. *' + c.name + '* x' + c.qty + ' — ' + money(c.price * c.qty) + '\n';
       t += '   🏷️ Tipo: ' + ((c.itemType || 'producto') === 'servicio' ? 'Servicio' : 'Producto') + '\n';
       t += '   💲 Precio unitario: ' + money(c.price) + '\n';
+      const st = stockOf(productById(c.productId));
+      if (st !== null) t += '   📦 Existencias al pedir: ' + st + '\n';
       t += variantLines(c);
       if (c.notes) t += '   📝 _Obs: ' + c.notes + '_\n';
     });
@@ -2385,6 +2737,14 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     order.note = $('orderNote').value.trim();
     const carrierOpts = shopCarrierOptions();
     if (!cart.length) { toast('Tu pedido está vacío', '🛒'); return; }
+    /* (4) Validar inventario antes de confirmar */
+    for (const c of cart) {
+      const st = stockOf(productById(c.productId));
+      if (st !== null && c.qty > st) {
+        toast('"' + c.name + '" supera las existencias disponibles (' + st + ')', '📦');
+        return;
+      }
+    }
     if (!order.customerName) { $('errName').style.display = 'block'; $('orderName').classList.add('error'); ok = false; }
     if (order.mode === 'domicilio' && !order.address) { $('errAddress').style.display = 'block'; $('orderAddress').classList.add('error'); ok = false; }
     if (order.mode === 'mesa' && !order.tableNumber) { $('errTable').style.display = 'block'; $('orderTable').classList.add('error'); ok = false; }
@@ -2481,6 +2841,10 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
   function renderReviews() {
     const sec = $('reviewsSection');
     if (!sec) return;
+    const sig = JSON.stringify([reviewsList.length, avgRating(), reviewsSupported, isBuyer(),
+      reviewsList.slice(0, 9).map((r) => [r.user_name, r.rating, r.comment, r.created_at])]);
+    if (sig === reviewsSignature && sec.innerHTML) return;
+    reviewsSignature = sig;
     const avg = avgRating();
     const head = `
       <div class="rev-head">
@@ -2547,54 +2911,24 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     scrollToReviews();
   }
   /* ============================================================
-     ACCESO ADMINISTRADOR — contraseña de registro
+     ACCESO ADMINISTRADOR
+     (CAMBIO 1) YA NO PIDE CONTRASEÑA: entra directo si eres
+     vendedor Y dueño de este comercio (shops.owner_id).
      ============================================================ */
   function openPinModal() {
     if (!currentUserProfile) {
       openAuthModal('login', openPinModal);
       return;
     }
-    $('pinInput').value = '';
-    $('pinError').style.visibility = 'hidden';
-    $('pinError').textContent = 'Contraseña incorrecta. Inténtalo de nuevo.';
-    openModal('pinModal');
-    setTimeout(() => $('pinInput').focus(), 80);
+    if (!isShopOwner()) {
+      toast('Solo el dueño de este comercio puede editarlo', '🔒');
+      return;
+    }
+    openAdminPanel();
   }
   async function verifyAdminPin() {
-    const err = $('pinError');
-    const password = $('pinInput').value;
-    err.style.visibility = 'hidden';
-    if (!password) {
-      err.textContent = 'Escribe la contraseña con la que te registraste.';
-      err.style.visibility = 'visible';
-      return;
-    }
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if (!session || !session.user || !session.user.email) {
-      closeModal('pinModal');
-      openAuthModal('login', openPinModal);
-      return;
-    }
-    const btn = $('pinSubmitBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spin"></span> Verificando…';
-    const { error } = await supabaseClient.auth.signInWithPassword({
-      email: session.user.email,
-      password: password
-    });
-    btn.disabled = false;
-    btn.textContent = 'Entrar';
-    if (error) {
-      err.textContent = 'Contraseña incorrecta. Inténtalo de nuevo.';
-      err.style.visibility = 'visible';
-      $('pinInput').value = '';
-      $('pinInput').focus();
-      return;
-    }
-    $('pinInput').value = '';
-    closeModal('pinModal');
-    toast('Acceso de administrador concedido', '🔓');
-    openAdminPanel();
+    /* Se mantiene por compatibilidad; el botón ⚙️ ya no lo usa. */
+    openPinModal();
   }
   function adminCategoryNames() {
     if (categoriesSupported) return categoriesList.map((c) => c.name);
@@ -2630,12 +2964,15 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     $('adminItemsList').innerHTML = productsList.length ? productsList.map((p) => {
       const cs = productColors(p);
       const ss = productSizes(p);
+      const st = stockOf(p);
       const tags = []
+        .concat(st !== null ? [`<span class="vchip">${st > 0 ? '📦 ' + st + ' disp.' : '🚫 Agotado'}</span>`] : [])
         .concat(cs.slice(0, 6).map((c) => `<span class="vchip"><span class="dot" style="background:${safeHex(c.hex)}"></span>${esc(c.name)}</span>`))
-        .concat(ss.slice(0, 8).map((s) => `<span class="vchip">📏 ${esc(s)}</span>`));
+        .concat(ss.slice(0, 8).map((s) => `<span class="vchip">📏 ${esc(s)}</span>`))
+        .concat(productImages(p).length > 1 ? [`<span class="vchip">🖼️ ${productImages(p).length} imágenes</span>`] : []);
       return `
       <div class="admin-row">
-        ${mediaHtml(p.image_url, 'image', p.item_type === 'servicio' ? '🛠️' : '🛍️')}
+        ${mediaHtml(productImage(p), 'image', p.item_type === 'servicio' ? '🛠️' : '🛍️')}
         <div class="admin-row-main">
           <div class="t">${esc(p.name)}</div>
           <div class="s">${money(p.price)} · ${p.item_type === 'servicio' ? 'Servicio' : 'Producto'} · ${esc(p.category || 'General')}</div>
@@ -2679,12 +3016,6 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     $('setColorHex').value = shopData.primary_color || '#134989';
     $('setColorPicker').value = (shopData.primary_color || '#134989').length === 7 ? shopData.primary_color : '#134989';
     $('setDelivery').value = Number(shopData.delivery_fee || 0);
-    selectedCarriers = parseShipping(shopData.shipping_options);
-    carrierCatalog = DR_CARRIERS.slice();
-    selectedCarriers.forEach((s) => { if (!carrierCatalog.includes(s)) carrierCatalog.push(s); });
-    $('newCarrierName').value = '';
-    $('otherCarrierBox').style.display = 'none';
-    renderCarrierList();
   }
   /* ---------------- (2) Colores y tallas: editor del formulario ---------------- */
   function renderVariantEditors() {
@@ -2722,11 +3053,26 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     renderVariantEditors();
   }
   function removeColorOption(i) { formColors.splice(i, 1); renderVariantEditors(); }
-  /* ---------------- (5) Transportadoras: editor de Ajustes ---------------- */
+  /* ---------------- (6) Transportadoras: editor dentro de Ítems ---------------- */
+  function resetCarrierForm() {
+    selectedCarriers = [];
+    carrierCatalog = DR_CARRIERS.slice();
+    if ($('newCarrierName')) $('newCarrierName').value = '';
+    if ($('otherCarrierBox')) $('otherCarrierBox').style.display = 'none';
+    renderCarrierList();
+  }
+  function loadCarrierForm(raw) {
+    selectedCarriers = parseShipping(raw);
+    carrierCatalog = DR_CARRIERS.slice();
+    selectedCarriers.forEach((s) => { if (!carrierCatalog.includes(s)) carrierCatalog.push(s); });
+    if ($('newCarrierName')) $('newCarrierName').value = '';
+    if ($('otherCarrierBox')) $('otherCarrierBox').style.display = 'none';
+    renderCarrierList();
+  }
   function renderCarrierList() {
     const box = $('carrierList');
     if (!box) return;
-    const otherOpen = $('otherCarrierBox').style.display !== 'none';
+    const otherOpen = $('otherCarrierBox') && $('otherCarrierBox').style.display !== 'none';
     box.innerHTML = carrierCatalog.map((n) => `
       <button type="button" class="carrier-chip${selectedCarriers.includes(n) ? ' on' : ''}" data-cfg="${esc(n)}">
         ${carrierIconHtml(n)}<span class="cname">${esc(n)}</span><span class="tick">✓</span>
@@ -2746,6 +3092,48 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     renderCarrierList();
     toast('Opción agregada y seleccionada: ' + val, '🚚');
   }
+  /* ---------------- (3) Editor de imágenes del producto ---------------- */
+  function renderProdImgThumbs() {
+    const box = $('prodImgThumbs');
+    if (!box) return;
+    box.innerHTML = formImages.map((src, i) => `
+      <div class="it ${i === 0 ? 'main' : ''}">
+        <img src="${src}" alt="">
+        ${i === 0 ? '<span class="mk">PRINCIPAL</span>' : `<button type="button" class="mv" onclick="makeMainImage(${i})" title="Hacer imagen principal">⟲</button>`}
+        <button type="button" class="rm" onclick="removeFormImage(${i})" title="Quitar imagen">✕</button>
+      </div>`).join('');
+  }
+  function syncProductImages() {
+    if ($('prodImagesJson')) $('prodImagesJson').value = JSON.stringify(formImages);
+    $('prodImgBase64').value = formImages[0] || '';
+    if (formImages.length) showPreview('prodImgPreview', formImages[0], 'image');
+    else { $('prodImgPreview').removeAttribute('src'); $('prodImgPreview').style.display = 'none'; }
+    renderProdImgThumbs();
+  }
+  function removeFormImage(i) { formImages.splice(i, 1); syncProductImages(); }
+  function makeMainImage(i) {
+    if (i <= 0 || i >= formImages.length) return;
+    const moved = formImages.splice(i, 1)[0];
+    formImages.unshift(moved);
+    syncProductImages();
+  }
+  function handleProductImages(e) {
+    const files = Array.from(e.target.files || []).filter((f) => f.type && f.type.startsWith('image/'));
+    e.target.value = '';
+    if (!files.length) return;
+    const room = MAX_PRODUCT_IMAGES - formImages.length;
+    if (room <= 0) { toast('Puedes subir hasta ' + MAX_PRODUCT_IMAGES + ' imágenes por producto', '⚠️'); return; }
+    const use = files.slice(0, room);
+    if (files.length > room) toast('Solo se agregaron ' + use.length + ' imágenes (máximo ' + MAX_PRODUCT_IMAGES + ')', '⚠️');
+    let pending = use.length;
+    use.forEach((f) => {
+      compressImage(f, (dataUrl) => {
+        if (formImages.length < MAX_PRODUCT_IMAGES) formImages.push(dataUrl);
+        pending -= 1;
+        if (pending <= 0) syncProductImages();
+      });
+    });
+  }
   /* ---------------- Productos / servicios ---------------- */
   function resetProductForm() {
     $('editProductId').value = '';
@@ -2754,15 +3142,16 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     $('prodName').value = '';
     $('prodPrice').value = '';
     $('prodDesc').value = '';
-    $('prodImgBase64').value = '';
-    $('prodImgPreview').style.display = 'none';
-    $('prodImgPreview').src = '';
+    $('prodStock').value = '';
     formColors = [];
     formSizes = [];
+    formImages = [];
+    syncProductImages();
     $('newColorName').value = '';
     $('newSizeValue').value = '';
     $('newColorHex').value = '#134989';
     renderVariantEditors();
+    resetCarrierForm();
   }
   function openAddProductModal() {
     if (!hasAdminCategories()) {
@@ -2777,7 +3166,7 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     openModal('productModal');
   }
   function editProduct(id) {
-    const p = productsList.find((x) => x.id === id);
+    const p = productById(id);
     if (!p) return;
     resetProductForm();
     $('editProductId').value = p.id;
@@ -2788,18 +3177,23 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     $('prodName').value = p.name;
     $('prodPrice').value = p.price;
     $('prodDesc').value = p.description || '';
-    $('prodImgBase64').value = p.image_url || '';
+    const st = stockOf(p);
+    $('prodStock').value = st === null ? '' : st;
     formColors = productColors(p);
     formSizes = productSizes(p);
+    formImages = productImages(p);
     applyVariantFields();
     renderVariantEditors();
-    showPreview('prodImgPreview', p.image_url, 'image');
+    syncProductImages();
+    loadCarrierForm(p.shipping_options);
     openModal('productModal');
   }
   async function saveProduct() {
     const name = $('prodName').value.trim();
     const price = $('prodPrice').value;
     if (!name || price === '') { toast('Nombre y precio son obligatorios', '⚠️'); return; }
+    const stockRaw = $('prodStock').value;
+    const stockVal = stockRaw === '' ? null : Math.max(0, parseInt(stockRaw, 10) || 0);
     const payload = {
       business_id: shopId,
       item_type: $('prodType').value,
@@ -2807,33 +3201,43 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
       category: ($('prodCategory').value || '').trim() || 'General',
       price: parseFloat(price),
       description: $('prodDesc').value.trim(),
-      image_url: $('prodImgBase64').value,
+      image_url: formImages[0] || '',
+      images: JSON.stringify(formImages),
+      stock: stockVal,
+      shipping_options: JSON.stringify(selectedCarriers),
       colors: JSON.stringify(formColors),
       sizes: JSON.stringify(formSizes)
     };
     const id = $('editProductId').value;
-    const prevImg = id ? ((productsList.find((x) => x.id === id) || {}).image_url || '') : '';
+    const prevImg = id ? (productImage(productById(id)) || '') : '';
     const btn = $('saveProductBtn'); btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Guardando…';
+
+    /* Columnas opcionales: si alguna no existe en la tabla, se reintenta sin ella */
+    const OPTIONAL_COLS = ['colors', 'sizes', 'images', 'stock', 'shipping_options'];
+    const missing = [];
     let res = id
       ? await supabaseClient.from('shop_products').update(payload).eq('id', id)
       : await supabaseClient.from('shop_products').insert([payload]);
     let error = res.error;
-    let variantColsMissing = false;
-    if (error && /colors|sizes/i.test(error.message || '')) {
-      variantColsMissing = true;
-      delete payload.colors;
-      delete payload.sizes;
+    let guard = 0;
+    while (error && guard < OPTIONAL_COLS.length) {
+      const msg = error.message || '';
+      const col = OPTIONAL_COLS.find((c) => !missing.includes(c) && msg.toLowerCase().includes(c.toLowerCase()));
+      if (!col) break;
+      missing.push(col);
+      delete payload[col];
       res = id
         ? await supabaseClient.from('shop_products').update(payload).eq('id', id)
         : await supabaseClient.from('shop_products').insert([payload]);
       error = res.error;
+      guard++;
     }
     btn.disabled = false; btn.textContent = id ? 'Guardar cambios' : 'Guardar ítem';
     if (error) { toast('Error al guardar el ítem', '⚠️'); return; }
-    await replaceStorageMedia(prevImg, payload.image_url);
+    await deleteRemovedStorageMedia(prevImg, formImages);
     closeModal('productModal');
-    if (variantColsMissing) {
-      toast('Guardado. Ejecuta el SQL de Ajustes para activar colores y tallas', '⚠️');
+    if (missing.length) {
+      toast('Guardado. Ejecuta el SQL de Ajustes (columnas: ' + missing.join(', ') + ')', '⚠️');
     } else {
       toast(id ? 'Ítem actualizado correctamente' : (payload.item_type === 'servicio' ? 'Servicio guardado correctamente' : 'Producto guardado correctamente'), '✅');
     }
@@ -2843,10 +3247,11 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
   async function deleteProduct(id) {
     const ok = await confirmDialog({ danger: true, icon: '🗑️', title: '¿Eliminar este ítem?', message: 'Esta acción no se puede deshacer y también se borrará su imagen almacenada.', confirmText: 'Sí, eliminar' });
     if (!ok) return;
-    const prod = productsList.find((x) => x.id === id);
+    const prod = productById(id);
+    const imgs = prod ? productImages(prod) : [];
     const { error } = await supabaseClient.from('shop_products').delete().eq('id', id);
     if (error) { toast('Error al eliminar', '⚠️'); return; }
-    if (prod) await deleteStorageMedia(prod.image_url);
+    for (const u of imgs) await deleteStorageMedia(u);
     toast('Ítem e imagen eliminados', '🗑️');
     await loadAll(false);
     renderAdminLists();
@@ -3004,12 +3409,11 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
       primary_color: $('setColorHex').value.trim() || '#134989',
       delivery_fee: Number($('setDelivery').value || 0),
       products_title: $('setProductsTitle').value.trim(),
-      services_title: $('setServicesTitle').value.trim(),
-      shipping_options: JSON.stringify(selectedCarriers)
+      services_title: $('setServicesTitle').value.trim()
     };
     const btn = $('saveSettingsBtn'); btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Guardando…';
     let { error } = await supabaseClient.from('shops').update(payload).eq('business_id', shopId);
-    const optionalCols = ['delivery_fee', 'products_title', 'services_title', 'shipping_options'];
+    const optionalCols = ['delivery_fee', 'products_title', 'services_title'];
     const missing = [];
     let guard = 0;
     while (error && guard < optionalCols.length) {
@@ -3030,9 +3434,6 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     }
     if (missing.includes('products_title') || missing.includes('services_title')) {
       toast('Guardado, pero agrega las columnas products_title y services_title en shops para los títulos (SQL en Ajustes)', '⚠️');
-    }
-    if (missing.includes('shipping_options')) {
-      toast('Guardado, pero agrega la columna shipping_options en shops para las transportadoras (SQL en Ajustes)', '⚠️');
     }
     if (!missing.length) toast('Ajustes guardados, todos verán los cambios al instante', '🎨');
     await loadAll(false);
@@ -3072,6 +3473,12 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     if (!oldUrl || oldUrl === newUrl) return false;
     return await deleteStorageMedia(oldUrl);
   }
+  /* Borra las imágenes que ya no están en la lista nueva (hasta 4) */
+  async function deleteRemovedStorageMedia(prevUrl, newUrls) {
+    const arr = Array.isArray(newUrls) ? newUrls : [];
+    if (prevUrl && arr.indexOf(prevUrl) < 0) await deleteStorageMedia(prevUrl);
+    return true;
+  }
   /* ============================================================
      SUBIDA DE ARCHIVOS
      ============================================================ */
@@ -3104,8 +3511,8 @@ create policy "rev_all" on shop_reviews for all using (true) with check (true);`
     const file = e.target.files[0];
     if (!file) return;
     compressImage(file, (dataUrl) => {
-      $('prodImgBase64').value = dataUrl;
-      showPreview('prodImgPreview', dataUrl, 'image');
+      formImages = [dataUrl];
+      syncProductImages();
     });
   }
   function handleCategoryImage(e) {
