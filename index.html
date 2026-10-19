@@ -148,6 +148,9 @@ a.category-shop:hover{background:var(--soft);padding-left:8px}
 .shops-foot .swipe-hint{font-size:11px;padding:5px 10px}
 .shops-foot .shops-nav button{width:30px;height:30px;font-size:18px}
 
+/* Popup discreto debajo del campo de búsqueda */
+.inline-search-hint{margin:8px 0 0 0;padding:8px 14px;font-size:12px;font-weight:600;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:10px;animation:fade .25s;text-align:center}
+
 @media(min-width:761px){
   .content{width:min(1160px,calc(100% - 40px))}
   .shops-panel.grid-panel{max-width:100%}
@@ -973,19 +976,24 @@ function renderProducts(){
     $('shopContent').innerHTML='<div class="empty"><span class="empty-icon">'+icons.box+'</span><h3>Pronto veras productos aqui</h3><p>Cuando los comercios publiquen su catalogo, sus productos apareceran en este espacio para que puedas comprarlos.</p><a class="primary" href="#categorias" style="text-decoration:none">Explorar comercios</a></div>';
     return;
   }
-  if(!list.length){$('shopContent').innerHTML='<p class="no-results">No encontramos productos con esa busqueda.</p>';bindProducts();return}
   const searchInline = renderSearchInline();
-  const totalTxt = '<span class="shops-total"><span class="live-dot"></span><b>'+list.length+'</b> '+(list.length===1?'producto':'productos')+'</span>';
+  /* Si no hay resultados, mostrar popup discreto debajo del campo pero mantener el slider */
+  const noResultsMsg = (!list.length && q)?'<div class="inline-search-hint">No encontramos productos con esa búsqueda</div>':'';
+  const totalTxt = '<span class="shops-total"><span class="live-dot"></span><b>'+(list.length||products.length)+'</b> '+((list.length||products.length)===1?'producto':'productos')+'</span>';
   const swipeHint = more?'<span class="swipe-hint"><span class="swipe-track"></span>Desliza para ver más<span class="swipe-arrows"><i>&#8250;</i><i>&#8250;</i><i>&#8250;</i></span></span>':'';
   const navBtns = more?'<div class="shops-nav"><button type="button" data-shops-prev aria-label="Anterior">&#8249;</button><button type="button" data-shops-next aria-label="Siguiente">&#8250;</button></div>':'';
-  /* (3) Encabezado: solo el campo de búsqueda. Contador y "desliza" se mueven al pie. */
-  $('shopContent').innerHTML='<div class="shops-panel grid-panel"><div class="shops-head"><span class="shops-left">'+searchInline+'</span></div><div class="shops" id="shopsTrack">'+list.map(p=>{
+  /* Siempre mostrar todos los productos (sin filtrar) para que el slider siga funcionando */
+  const displayList = list.length ? list : products;
+  const displayMore = displayList.length>visibleProductsCount();
+  const displaySwipeHint = displayMore?'<span class="swipe-hint"><span class="swipe-track"></span>Desliza para ver más<span class="swipe-arrows"><i>&#8250;</i><i>&#8250;</i><i>&#8250;</i></span></span>':'';
+  const displayNavBtns = displayMore?'<div class="shops-nav"><button type="button" data-shops-prev aria-label="Anterior">&#8249;</button><button type="button" data-shops-next aria-label="Siguiente">&#8250;</button></div>':'';
+  $('shopContent').innerHTML='<div class="shops-panel grid-panel"><div class="shops-head"><span class="shops-left">'+searchInline+'</span></div>'+noResultsMsg+'<div class="shops" id="shopsTrack">'+displayList.map(p=>{
       const href=productHref(p);
       return '<a class="shop product-card" href="'+href+'" data-pid="'+esc(p._id)+'"><img src="'+(p._img?esc(p._img):FALLBACK_IMG)+'" alt="'+esc(p._name)+'" loading="lazy" decoding="async">'+
       '<span class="price-tag">'+formatPrice(p._price)+'</span><h3>'+esc(p._name)+'</h3><p>'+(p._ref?'<b class="ref-tag">REF '+esc(p._ref)+'</b>':'')+(p._shop?(p._ref?' · ':'')+'<span class="shop-name">'+esc(p._shop)+'</span>':'')+'</p></a>';
     }).join('')+'</div>'+
-    (list.length>1?'<div class="shops-progress"><i></i></div>':'')+
-    '<div class="shops-foot"><span class="shops-foot-left">'+totalTxt+'</span><div class="shops-tools">'+swipeHint+navBtns+'</div></div>'+
+    (displayList.length>1?'<div class="shops-progress"><i></i></div>':'')+
+    '<div class="shops-foot"><span class="shops-foot-left">'+totalTxt+'</span><div class="shops-tools">'+displaySwipeHint+displayNavBtns+'</div></div>'+
     '</div>';
   bindInlineSearch();
   bindProducts();
